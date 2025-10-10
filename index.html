@@ -3,49 +3,60 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Gaurav Kataria — Portfolio</title>
+<title>Gaurav Kataria — Building Performance & Sustainability</title>
+<meta name="description" content="London-based Building Performance and Sustainability Consultant at Harley Haddow. Whole-building energy modelling, decarbonisation strategy, and investment-grade performance studies." />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <style>
 /* -------------------------------------------------
-   Design system — light, minimalist, smooth motions
----------------------------------------------------*/
+   Minimal, professional design system
+--------------------------------------------------*/
 :root{
-  /* Soft consulting palette (Pantone-inspired equivalents) */
-  --pantone-sky: #9AD0F5;     /* close to PANTONE 2905 C */
-  --pantone-blue: #0A74DA;    /* close to PANTONE 3005 C */
-  --pantone-sage: #BFD8C0;    /* close to PANTONE 559 C  */
-  --pantone-sand: #EDE7E1;    /* close to PANTONE 7527 C */
-  --pantone-ink: #1A1F2B;     /* rich neutral for text    */
+  /* Soft, consulting palette (Pantone-like) */
+  --sky:#9AD0F5;         /* ~Pantone 2905 C */
+  --blue:#0A74DA;        /* ~Pantone 3005 C */
+  --sage:#BFD8C0;        /* ~Pantone 559 C  */
+  --sand:#EDE7E1;        /* ~Pantone 7527 C */
+  --ink:#1A1F2B;
 
-  --accent: var(--pantone-blue);
-  --accent-soft: var(--pantone-sky);
-  --bg: #ffffff;
-  --bg-alt: #F7FAFF;
-  --card: #ffffff;
-  --text: var(--pantone-ink);
-  --muted: #667085;
-  --border: #E6EAF0;
-  --radius: 14px;
-  --shadow: 0 10px 30px rgba(10,116,218,.07);
+  --accent:var(--blue);
+  --accent-soft:var(--sky);
+  --bg:#ffffff;
+  --bg-alt:#F7FAFF;
+  --card:#ffffff;
+  --text:var(--ink);
+  --muted:#667085;
+  --border:#E6EAF0;
+  --radius:14px;
+  --shadow:0 10px 30px rgba(10,116,218,.07);
 }
 
 *{box-sizing:border-box}
-html{scroll-behavior:smooth} /* smooth anchor glide */
+html{scroll-behavior:smooth}
 html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.6 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial}
 a{color:var(--accent);text-decoration:none}
 a:hover{text-decoration:underline}
 .container{max-width:1100px;margin:0 auto;padding:0 20px}
 
-/* Header */
-.header{position:sticky;top:0;z-index:50;background:backdrop-filter: blur(6px);}
-.header-inner{background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.86));border-bottom:2px solid var(--accent);}
-.hero{padding:56px 0 40px;text-align:center}
+/* Header with tuck-in */
+.site-header{position:sticky;top:0;z-index:1000;transition:transform .35s ease, box-shadow .25s ease, background-color .25s ease}
+.header-inner{
+  background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.86));
+  border-bottom:2px solid var(--accent);
+}
+.site-header.compact{
+  transform:translateY(-8px);
+  box-shadow:0 8px 24px rgba(10,116,218,.06);
+  background:rgba(255,255,255,.82);
+}
+.hero{padding:56px 0 38px;text-align:center;transition:padding .28s ease}
+.site-header.compact .hero{padding:20px 0 12px}
 .hero h1{font-size:40px;margin:0 0 8px}
-.hero p{margin:0 0 20px;color:var(--muted)}
-.btn{display:inline-block;padding:10px 16px;border-radius:12px;background:var(--accent);color:#fff;border:1px solid var(--accent);transition:transform .25s, box-shadow .25s, background .25s;margin:4px}
+.hero p{margin:0 0 18px;color:var(--muted)}
+.btn{display:inline-block;padding:10px 16px;border-radius:12px;background:var(--accent);color:#fff;border:1px solid var(--accent);transition:transform .25s,box-shadow .25s,background .25s;margin:4px}
 .btn.secondary{background:transparent;color:var(--accent)}
 .btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
 
-.nav{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;padding:12px 0}
+.nav{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;padding:10px 0}
 .nav a{padding:8px 12px;border-radius:10px;transition:background .25s}
 .nav a.active,.nav a:hover{background:rgba(10,116,218,.08)}
 
@@ -54,40 +65,38 @@ a:hover{text-decoration:underline}
 .section h2{margin:0 0 10px;font-size:24px}
 .section p.lead{color:var(--muted);margin-top:0}
 .grid{display:grid;gap:18px}
-.grid.cards{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.grid.cards{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
 .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
 .card h3{margin-top:0;margin-bottom:6px}
-.badge{display:inline-block;font-size:12px;color:var(--accent);background:rgba(10,116,218,.08);padding:2px 8px;border-radius:999px;margin-right:6px}
+
 .row{display:grid;grid-template-columns:1fr;gap:18px}
 @media(min-width:900px){.row{grid-template-columns:1.2fr .8fr}}
 ul.clean{margin:10px 0 0 18px;padding:0}
-.placeholder{height:140px;background:linear-gradient(120deg, var(--accent-soft), #eaf4ff);border:1px dashed var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
-.footer{border-top:1px solid var(--border);padding:26px 0;color:var(--muted);text-align:center}
+img.resp{width:100%;height:auto;border-radius:12px}
+.figure-large img{width:100%;max-height:520px;object-fit:cover;border-radius:0}
+.figure-card img{width:100%;max-height:360px;object-fit:cover;border-radius:12px}
 
-/* Motion — reveal on scroll */
-.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease, transform .6s ease}
+/* Badges (optional) */
+.badge{display:inline-block;font-size:12px;color:var(--accent);background:rgba(10,116,218,.08);padding:2px 8px;border-radius:999px;margin-right:6px}
+
+/* Reveal on scroll */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
 .reveal.show{opacity:1;transform:none}
-.fade-up{opacity:0;transform:translateY(12px)}
-.fade-up.show{opacity:1;transform:none;transition:opacity .6s ease, transform .6s ease}
 
-/* Subtle animated separators */
+/* Subtle separator */
 .rule{height:2px;background:linear-gradient(90deg,var(--accent),transparent);opacity:.15;margin:22px 0;border-radius:2px}
 
-/* Palette swatches (optional visual) */
-.palette{display:flex;gap:10px;flex-wrap:wrap}
-.swatch{width:44px;height:28px;border-radius:8px;border:1px solid var(--border)}
-.swatch.sky{background:var(--pantone-sky)}
-.swatch.blue{background:var(--pantone-blue)}
-.swatch.sage{background:var(--pantone-sage)}
-.swatch.sand{background:var(--pantone-sand)}
+/* Footer */
+.footer{border-top:1px solid var(--border);padding:26px 0;color:var(--muted);text-align:center}
 </style>
 </head>
 <body>
-<header class="header">
+
+<header class="site-header">
   <div class="header-inner">
     <div class="container hero">
       <h1 class="reveal">Gaurav Kataria</h1>
-      <p class="reveal">Chartered Engineer | Bridging Design, Performance & Real Estate Sustainability</p>
+      <p class="reveal">Building Performance and Sustainability Consultant · Harley Haddow (London)</p>
       <div class="reveal">
         <a class="btn" href="#projects">Explore Projects</a>
         <a class="btn secondary" href="#cv">View CV</a>
@@ -104,108 +113,259 @@ ul.clean{margin:10px 0 0 18px;padding:0}
 </header>
 
 <main class="container" id="home">
+  <!-- Intro / About lead -->
   <section class="section row reveal">
     <div>
-      <h2>Engineer + Architect + Real Estate Sustainability</h2>
-      <p class="lead">I’m a Chartered Engineer (CEng, MCIBSE) and WELL AP specialising in building performance, decarbonisation strategy and ESG advisory. I turn simulation and carbon data into investment‑grade insights for acquisition, retrofit and portfolio planning.</p>
+      <h2>Engineering performance for investment-grade decisions</h2>
+      <p class="lead">
+        London-based consultant specialising in whole-building energy modelling, decarbonisation strategy and practical retrofit.
+        I translate simulation and carbon data into clear options for clients and design teams, with experience across higher education,
+        heritage, offices and schools.
+      </p>
       <ul class="clean">
-        <li>Experience across the UK & India — Harley Haddow, Cundall, Verte</li>
-        <li>Key tools: IESVE (TM54/TM63/ApHVAC), EnergyPlus, Python, OneClick LCA</li>
-        <li>Credentials: CEng MCIBSE • WELL AP • LCC (Sim) • LCEA (L5) • Licensed Architect</li>
+        <li>IESVE (ModelIT, Apache, ApHVAC); EnergyPlus; Python; Grasshopper/Ladybug; OneClick LCA</li>
+        <li>TM54/TM63; Part L; NABERS-aligned sensitivity analysis; BB101/TM52 for education</li>
+        <li>WELL AP; Low Carbon Consultant (Simulation)</li>
       </ul>
       <div class="rule"></div>
-      <div class="palette" aria-label="palette">
-        <div class="swatch sky" title="Sky"></div>
-        <div class="swatch blue" title="Blue"></div>
-        <div class="swatch sage" title="Sage"></div>
-        <div class="swatch sand" title="Sand"></div>
-      </div>
     </div>
     <div>
-      <figure class="card fade-up">
-        <div class="placeholder">Hero visual / project collage</div>
-        <figcaption style="color:#667085;margin-top:8px">Keystone Building, RIBA HQ, Royal Institution — performance‑led design and retrofit strategy.</figcaption>
+      <figure class="card figure-card">
+        <!-- Replace with a collage or hero project image -->
+        <img class="resp" src="assets/hero-placeholder.jpg" alt="Project collage placeholder">
+        <figcaption style="color:#667085;margin-top:8px">
+          Selected work: Keystone Building; RIBA HQ; Royal Institution; office and schools programmes.
+        </figcaption>
       </figure>
     </div>
   </section>
 
+  <!-- Projects -->
   <section class="section reveal" id="projects">
     <h2>Selected Case Studies</h2>
-    <p class="lead">Outcome‑focused snapshots. Full reports open from each card.</p>
-    <div class="grid cards">
-      <!-- 9 slots ready -->
-      <article class="card"><h3>University of Glasgow — Keystone</h3><p><span class="badge">TM54/TM63</span><span class="badge">BREEAM Excellent</span></p><p>26,000 m² research facility: integrated HVAC + mixed‑mode modelling with off‑axis risk analysis informing capex decisions.</p></article>
-      <article class="card"><h3>RIBA HQ — Heritage Retrofit</h3><p><span class="badge">NABERS DfP</span><span class="badge">WELL</span></p><p>Performance‑led refurbishment aligning energy, comfort and heritage constraints; EPC ‘B’ pathway.</p></article>
-      <article class="card"><h3>Royal Institution — Retrofit Strategy</h3><p><span class="badge">Lifecycle Carbon</span><span class="badge">HVAC Options</span></p><p>4‑pipe ASHP vs hybrid VRF with lifecycle energy + carbon + risk assessment.</p></article>
-      <article class="card"><h3>5 St Philips Place</h3><p><span class="badge">NABERS DfP</span><span class="badge">Commissioning</span></p><p>Sensitivity analysis and risk register; WELL coordination and Hea04 comfort.</p></article>
-      <article class="card"><h3>University Teaching Block</h3><p><span class="badge">TM54</span><span class="badge">Controls</span></p><p>ApHVAC networks; DCV strategies; EUI reduction through envelope + controls tuning.</p></article>
-      <article class="card"><h3>Mixed‑Use Campus Masterplan</h3><p><span class="badge">Decarbonisation</span><span class="badge">Heat Networks</span></p><p>Optioneering for ASHP, WSHP and ambient loop; phased retrofit roadmap.</p></article>
-      <article class="card"><h3>Office Fit‑out — NABERS Pathway</h3><p><span class="badge">Operational Energy</span><span class="badge">DfP</span></p><p>Plug + process load calibration; tenancy/sub‑metering strategy.</p></article>
-      <article class="card"><h3>Heritage Gallery Refurb</h3><p><span class="badge">Conservation</span><span class="badge">Comfort</span></p><p>Humidity/temperature stability analysis with low‑impact interventions.</p></article>
-      <article class="card"><h3>Industrial Unit — Electrification</h3><p><span class="badge">ASHP</span><span class="badge">EUI</span></p><p>Gas‑to‑electric roadmap; envelope upgrades; demand response feasibility.</p></article>
+    <p class="lead">One flagship project followed by six concise summaries. Images can link to detailed reports or Google Drive previews.</p>
+
+    <!-- Spotlight project -->
+    <article class="card" style="padding:0;overflow:hidden;">
+      <div style="display:grid;grid-template-columns:1fr;gap:0;">
+        <figure class="figure-large" style="margin:0;">
+          <!-- TODO: replace with exported image -->
+          <img src="assets/projects/keystone-hero.jpg" alt="Keystone Building, University of Glasgow">
+        </figure>
+        <div style="padding:20px 18px;">
+          <h3 style="margin-top:4px;">Keystone Building, University of Glasgow</h3>
+          <p>
+            Whole-building performance model for a major teaching and research facility. Detailed ApHVAC with TM54/TM63;
+            mixed-mode ventilation and night-cooling strategies; Section 6 compliance. Developed calibrated control logic to align
+            architectural intent, mechanical design and operations, and delivered off-axis sensitivity analysis to support value-engineering
+            decisions and capital planning.
+          </p>
+          <!-- Update these links to your Drive preview/download URLs -->
+          <div>
+            <a class="btn" href="#" aria-label="Open Keystone report">Open report</a>
+            <a class="btn secondary" href="#" aria-label="Download Keystone summary">Download summary</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <div class="rule"></div>
+
+    <!-- 3×2 grid -->
+    <div class="grid cards project-grid" style="margin-top:18px;">
+      <!-- 1: RIBA HQ -->
+      <article class="card">
+        <figure class="figure-card" style="margin:0 0 10px 0;">
+          <img src="assets/projects/riba-hq.jpg" alt="RIBA HQ, 66 Portland Place, London">
+        </figure>
+        <h3>RIBA HQ, 66 Portland Place, London</h3>
+        <p>
+          Heritage refurbishment. Energy and comfort modelling for events, gallery, library, catering and office zones.
+          Calibrated the existing model, developed comparative plant scenarios and supported the MEP strategy with early-stage HVAC
+          modelling and coordination. (Not a DfP project.)
+        </p>
+        <a class="btn secondary" href="#" aria-label="Open RIBA HQ report">Open report</a>
+      </article>
+
+      <!-- 2: Royal Institution -->
+      <article class="card">
+        <figure class="figure-card" style="margin:0 0 10px 0;">
+          <img src="assets/projects/royal-institution.jpg" alt="The Royal Institution of Great Britain, London">
+        </figure>
+        <h3>The Royal Institution of Great Britain, London</h3>
+        <p>
+          Performance and decarbonisation study for a historic building. Options appraisal for HVAC and envelope interventions,
+          with modelling and programme integration alongside the MEP team.
+        </p>
+        <a class="btn secondary" href="#" aria-label="Open Royal Institution report">Open report</a>
+      </article>
+
+      <!-- 3: Holywell Yard -->
+      <article class="card">
+        <figure class="figure-card" style="margin:0 0 10px 0;">
+          <img src="assets/projects/holywell-yard.jpg" alt="Holywell Yard, Shoreditch">
+        </figure>
+        <h3>Holywell Yard, Shoreditch</h3>
+        <p>
+          New commercial office development targeting BREEAM Excellent and WELL Core. Operational-energy targeting and façade/load
+          optimisation informed early-stage decisions and performance-risk management.
+        </p>
+        <a class="btn secondary" href="#" aria-label="Open Holywell Yard summary">Open summary</a>
+      </article>
+
+      <!-- 4: 5 St Philip’s Place -->
+      <article class="card">
+        <figure class="figure-card" style="margin:0 0 10px 0;">
+          <img src="assets/projects/5-st-philips.jpg" alt="5 St Philip’s Place, Birmingham">
+        </figure>
+        <h3>5 St Philip’s Place, Birmingham</h3>
+        <p>
+          Office refurbishment with DfP-style sensitivity analysis and comfort validation (Hea04). Off-axis scenarios
+          (e.g., heat-recovery failure, DCV off, extended hours) supported independent design review and a credible operational-performance
+          pathway.
+        </p>
+        <a class="btn secondary" href="#" aria-label="Open 5 St Philip’s Place pack">Open DfP pack</a>
+      </article>
+
+      <!-- 5: 19 Cornwall Street -->
+      <article class="card">
+        <figure class="figure-card" style="margin:0 0 10px 0;">
+          <img src="assets/projects/19-cornwall-street.jpg" alt="19 Cornwall Street">
+        </figure>
+        <h3>19 Cornwall Street</h3>
+        <p>
+          Existing office refurbishment. TM54 operational-energy lines, comfort checks and a pragmatic upgrade path towards improved
+          EPC and operational performance.
+        </p>
+        <a class="btn secondary" href="#" aria-label="Open 19 Cornwall Street summary">Open summary</a>
+      </article>
+
+      <!-- 6: DfE Schools -->
+      <article class="card">
+        <figure class="figure-card" style="margin:0 0 10px 0;">
+          <img src="assets/projects/dfe-schools.jpg" alt="DfE Schools Portfolio">
+        </figure>
+        <h3>DfE Schools Portfolio</h3>
+        <p>
+          BB101/TM52 assessments and compliance for multiple schools. Comfort-risk mitigation through purge and night-cooling, with
+          envelope and controls tuning to meet NZCiO and EUI objectives.
+        </p>
+        <a class="btn secondary" href="#" aria-label="Open Schools portfolio summary">Open summary</a>
+      </article>
     </div>
   </section>
 
+  <!-- Tools & Research -->
   <section class="section reveal" id="tools">
-    <h2>Tools & Research</h2>
+    <h2>Tools and Research</h2>
     <div class="grid cards">
-      <article class="card"><h3>ML Surrogate for Energy Modelling</h3><p class="lead">A machine‑learning surrogate that approximates HVAC energy response, enabling rapid optioneering.</p><ul class="clean"><li>Inputs: schedules, setpoints, loads, climate deltas</li><li>Outputs: EUI estimates, end‑use splits, risk bounds</li><li>Tech: Python, scikit‑learn, Jupyter</li></ul></article>
-      <article class="card"><h3>External Lighting Analysis Tool</h3><p class="lead">Python + Radiance workflow to test illuminance, glare, and compliance with planning standards.</p><ul class="clean"><li>Automates parameter sweeps, collates reports</li><li>Outputs: CSV + plots + annotated images</li></ul></article>
+      <article class="card">
+        <h3>Machine-learning surrogate for energy modelling</h3>
+        <p class="lead">A surrogate model approximating HVAC energy response to accelerate optioneering and sensitivity tests.</p>
+        <ul class="clean">
+          <li>Inputs: schedules, setpoints, loads, climate deltas</li>
+          <li>Outputs: EUI estimates, end-use splits, uncertainty bounds</li>
+          <li>Tooling: Python, scikit-learn, Jupyter</li>
+        </ul>
+        <a class="btn secondary" href="#" aria-label="Open ML surrogate repository">Repository / paper</a>
+      </article>
+
+      <article class="card">
+        <h3>External lighting analysis workflow</h3>
+        <p class="lead">Python and Radiance pipeline for illuminance, glare and planning compliance with automated parameter sweeps.</p>
+        <ul class="clean">
+          <li>Batch generation of scenarios and collated reporting</li>
+          <li>Outputs: CSV, plots, annotated images</li>
+        </ul>
+        <a class="btn secondary" href="#" aria-label="Open lighting tool demo">Demo / documentation</a>
+      </article>
     </div>
   </section>
 
+  <!-- About (concise) -->
   <section class="section row reveal" id="about">
     <div>
       <h2>About</h2>
-      <p>I’m a Chartered Engineer (CEng, MCIBSE), WELL AP, and licensed architect with five years across the UK and India. I specialise in operational energy modelling (TM54/TM63), retrofit strategy, whole‑life carbon, and wellness integration for real‑estate assets.</p>
-      <p><b>Collaboration:</b> I work well with architects, façade & MEP engineers, clients and contractors—translating design intent into performance outcomes and investment‑grade advice.</p>
-      <p><b>Sector experience:</b> Commercial offices, higher education, heritage/cultural, and mixed‑use developments.</p>
+      <p>
+        Building-performance and sustainability specialist with a cross-disciplinary background in architecture and engineering.
+        I focus on the practical delivery of operational energy targets, comfort, and decarbonisation pathways for complex buildings.
+      </p>
+      <p>
+        Experienced in higher education, heritage, commercial offices and schools. I work closely with architects, façade and MEP teams,
+        contractors and clients to translate design intent into measurable performance outcomes.
+      </p>
     </div>
     <div>
       <div class="card">
-        <h3>Credentials</h3>
+        <h3>Competencies</h3>
         <ul class="clean">
-          <li>CEng MCIBSE • WELL AP • ASHRAE Member</li>
-          <li>LCC (Simulation) • LCEA (Level 5)</li>
-          <li>MSc Env. Design & Engineering (UCL)</li>
-          <li>B.Arch (Gold Medallist), Licensed Architect (India)</li>
+          <li>Whole-building energy modelling (TM54/TM63, Part L)</li>
+          <li>Design-for-Performance-aligned sensitivity analysis</li>
+          <li>Comfort and IAQ (Hea04, BB101/TM52)</li>
+          <li>Decarbonisation roadmaps and lifecycle carbon</li>
+          <li>Data workflows and repeatable reporting</li>
         </ul>
       </div>
     </div>
   </section>
 
+  <!-- CV & Contact -->
   <section class="section reveal" id="cv">
-    <h2>CV & Downloads</h2>
+    <h2>CV and Contact</h2>
     <div class="grid cards">
-      <article class="card"><h3>1‑Page CV (Consulting)</h3><p>Concise, results‑focused profile for consulting / ESG roles.</p><a class="btn" href="#">Download</a></article>
-      <article class="card"><h3>2‑Page CV</h3><p>Achievement‑oriented, ATS‑friendly format for applications.</p><a class="btn secondary" href="#">Add file when ready</a></article>
-      <article class="card"><h3>Technical Portfolio (PDF)</h3><p>Expanded project summaries, tools, certifications and presentations.</p><a class="btn secondary" href="#">Add file when ready</a></article>
+      <article class="card">
+        <h3>One-page CV (consulting)</h3>
+        <p>Concise profile tailored to consulting and ESG roles.</p>
+        <!-- Replace with your file -->
+        <a class="btn" href="cv/Gaurav_Kataria_1Page_RealEstateCV.pdf">Download</a>
+      </article>
+      <article class="card">
+        <h3>Two-page CV</h3>
+        <p>Expanded experience with selected projects and responsibilities.</p>
+        <a class="btn secondary" href="#">Add file</a>
+      </article>
+      <article class="card">
+        <h3>Technical portfolio (PDF)</h3>
+        <p>Detailed case studies, methods and data considerations.</p>
+        <a class="btn secondary" href="#">Add file</a>
+      </article>
     </div>
   </section>
 </main>
 
 <footer class="footer">
   <div class="container">
-    Based in London, UK • <a href="mailto:gaurav.kataria.ucl@gmail.com">gaurav.kataria.ucl@gmail.com</a> • © 2025 Gaurav Kataria
+    London, United Kingdom · <a href="mailto:gaurav.kataria.ucl@gmail.com">gaurav.kataria.ucl@gmail.com</a> · © 2025 Gaurav Kataria
   </div>
 </footer>
 
 <script>
-// IntersectionObserver to reveal elements on scroll
+/* Reveal on scroll */
 const io = new IntersectionObserver((entries)=>{
   entries.forEach(e=>{
-    if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); }
-  })
+    if(e.isIntersecting){
+      e.target.classList.add('show');
+      io.unobserve(e.target);
+    }
+  });
 },{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-document.querySelectorAll('.reveal, .fade-up').forEach(el=>io.observe(el));
-
-// Smooth anchor active state
+/* Active nav state */
 const navLinks = document.querySelectorAll('.nav a');
 navLinks.forEach(a=>a.addEventListener('click',()=>{
   navLinks.forEach(n=>n.classList.remove('active'));
   a.classList.add('active');
 }));
+
+/* Tuck-in header on scroll */
+const header = document.querySelector('.site-header');
+function onScroll(){
+  if (window.scrollY > 80) header.classList.add('compact');
+  else header.classList.remove('compact');
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
 </script>
 </body>
 </html>
