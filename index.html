@@ -1,77 +1,211 @@
-<!doctype html><html lang='en'><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="assets/style.css">
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Gaurav Kataria — Portfolio</title>
-<meta name="description" content="Gaurav Kataria — Chartered Engineer bridging design, building performance and real estate sustainability.">
-</head><body>
+<style>
+/* -------------------------------------------------
+   Design system — light, minimalist, smooth motions
+---------------------------------------------------*/
+:root{
+  /* Soft consulting palette (Pantone-inspired equivalents) */
+  --pantone-sky: #9AD0F5;     /* close to PANTONE 2905 C */
+  --pantone-blue: #0A74DA;    /* close to PANTONE 3005 C */
+  --pantone-sage: #BFD8C0;    /* close to PANTONE 559 C  */
+  --pantone-sand: #EDE7E1;    /* close to PANTONE 7527 C */
+  --pantone-ink: #1A1F2B;     /* rich neutral for text    */
+
+  --accent: var(--pantone-blue);
+  --accent-soft: var(--pantone-sky);
+  --bg: #ffffff;
+  --bg-alt: #F7FAFF;
+  --card: #ffffff;
+  --text: var(--pantone-ink);
+  --muted: #667085;
+  --border: #E6EAF0;
+  --radius: 14px;
+  --shadow: 0 10px 30px rgba(10,116,218,.07);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth} /* smooth anchor glide */
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.6 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+
+/* Header */
+.header{position:sticky;top:0;z-index:50;background:backdrop-filter: blur(6px);}
+.header-inner{background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.86));border-bottom:2px solid var(--accent);}
+.hero{padding:56px 0 40px;text-align:center}
+.hero h1{font-size:40px;margin:0 0 8px}
+.hero p{margin:0 0 20px;color:var(--muted)}
+.btn{display:inline-block;padding:10px 16px;border-radius:12px;background:var(--accent);color:#fff;border:1px solid var(--accent);transition:transform .25s, box-shadow .25s, background .25s;margin:4px}
+.btn.secondary{background:transparent;color:var(--accent)}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+
+.nav{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;padding:12px 0}
+.nav a{padding:8px 12px;border-radius:10px;transition:background .25s}
+.nav a.active,.nav a:hover{background:rgba(10,116,218,.08)}
+
+/* Sections */
+.section{padding:60px 0}
+.section h2{margin:0 0 10px;font-size:24px}
+.section p.lead{color:var(--muted);margin-top:0}
+.grid{display:grid;gap:18px}
+.grid.cards{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.card h3{margin-top:0;margin-bottom:6px}
+.badge{display:inline-block;font-size:12px;color:var(--accent);background:rgba(10,116,218,.08);padding:2px 8px;border-radius:999px;margin-right:6px}
+.row{display:grid;grid-template-columns:1fr;gap:18px}
+@media(min-width:900px){.row{grid-template-columns:1.2fr .8fr}}
+ul.clean{margin:10px 0 0 18px;padding:0}
+.placeholder{height:140px;background:linear-gradient(120deg, var(--accent-soft), #eaf4ff);border:1px dashed var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.footer{border-top:1px solid var(--border);padding:26px 0;color:var(--muted);text-align:center}
+
+/* Motion — reveal on scroll */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease, transform .6s ease}
+.reveal.show{opacity:1;transform:none}
+.fade-up{opacity:0;transform:translateY(12px)}
+.fade-up.show{opacity:1;transform:none;transition:opacity .6s ease, transform .6s ease}
+
+/* Subtle animated separators */
+.rule{height:2px;background:linear-gradient(90deg,var(--accent),transparent);opacity:.15;margin:22px 0;border-radius:2px}
+
+/* Palette swatches (optional visual) */
+.palette{display:flex;gap:10px;flex-wrap:wrap}
+.swatch{width:44px;height:28px;border-radius:8px;border:1px solid var(--border)}
+.swatch.sky{background:var(--pantone-sky)}
+.swatch.blue{background:var(--pantone-blue)}
+.swatch.sage{background:var(--pantone-sage)}
+.swatch.sand{background:var(--pantone-sand)}
+</style>
+</head>
+<body>
 <header class="header">
-  <div class="container hero">
-    <h1>Gaurav Kataria</h1>
-    <p class="tagline">Chartered Engineer | Bridging Design, Performance & Real Estate Sustainability</p>
-    <div style="margin-top:10px">
-      <a class="btn" href="projects.html">Explore Projects</a>
-      <a class="btn secondary" href="cv.html">View CV</a>
+  <div class="header-inner">
+    <div class="container hero">
+      <h1 class="reveal">Gaurav Kataria</h1>
+      <p class="reveal">Chartered Engineer | Bridging Design, Performance & Real Estate Sustainability</p>
+      <div class="reveal">
+        <a class="btn" href="#projects">Explore Projects</a>
+        <a class="btn secondary" href="#cv">View CV</a>
+      </div>
+    </div>
+    <div class="container nav">
+      <a href="#home" class="active">Home</a>
+      <a href="#projects">Projects</a>
+      <a href="#tools">Tools</a>
+      <a href="#about">About</a>
+      <a href="#cv">CV</a>
     </div>
   </div>
-  <div class="container">
-<nav class="nav">
-  <a href="index.html" class="active">Home</a>
-  <a href="projects.html" class="">Projects</a>
-  <a href="tools.html" class="">Tools</a>
-  <a href="about.html" class="">About</a>
-  <a href="cv.html" class="">CV</a>
-</nav>
-</div>
 </header>
 
-  <main class="container">
-    <section class="section row">
-      <div>
-        <p class="kicker">About</p>
-        <h2>Engineer + Architect + Real Estate Sustainability</h2>
-        <p class="lead">I’m a Chartered Engineer (CEng, MCIBSE) and WELL AP specialising in building performance, decarbonisation strategy and ESG advisory. I turn simulation and carbon data into investment-grade insights for acquisition, retrofit and portfolio planning.</p>
+<main class="container" id="home">
+  <section class="section row reveal">
+    <div>
+      <h2>Engineer + Architect + Real Estate Sustainability</h2>
+      <p class="lead">I’m a Chartered Engineer (CEng, MCIBSE) and WELL AP specialising in building performance, decarbonisation strategy and ESG advisory. I turn simulation and carbon data into investment‑grade insights for acquisition, retrofit and portfolio planning.</p>
+      <ul class="clean">
+        <li>Experience across the UK & India — Harley Haddow, Cundall, Verte</li>
+        <li>Key tools: IESVE (TM54/TM63/ApHVAC), EnergyPlus, Python, OneClick LCA</li>
+        <li>Credentials: CEng MCIBSE • WELL AP • LCC (Sim) • LCEA (L5) • Licensed Architect</li>
+      </ul>
+      <div class="rule"></div>
+      <div class="palette" aria-label="palette">
+        <div class="swatch sky" title="Sky"></div>
+        <div class="swatch blue" title="Blue"></div>
+        <div class="swatch sage" title="Sage"></div>
+        <div class="swatch sand" title="Sand"></div>
+      </div>
+    </div>
+    <div>
+      <figure class="card fade-up">
+        <div class="placeholder">Hero visual / project collage</div>
+        <figcaption style="color:#667085;margin-top:8px">Keystone Building, RIBA HQ, Royal Institution — performance‑led design and retrofit strategy.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section reveal" id="projects">
+    <h2>Selected Case Studies</h2>
+    <p class="lead">Outcome‑focused snapshots. Full reports open from each card.</p>
+    <div class="grid cards">
+      <!-- 9 slots ready -->
+      <article class="card"><h3>University of Glasgow — Keystone</h3><p><span class="badge">TM54/TM63</span><span class="badge">BREEAM Excellent</span></p><p>26,000 m² research facility: integrated HVAC + mixed‑mode modelling with off‑axis risk analysis informing capex decisions.</p></article>
+      <article class="card"><h3>RIBA HQ — Heritage Retrofit</h3><p><span class="badge">NABERS DfP</span><span class="badge">WELL</span></p><p>Performance‑led refurbishment aligning energy, comfort and heritage constraints; EPC ‘B’ pathway.</p></article>
+      <article class="card"><h3>Royal Institution — Retrofit Strategy</h3><p><span class="badge">Lifecycle Carbon</span><span class="badge">HVAC Options</span></p><p>4‑pipe ASHP vs hybrid VRF with lifecycle energy + carbon + risk assessment.</p></article>
+      <article class="card"><h3>5 St Philips Place</h3><p><span class="badge">NABERS DfP</span><span class="badge">Commissioning</span></p><p>Sensitivity analysis and risk register; WELL coordination and Hea04 comfort.</p></article>
+      <article class="card"><h3>University Teaching Block</h3><p><span class="badge">TM54</span><span class="badge">Controls</span></p><p>ApHVAC networks; DCV strategies; EUI reduction through envelope + controls tuning.</p></article>
+      <article class="card"><h3>Mixed‑Use Campus Masterplan</h3><p><span class="badge">Decarbonisation</span><span class="badge">Heat Networks</span></p><p>Optioneering for ASHP, WSHP and ambient loop; phased retrofit roadmap.</p></article>
+      <article class="card"><h3>Office Fit‑out — NABERS Pathway</h3><p><span class="badge">Operational Energy</span><span class="badge">DfP</span></p><p>Plug + process load calibration; tenancy/sub‑metering strategy.</p></article>
+      <article class="card"><h3>Heritage Gallery Refurb</h3><p><span class="badge">Conservation</span><span class="badge">Comfort</span></p><p>Humidity/temperature stability analysis with low‑impact interventions.</p></article>
+      <article class="card"><h3>Industrial Unit — Electrification</h3><p><span class="badge">ASHP</span><span class="badge">EUI</span></p><p>Gas‑to‑electric roadmap; envelope upgrades; demand response feasibility.</p></article>
+    </div>
+  </section>
+
+  <section class="section reveal" id="tools">
+    <h2>Tools & Research</h2>
+    <div class="grid cards">
+      <article class="card"><h3>ML Surrogate for Energy Modelling</h3><p class="lead">A machine‑learning surrogate that approximates HVAC energy response, enabling rapid optioneering.</p><ul class="clean"><li>Inputs: schedules, setpoints, loads, climate deltas</li><li>Outputs: EUI estimates, end‑use splits, risk bounds</li><li>Tech: Python, scikit‑learn, Jupyter</li></ul></article>
+      <article class="card"><h3>External Lighting Analysis Tool</h3><p class="lead">Python + Radiance workflow to test illuminance, glare, and compliance with planning standards.</p><ul class="clean"><li>Automates parameter sweeps, collates reports</li><li>Outputs: CSV + plots + annotated images</li></ul></article>
+    </div>
+  </section>
+
+  <section class="section row reveal" id="about">
+    <div>
+      <h2>About</h2>
+      <p>I’m a Chartered Engineer (CEng, MCIBSE), WELL AP, and licensed architect with five years across the UK and India. I specialise in operational energy modelling (TM54/TM63), retrofit strategy, whole‑life carbon, and wellness integration for real‑estate assets.</p>
+      <p><b>Collaboration:</b> I work well with architects, façade & MEP engineers, clients and contractors—translating design intent into performance outcomes and investment‑grade advice.</p>
+      <p><b>Sector experience:</b> Commercial offices, higher education, heritage/cultural, and mixed‑use developments.</p>
+    </div>
+    <div>
+      <div class="card">
+        <h3>Credentials</h3>
         <ul class="clean">
-          <li>Experience across the UK & India — Harley Haddow, Cundall, Verte</li>
-          <li>Key tools: IESVE (TM54/TM63/ApHVAC), EnergyPlus, Python, OneClick LCA</li>
-          <li>Credentials: CEng MCIBSE • WELL AP • LCC (Sim) • LCEA (L5) • Licensed Architect</li>
+          <li>CEng MCIBSE • WELL AP • ASHRAE Member</li>
+          <li>LCC (Simulation) • LCEA (Level 5)</li>
+          <li>MSc Env. Design & Engineering (UCL)</li>
+          <li>B.Arch (Gold Medallist), Licensed Architect (India)</li>
         </ul>
       </div>
-      <div>
-        <figure class="card">
-          <div class="placeholder">Hero visual / project collage</div>
-          <figcaption style="color:var(--muted);margin-top:8px">Keystone Building, RIBA HQ, Royal Institution — performance-led design and retrofit strategy.</figcaption>
-        </figure>
-      </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="section">
-      <p class="kicker">Highlights</p>
-      <h2>Selected Case Studies</h2>
-      <div class="grid cards">
-        <article class="card">
-          <h3>University of Glasgow — Keystone Building</h3>
-          <p><span class="badge">TM54/TM63</span><span class="badge">BREEAM Excellent</span></p>
-          <p>26,000 m² research facility: integrated HVAC + natural ventilation modelling, off‑axis risk analysis, and energy targets informing design and capital decisions.</p>
-        </article>
-        <article class="card">
-          <h3>RIBA HQ — Heritage Retrofit</h3>
-          <p><span class="badge">NABERS DfP</span><span class="badge">WELL</span></p>
-          <p>Performance-led refurbishment aligning energy, comfort and heritage constraints; EPC ‘B’ pathway and wellness integration.</p>
-        </article>
-        <article class="card">
-          <h3>Royal Institution — Retrofit Strategy</h3>
-          <p><span class="badge">Lifecycle Carbon</span><span class="badge">HVAC Options</span></p>
-          <p>Compared central 4‑pipe ASHP vs hybrid systems: lifecycle energy + carbon + risk to guide investment choices.</p>
-        </article>
-      </div>
-    </section>
-  </main>
+  <section class="section reveal" id="cv">
+    <h2>CV & Downloads</h2>
+    <div class="grid cards">
+      <article class="card"><h3>1‑Page CV (Consulting)</h3><p>Concise, results‑focused profile for consulting / ESG roles.</p><a class="btn" href="#">Download</a></article>
+      <article class="card"><h3>2‑Page CV</h3><p>Achievement‑oriented, ATS‑friendly format for applications.</p><a class="btn secondary" href="#">Add file when ready</a></article>
+      <article class="card"><h3>Technical Portfolio (PDF)</h3><p>Expanded project summaries, tools, certifications and presentations.</p><a class="btn secondary" href="#">Add file when ready</a></article>
+    </div>
+  </section>
+</main>
 
 <footer class="footer">
   <div class="container">
-    <div>Based in Gurugram, India • <a href="mailto:gaurav.kataria.ucl@gmail.com">gaurav.kataria.ucl@gmail.com</a></div>
-    <div>© 2025 Gaurav Kataria</div>
+    Based in Gurugram, India • <a href="mailto:gaurav.kataria.ucl@gmail.com">gaurav.kataria.ucl@gmail.com</a> • © 2025 Gaurav Kataria
   </div>
 </footer>
-<script src="assets/script.js"></script>
-</body></html>
+
+<script>
+// IntersectionObserver to reveal elements on scroll
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); }
+  })
+},{threshold:0.12});
+
+document.querySelectorAll('.reveal, .fade-up').forEach(el=>io.observe(el));
+
+// Smooth anchor active state
+const navLinks = document.querySelectorAll('.nav a');
+navLinks.forEach(a=>a.addEventListener('click',()=>{
+  navLinks.forEach(n=>n.classList.remove('active'));
+  a.classList.add('active');
+}));
+</script>
+</body>
+</html>
