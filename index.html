@@ -2,6 +2,7 @@
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.9">
     <title>Gaurav Kataria | Strategic Real Estate & Performance Analysis</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -44,7 +45,6 @@
         .scroll-animate.slide-in-right { transform: translateX(40px); }
         .scroll-animate.is-visible { opacity: 1; transform: none; }
         
-        /* Staggered animation delays */
         .stagger-1 { transition-delay: 0.1s; }
         .stagger-2 { transition-delay: 0.2s; }
         .stagger-3 { transition-delay: 0.3s; }
@@ -89,7 +89,7 @@
         
         /* Experience Timeline */
         .timeline { position: relative; max-width: 900px; margin: 0 auto; }
-        .timeline::after { content: ''; position: absolute; width: 3px; background-color: var(--border-color); top: 0; bottom: 0; left: 50%; margin-left: -1.5px; }
+        .timeline::after { content: ''; position: absolute; width: 3px; background-color: var(--border-color); top: 0; bottom: 0; left: 50%; margin-left: -1.5px; transition: left 0.3s ease; }
         .timeline-container { padding: 10px 40px; position: relative; background-color: inherit; width: 50%; }
         .timeline-container.left { left: 0; }
         .timeline-container.right { left: 50%; }
@@ -100,6 +100,15 @@
         .timeline-content a { text-decoration: underline; transition: color 0.3s; }
         .timeline-content a:hover { color: var(--accent-color); }
         
+        /* Mobile View Fixes */
+        @media screen and (max-width: 767px) {
+            html { font-size: 14px; }
+            .timeline::after { left: 29px; }
+            .timeline-container { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .timeline-container.left, .timeline-container.right { left: 0%; }
+            .timeline-container.left::after, .timeline-container.right::after { left: 22px; }
+        }
+
         /* Toolkit */
         .toolkit-card { text-align: left; transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .toolkit-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px -10px rgba(0,0,0,0.1); }
@@ -193,8 +202,8 @@
             <div class="container mx-auto px-6">
                 <div class="scroll-animate fade-up mb-20">
                     <h2 class="section-title-alt">Actionable Assessments from Early Stages</h2>
-                    <p class="section-subtitle-alt mb-8 max-w-none">
-                        My career is driven by a fascination with the intersection of design, sustainability, and financial performance. By integrating rigorous technical analysis at the earliest design phases, I develop holistic strategies that ensure architectural concepts are not only buildable and sustainable but also commercially viable, maximizing asset value and minimizing risk.
+                    <p class="section-subtitle-alt max-w-none mb-8">
+                        My career is driven by a fascination with the intersection of design, sustainability, and financial performance. By integrating rigorous technical analysis at the earliest design phases, I develop holistic strategies that ensure architectural concepts are not only sustainable but also commercially viable, maximizing asset value & minimizing risk.
                     </p>
                     <div class="grid md:grid-cols-3 gap-8 mt-8">
                          <div class="about-card scroll-animate fade-up">
@@ -223,7 +232,7 @@
                 <div class="scroll-animate fade-up">
                     <h2 class="section-title-alt">Accreditations & Memberships</h2>
                     <p class="section-subtitle-alt max-w-none mb-12">
-                        I am committed to continually improving, evolving, and learning and maintain a strong CPD record. These qualifications are a testament to my dedication to staying at the forefront of the industry and ensuring I understand different aspects of the built environment and beyond.
+                        I am committed to continually improving, evolving, and learning and maintain a strong CPD (Continuing Professional Development) record. These qualifications are a testament to my dedication to staying at the forefront of the industry and ensuring I understand different aspects of the built environment and beyond.
                     </p>
                     <div class="bg-white p-8 rounded-lg border border-stone-200 shadow-lg">
                         <div class="grid md:grid-cols-3 gap-x-12 gap-y-8">
@@ -277,7 +286,7 @@
                                     <i data-lucide="building" class="h-5 w-5 text-stone-500"></i>
                                 </div>
                                 <div>
-                                    <p class="font-bold text-sm">Low Carbon Energy Assessor - Level 5</p>
+                                    <p class="font-bold text-sm">Low Carbon Energy Assessor</p>
                                     <p class="text-xs text-stone-500"><a href="https://www.cibsecertification.co.uk/" target="_blank" rel="noopener noreferrer" class="text-link">CIBSE Certification Ltd</a></p>
                                 </div>
                             </div>
@@ -558,7 +567,7 @@
                                 <p><strong>S:</strong> A new DfE-funded college with a mandate to be a sustainability exemplar for the UK education sector.</p>
                                 <p><strong>T:</strong> To achieve Net Zero Carbon in Operation (NZCiO) from the very first year of the building's official opening.</p>
                                 <p><strong>A:</strong> Drove the entire NZCiO modelling strategy, leading the detailed performance modelling design efforts.</p>
-                                <p><strong>R:</strong> Simulation tested design expected to be fully compliant with the ambitious NZCIO target, setting a new benchmark.</p>
+                                <p><strong>R:</strong> Simulation tested design expected to be fully compliant with the ambitious NZCiO target, setting a new benchmark.</p>
                             </div>
                        </div>
                    </div>
@@ -592,7 +601,7 @@
                             <h4 class="font-bold text-lg ml-3">Modelling & BIM</h4>
                         </div>
                         <ul class="space-y-3 text-sm text-stone-600">
-                            <li><i data-lucide="app-window" class="h-5 w-5 text-stone-500 flex-shrink-0"></i><span>Revit & Dynamo</span></li>
+                            <li><i data-lucide="app-window" class="h-5 w-5 text-stone-500 flex-shrink-0"></i><span>Revit</span></li>
                             <li><i data-lucide="app-window" class="h-5 w-5 text-stone-500 flex-shrink-0"></i><span>AutoCAD</span></li>
                             <li><i data-lucide="app-window" class="h-5 w-5 text-stone-500 flex-shrink-0"></i><span>SketchUp</span></li>
                             <li><i data-lucide="app-window" class="h-5 w-5 text-stone-500 flex-shrink-0"></i><span>Rhinoceros</span></li>
@@ -640,15 +649,15 @@
                          <div class="bg-white p-8 rounded-lg border border-stone-200 shadow-lg text-center">
                              <i data-lucide="sun" class="h-20 w-20 text-accent-color mx-auto mb-4"></i>
                              <h3 class="text-2xl mb-3">Daylight Analysis Web App</h3>
-                             <p class="text-stone-600 mb-6">An interactive tool for rapid, early-stage daylight analysis, allowing for faster, data-informed decisions on façade design and massing.</p>
+                             <p class="text-stone-600 mb-6">An interactive tool for rapid, early-stage external lighting energy analysis, for energy modelling and façade massing.</p>
                              <a href="https://hollobilling.streamlit.app/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Launch Application</a>
                          </div>
                      </div>
                      <div class="scroll-animate slide-in-right">
                           <div class="bg-white p-8 rounded-lg border border-stone-200 shadow-lg text-center">
                              <i data-lucide="brain-circuit" class="h-20 w-20 text-accent-color mx-auto mb-4"></i>
-                             <h3 class="text-2xl mb-3">Surrogate AI Model for ASHP Sizing</h3>
-                             <p class="text-stone-600 mb-6">An AI/ML model trained to provide near-instantaneous Air Source Heat Pump sizing recommendations, accelerating feasibility assessments.</p>
+                             <h3 class="text-2xl mb-3">Surrogate ML Model for ASHP Sizing</h3>
+                             <p class="text-stone-600 mb-6">An AI/ML model trained to provide fast Air Source Heat Pump - Thermal Store sizing recommendations assessments.</p>
                              <a href="https://snowleopards.streamlit.app/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Launch Application</a>
                          </div>
                      </div>
