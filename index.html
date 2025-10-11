@@ -1,371 +1,686 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Gaurav Kataria — Building Performance & Sustainability</title>
-<meta name="description" content="London-based Building Performance and Sustainability Consultant at Harley Haddow. Whole-building energy modelling, decarbonisation strategy, and investment-grade performance studies." />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<style>
-/* -------------------------------------------------
-   Minimal, professional design system
---------------------------------------------------*/
-:root{
-  /* Soft, consulting palette (Pantone-like) */
-  --sky:#9AD0F5;         /* ~Pantone 2905 C */
-  --blue:#0A74DA;        /* ~Pantone 3005 C */
-  --sage:#BFD8C0;        /* ~Pantone 559 C  */
-  --sand:#EDE7E1;        /* ~Pantone 7527 C */
-  --ink:#1A1F2B;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaurav Kataria | Strategic Real Estate & Performance Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #F8F5F2; /* Warm off-white */
+            --text-color: #383838; /* Dark Slate */
+            --heading-color: #1a1a1a;
+            --accent-color: #A16207; /* Burnt Sienna */
+            --card-bg: #FFFFFF;
+            --border-color: #e5e7eb;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 400; /* Regular */
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700; /* Bold */
+            color: var(--heading-color);
+            letter-spacing: -0.025em;
+        }
+        
+        /* --- Animation Styles --- */
+        /* On-load animation for Hero section */
+        .animate-on-load { opacity: 0; transform: translateY(20px); animation: fadeInLoad 0.8s ease-out forwards; }
+        @keyframes fadeInLoad { to { opacity: 1; transform: translateY(0); } }
 
-  --accent:var(--blue);
-  --accent-soft:var(--sky);
-  --bg:#ffffff;
-  --bg-alt:#F7FAFF;
-  --card:#ffffff;
-  --text:var(--ink);
-  --muted:#667085;
-  --border:#E6EAF0;
-  --radius:14px;
-  --shadow:0 10px 30px rgba(10,116,218,.07);
-}
+        /* Scroll-triggered animations for other sections */
+        .scroll-animate {
+            opacity: 0;
+            transition: opacity 0.7s cubic-bezier(0.17, 0.55, 0.55, 1), transform 0.7s cubic-bezier(0.17, 0.55, 0.55, 1);
+        }
+        .scroll-animate.fade-up { transform: translateY(30px); }
+        .scroll-animate.scale-in { transform: scale(0.95); }
+        .scroll-animate.slide-in-left { transform: translateX(-40px); }
+        .scroll-animate.slide-in-right { transform: translateX(40px); }
+        .scroll-animate.is-visible { opacity: 1; transform: none; }
 
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.6 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial}
-a{color:var(--accent);text-decoration:none}
-a:hover{text-decoration:underline}
-.container{max-width:1100px;margin:0 auto;padding:0 20px}
 
-/* Header with tuck-in */
-.site-header{position:sticky;top:0;z-index:1000;transition:transform .35s ease, box-shadow .25s ease, background-color .25s ease}
-.header-inner{
-  background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.86));
-  border-bottom:2px solid var(--accent);
-}
-.site-header.compact{
-  transform:translateY(-8px);
-  box-shadow:0 8px 24px rgba(10,116,218,.06);
-  background:rgba(255,255,255,.82);
-}
-.hero{padding:56px 0 38px;text-align:center;transition:padding .28s ease}
-.site-header.compact .hero{padding:20px 0 12px}
-.hero h1{font-size:40px;margin:0 0 8px}
-.hero p{margin:0 0 18px;color:var(--muted)}
-.btn{display:inline-block;padding:10px 16px;border-radius:12px;background:var(--accent);color:#fff;border:1px solid var(--accent);transition:transform .25s,box-shadow .25s,background .25s;margin:4px}
-.btn.secondary{background:transparent;color:var(--accent)}
-.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+        /* Navigation */
+        .nav-link { position: relative; font-family: 'Roboto', sans-serif; font-weight: 700; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-color); transition: color 0.3s; }
+        .nav-link:hover { color: var(--accent-color); }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -6px; left: 50%; transform: translateX(-50%); background-color: var(--accent-color); transition: width 0.3s; }
+        .nav-link:hover::after { width: 60%; }
+        .mobile-nav-link { font-family: 'Roboto', sans-serif; font-weight: 700; font-size: 1.5rem; color: var(--heading-color); }
 
-.nav{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;padding:10px 0}
-.nav a{padding:8px 12px;border-radius:10px;transition:background .25s}
-.nav a.active,.nav a:hover{background:rgba(10,116,218,.08)}
+        /* Buttons */
+        .btn { display: inline-block; font-family: 'Roboto', sans-serif; font-weight: 700; text-align: center; text-transform: uppercase; font-size: 0.875rem; padding: 0.875rem 2rem; border-radius: 9999px; transition: all 0.3s ease; letter-spacing: 0.05em; }
+        .btn-primary { background-color: var(--accent-color); color: white; }
+        .btn-primary:hover { background-color: #c47a09; transform: translateY(-2px); box-shadow: 0 4px 20px rgba(161, 98, 7, 0.2); }
+        .btn-secondary { background-color: transparent; color: var(--text-color); border: 2px solid var(--border-color); }
+        .btn-secondary:hover { border-color: var(--accent-color); color: var(--accent-color); }
+        .btn-light { background-color: rgba(255,255,255,0.9); color: var(--accent-color); }
+        .btn-light:hover { background-color: white; transform: translateY(-2px); }
 
-/* Sections */
-.section{padding:60px 0}
-.section h2{margin:0 0 10px;font-size:24px}
-.section p.lead{color:var(--muted);margin-top:0}
-.grid{display:grid;gap:18px}
-.grid.cards{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
-.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
-.card h3{margin-top:0;margin-bottom:6px}
+        /* Sections & Cards */
+        .section-title { font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; }
+        .section-subtitle { font-size: 1.25rem; color: #71717a; max-w-2xl mx-auto; }
+        .section-title-alt { font-size: 2.25rem; font-weight: 700; margin-bottom: 1rem; }
+        .section-subtitle-alt { font-size: 1.125rem; color: #71717a; }
+        .about-card { display: flex; align-items: center; gap: 1rem; background: var(--card-bg); padding: 1.5rem; border-radius: 0.5rem; border: 1px solid var(--border-color); }
+        .about-card-icon { height: 2rem; width: 2rem; color: var(--accent-color); flex-shrink: 0; }
+        .about-card-title { font-size: 1.125rem; font-weight: 700; margin-bottom: 0.25rem; }
+        .about-card-text { font-size: 0.95rem; color: #57534e; line-height: 1.6; }
 
-.row{display:grid;grid-template-columns:1fr;gap:18px}
-@media(min-width:900px){.row{grid-template-columns:1.2fr .8fr}}
-ul.clean{margin:10px 0 0 18px;padding:0}
-img.resp{width:100%;height:auto;border-radius:12px}
-.figure-large img{width:100%;max-height:520px;object-fit:cover;border-radius:0}
-.figure-card img{width:100%;max-height:360px;object-fit:cover;border-radius:12px}
+        /* Project Cards */
+        .card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 0.5rem; overflow: hidden; height: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.15); }
+        .card-image { aspect-ratio: 4 / 3; width: 100%; object-fit: cover; }
+        .card-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem; }
+        .star-desc p { font-size: 0.875rem; color: #71717a; line-height: 1.6; text-align: justify; -webkit-hyphens: none; -ms-hyphens: none; hyphens: none; }
+        .star-desc strong { color: var(--text-color); font-weight: 700; }
+        
+        /* Experience Timeline */
+        .timeline { position: relative; max-width: 900px; margin: 0 auto; }
+        .timeline::after { content: ''; position: absolute; width: 3px; background-color: var(--border-color); top: 0; bottom: 0; left: 50%; margin-left: -1.5px; }
+        .timeline-container { padding: 10px 40px; position: relative; background-color: inherit; width: 50%; }
+        .timeline-container.left { left: 0; }
+        .timeline-container.right { left: 50%; }
+        .timeline-container::after { content: ''; position: absolute; width: 16px; height: 16px; right: -8px; background-color: var(--card-bg); border: 3px solid var(--accent-color); top: 28px; border-radius: 50%; z-index: 1; }
+        .timeline-container.right::after { left: -8px; }
+        .timeline-content { padding: 20px 30px; background-color: white; position: relative; border-radius: 6px; border: 1px solid var(--border-color); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .timeline-content ul { list-style-position: outside; padding-left: 1.25rem; }
+        .timeline-content a { text-decoration: underline; transition: color 0.3s; }
+        .timeline-content a:hover { color: var(--accent-color); }
+        
+        /* Toolkit */
+        .toolkit-card { text-align: left; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .toolkit-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px -10px rgba(0,0,0,0.1); }
+        .toolkit-card ul { list-style-type: none; padding-left: 0; }
+        .toolkit-card li { display: flex; align-items: center; gap: 0.75rem; font-size: 0.9rem; color: #57534e;}
 
-/* Badges (optional) */
-.badge{display:inline-block;font-size:12px;color:var(--accent);background:rgba(10,116,218,.08);padding:2px 8px;border-radius:999px;margin-right:6px}
+        /* Contact Section */
+        .bg-sienna-800 { background-color: #383838; }
+        .text-sienna-100 { color: #f8f5f2; }
+        .border-sienna-400 { border-color: #A16207; }
 
-/* Reveal on scroll */
-.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
-.reveal.show{opacity:1;transform:none}
-
-/* Subtle separator */
-.rule{height:2px;background:linear-gradient(90deg,var(--accent),transparent);opacity:.15;margin:22px 0;border-radius:2px}
-
-/* Footer */
-.footer{border-top:1px solid var(--border);padding:26px 0;color:var(--muted);text-align:center}
-</style>
+        /* General Links */
+        .text-link { text-decoration: underline; transition: color 0.3s; }
+        .text-link:hover { color: var(--accent-color); }
+    </style>
 </head>
-<body>
+<body class="antialiased">
 
-<header class="site-header">
-  <div class="header-inner">
-    <div class="container hero">
-      <h1 class="reveal">Gaurav Kataria</h1>
-      <p class="reveal">Building Performance and Sustainability Consultant · Harley Haddow (London)</p>
-      <div class="reveal">
-        <a class="btn" href="#projects">Explore Projects</a>
-        <a class="btn secondary" href="#cv">View CV</a>
-      </div>
-    </div>
-    <div class="container nav">
-      <a href="#home" class="active">Home</a>
-      <a href="#projects">Projects</a>
-      <a href="#tools">Tools</a>
-      <a href="#about">About</a>
-      <a href="#cv">CV</a>
-    </div>
-  </div>
-</header>
-
-<main class="container" id="home">
-  <!-- Intro / About lead -->
-  <section class="section row reveal">
-    <div>
-      <h2>Engineering performance for investment-grade decisions</h2>
-      <p class="lead">
-        London-based consultant specialising in whole-building energy modelling, decarbonisation strategy and practical retrofit.
-        I translate simulation and carbon data into clear options for clients and design teams, with experience across higher education,
-        heritage, offices and schools.
-      </p>
-      <ul class="clean">
-        <li>IESVE (ModelIT, Apache, ApHVAC); EnergyPlus; Python; Grasshopper/Ladybug; OneClick LCA</li>
-        <li>TM54/TM63; Part L; NABERS-aligned sensitivity analysis; BB101/TM52 for education</li>
-        <li>WELL AP; Low Carbon Consultant (Simulation)</li>
-      </ul>
-      <div class="rule"></div>
-    </div>
-    <div>
-      <figure class="card figure-card">
-        <!-- Replace with a collage or hero project image -->
-        <img class="resp" src="assets/hero-placeholder.jpg" alt="Project collage placeholder">
-        <figcaption style="color:#667085;margin-top:8px">
-          Selected work: Keystone Building; RIBA HQ; Royal Institution; office and schools programmes.
-        </figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <!-- Projects -->
-  <section class="section reveal" id="projects">
-    <h2>Selected Case Studies</h2>
-    <p class="lead">One flagship project followed by six concise summaries. Images can link to detailed reports or Google Drive previews.</p>
-
-    <!-- Spotlight project -->
-    <article class="card" style="padding:0;overflow:hidden;">
-      <div style="display:grid;grid-template-columns:1fr;gap:0;">
-        <figure class="figure-large" style="margin:0;">
-          <!-- TODO: replace with exported image -->
-          <img src="assets/projects/keystone-hero.jpg" alt="Keystone Building, University of Glasgow">
-        </figure>
-        <div style="padding:20px 18px;">
-          <h3 style="margin-top:4px;">Keystone Building, University of Glasgow</h3>
-          <p>
-            Whole-building performance model for a major teaching and research facility. Detailed ApHVAC with TM54/TM63;
-            mixed-mode ventilation and night-cooling strategies; Section 6 compliance. Developed calibrated control logic to align
-            architectural intent, mechanical design and operations, and delivered off-axis sensitivity analysis to support value-engineering
-            decisions and capital planning.
-          </p>
-          <!-- Update these links to your Drive preview/download URLs -->
-          <div>
-            <a class="btn" href="#" aria-label="Open Keystone report">Open report</a>
-            <a class="btn secondary" href="#" aria-label="Download Keystone summary">Download summary</a>
-          </div>
+    <header class="py-6 fixed top-0 left-0 right-0 z-50 bg-stone-50/80 backdrop-blur-sm border-b border-stone-200">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="#hero" class="font-bold text-xl text-stone-800">GK</a>
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#about" class="nav-link">About</a>
+                <a href="#experience" class="nav-link">Journey</a>
+                <a href="#portfolio" class="nav-link">Projects</a>
+                <a href="#toolkit" class="nav-link">Toolkit</a>
+                <a href="#tools" class="nav-link">Apps</a>
+            </nav>
+            <button id="mobile-menu-btn" class="md:hidden text-stone-800">
+                <i data-lucide="menu" class="h-6 w-6"></i>
+            </button>
         </div>
-      </div>
-    </article>
-
-    <div class="rule"></div>
-
-    <!-- 3×2 grid -->
-    <div class="grid cards project-grid" style="margin-top:18px;">
-      <!-- 1: RIBA HQ -->
-      <article class="card">
-        <figure class="figure-card" style="margin:0 0 10px 0;">
-          <img src="assets/projects/riba-hq.jpg" alt="RIBA HQ, 66 Portland Place, London">
-        </figure>
-        <h3>RIBA HQ, 66 Portland Place, London</h3>
-        <p>
-          Heritage refurbishment. Energy and comfort modelling for events, gallery, library, catering and office zones.
-          Calibrated the existing model, developed comparative plant scenarios and supported the MEP strategy with early-stage HVAC
-          modelling and coordination. (Not a DfP project.)
-        </p>
-        <a class="btn secondary" href="#" aria-label="Open RIBA HQ report">Open report</a>
-      </article>
-
-      <!-- 2: Royal Institution -->
-      <article class="card">
-        <figure class="figure-card" style="margin:0 0 10px 0;">
-          <img src="assets/projects/royal-institution.jpg" alt="The Royal Institution of Great Britain, London">
-        </figure>
-        <h3>The Royal Institution of Great Britain, London</h3>
-        <p>
-          Performance and decarbonisation study for a historic building. Options appraisal for HVAC and envelope interventions,
-          with modelling and programme integration alongside the MEP team.
-        </p>
-        <a class="btn secondary" href="#" aria-label="Open Royal Institution report">Open report</a>
-      </article>
-
-      <!-- 3: Holywell Yard -->
-      <article class="card">
-        <figure class="figure-card" style="margin:0 0 10px 0;">
-          <img src="assets/projects/holywell-yard.jpg" alt="Holywell Yard, Shoreditch">
-        </figure>
-        <h3>Holywell Yard, Shoreditch</h3>
-        <p>
-          New commercial office development targeting BREEAM Excellent and WELL Core. Operational-energy targeting and façade/load
-          optimisation informed early-stage decisions and performance-risk management.
-        </p>
-        <a class="btn secondary" href="#" aria-label="Open Holywell Yard summary">Open summary</a>
-      </article>
-
-      <!-- 4: 5 St Philip’s Place -->
-      <article class="card">
-        <figure class="figure-card" style="margin:0 0 10px 0;">
-          <img src="assets/projects/5-st-philips.jpg" alt="5 St Philip’s Place, Birmingham">
-        </figure>
-        <h3>5 St Philip’s Place, Birmingham</h3>
-        <p>
-          Office refurbishment with DfP-style sensitivity analysis and comfort validation (Hea04). Off-axis scenarios
-          (e.g., heat-recovery failure, DCV off, extended hours) supported independent design review and a credible operational-performance
-          pathway.
-        </p>
-        <a class="btn secondary" href="#" aria-label="Open 5 St Philip’s Place pack">Open DfP pack</a>
-      </article>
-
-      <!-- 5: 19 Cornwall Street -->
-      <article class="card">
-        <figure class="figure-card" style="margin:0 0 10px 0;">
-          <img src="assets/projects/19-cornwall-street.jpg" alt="19 Cornwall Street">
-        </figure>
-        <h3>19 Cornwall Street</h3>
-        <p>
-          Existing office refurbishment. TM54 operational-energy lines, comfort checks and a pragmatic upgrade path towards improved
-          EPC and operational performance.
-        </p>
-        <a class="btn secondary" href="#" aria-label="Open 19 Cornwall Street summary">Open summary</a>
-      </article>
-
-      <!-- 6: DfE Schools -->
-      <article class="card">
-        <figure class="figure-card" style="margin:0 0 10px 0;">
-          <img src="assets/projects/dfe-schools.jpg" alt="DfE Schools Portfolio">
-        </figure>
-        <h3>DfE Schools Portfolio</h3>
-        <p>
-          BB101/TM52 assessments and compliance for multiple schools. Comfort-risk mitigation through purge and night-cooling, with
-          envelope and controls tuning to meet NZCiO and EUI objectives.
-        </p>
-        <a class="btn secondary" href="#" aria-label="Open Schools portfolio summary">Open summary</a>
-      </article>
+    </header>
+    
+    <div id="mobile-menu" class="hidden fixed inset-0 bg-stone-50 z-40 p-6">
+        <div class="flex flex-col items-center justify-center h-full space-y-8">
+             <a href="#about" class="mobile-nav-link">About</a>
+             <a href="#experience" class="mobile-nav-link">Journey</a>
+             <a href="#portfolio" class="mobile-nav-link">Projects</a>
+             <a href="#toolkit" class="mobile-nav-link">Toolkit</a>
+             <a href="#tools" class="mobile-nav-link">Apps</a>
+        </div>
     </div>
-  </section>
 
-  <!-- Tools & Research -->
-  <section class="section reveal" id="tools">
-    <h2>Tools and Research</h2>
-    <div class="grid cards">
-      <article class="card">
-        <h3>Machine-learning surrogate for energy modelling</h3>
-        <p class="lead">A surrogate model approximating HVAC energy response to accelerate optioneering and sensitivity tests.</p>
-        <ul class="clean">
-          <li>Inputs: schedules, setpoints, loads, climate deltas</li>
-          <li>Outputs: EUI estimates, end-use splits, uncertainty bounds</li>
-          <li>Tooling: Python, scikit-learn, Jupyter</li>
-        </ul>
-        <a class="btn secondary" href="#" aria-label="Open ML surrogate repository">Repository / paper</a>
-      </article>
+    <main>
+        <section id="hero" class="pt-24 md:pt-32 pb-12 md:pb-20">
+            <div class="container mx-auto px-6">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="animate-on-load">
+                        <h1 class="text-4xl md:text-6xl leading-tight mb-6">
+                            Bridging Architecture, Engineering & Real Estate Strategy
+                        </h1>
+                        <p class="text-lg md:text-xl text-stone-600 max-w-2xl mb-8">
+                            I build and leverage data-driven 'calibrated-models' of complex assets to de-risk investments, optimise expenditure, and deliver commercially focused strategies for high-performance portfolios.
+                        </p>
+                        <div class="flex flex-wrap gap-4 items-center">
+                            <a href="#portfolio" class="btn btn-primary">View My Work</a>
+                            <div class="flex items-center gap-2 p-2 rounded-md bg-amber-100 border border-amber-200">
+                                <i data-lucide="award" class="h-5 w-5 text-amber-700"></i>
+                                <span class="text-sm font-bold text-amber-800">CIBSE Young Modeller of the Year 2024</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="animate-on-load" style="animation-delay: 0.2s;">
+                        <div class="rounded-lg shadow-2xl overflow-hidden bg-accent-color/10">
+                            <svg viewBox="0 0 1000 1200" xmlns="http://www.w3.org/2000/svg" class="w-full h-full" aria-label="Abstract architectural detail">
+                                <defs>
+                                    <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+                                        <path d="M 50 0 L 0 0 0 50" fill="none" stroke="var(--accent-color)" opacity="0.1" stroke-width="2"/>
+                                    </pattern>
+                                </defs>
+                                <rect width="100%" height="100%" fill="url(#grid)" />
+                                <g stroke="var(--accent-color)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M 200 100 L 800 100 Q 900 100 900 200 L 900 1000 Q 900 1100 800 1100 L 200 1100 Q 100 1100 100 1000 L 100 200 Q 100 100 200 100 Z" stroke-width="8" />
+                                    <path d="M 200 250 L 800 250" />
+                                    <path d="M 200 400 L 800 400" opacity="0.8"/>
+                                    <path d="M 200 550 L 600 550" opacity="0.6"/>
+                                    <path d="M 450 100 L 450 700" />
+                                    <path d="M 650 100 L 650 550" opacity="0.7" />
+                                    <circle cx="300" cy="800" r="120" stroke-dasharray="10 10" opacity="0.5" />
+                                    <rect x="550" y="700" width="200" height="200" rx="20" opacity="0.9" />
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-      <article class="card">
-        <h3>External lighting analysis workflow</h3>
-        <p class="lead">Python and Radiance pipeline for illuminance, glare and planning compliance with automated parameter sweeps.</p>
-        <ul class="clean">
-          <li>Batch generation of scenarios and collated reporting</li>
-          <li>Outputs: CSV, plots, annotated images</li>
-        </ul>
-        <a class="btn secondary" href="#" aria-label="Open lighting tool demo">Demo / documentation</a>
-      </article>
-    </div>
-  </section>
+        <section id="about" class="py-20 md:py-32">
+            <div class="container mx-auto px-6">
+                <div class="grid md:grid-cols-5 gap-16 items-stretch">
+                    <div class="md:col-span-3 scroll-animate fade-up flex flex-col">
+                        <h2 class="section-title-alt">From Blueprint to Balance Sheet</h2>
+                        <p class="section-subtitle-alt mb-8">
+                            My career is driven by a fascination with the intersection of design, sustainability, and financial performance. This unique perspective allows me to bridge the gap between creative vision and investment reality.
+                        </p>
+                        <div class="space-y-6 flex-grow flex flex-col justify-between">
+                             <div class="about-card">
+                                <i data-lucide="drafting-compass" class="about-card-icon"></i>
+                                <div>
+                                    <h4 class="about-card-title">Architectural Foundation</h4>
+                                    <p class="about-card-text">Began with a gold medal in Architecture, providing a rigorous foundation in design, spatial reasoning, and buildability.</p>
+                                </div>
+                            </div>
+                            <div class="about-card">
+                                <i data-lucide="bar-chart-big" class="about-card-icon"></i>
+                                <div>
+                                    <h4 class="about-card-title">Analytical Expertise</h4>
+                                    <p class="about-card-text">Pursued a Master's from <a href="https://www.ucl.ac.uk/bartlett/" target="_blank" rel="noopener noreferrer" class="text-link">The Bartlett, UCL</a>, to master the science of high-performance buildings and data-driven simulation.</p>
+                                </div>
+                            </div>
+                             <div class="about-card">
+                                <i data-lucide="dollar-sign" class="about-card-icon"></i>
+                                <div>
+                                    <h4 class="about-card-title">Commercial Acumen</h4>
+                                    <p class="about-card-text">Focused on translating technical data into tangible commercial outcomes, de-risking investments and enhancing asset value.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:col-span-2 scroll-animate fade-up" style="transition-delay: 0.2s;">
+                        <div class="bg-white p-6 rounded-lg border border-stone-200 shadow-lg h-full flex flex-col">
+                            <h2 class="section-title-alt mb-8">Accreditations</h2>
+                            <div class="space-y-5 flex-grow flex flex-col justify-center">
+                                <div class="flex items-center gap-4">
+                                    <div class="h-10 w-10 rounded-full bg-stone-100 flex items-center justify-center">
+                                        <i data-lucide="award" class="h-5 w-5 text-stone-500"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-sm">Chartered Engineer (CEng)</p>
+                                        <p class="text-xs text-stone-500"><a href="https://www.engc.org.uk/" target="_blank" rel="noopener noreferrer" class="text-link">Engineering Council UK</a></p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div class="h-10 w-10 rounded-full bg-stone-100 flex items-center justify-center">
+                                        <i data-lucide="globe" class="h-5 w-5 text-stone-500"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-sm">European Engineer (EUR ING)</p>
+                                        <p class="text-xs text-stone-500"><a href="https://www.engineerseurope.com/" target="_blank" rel="noopener noreferrer" class="text-link">European Federation of National Engineering Associations</a></p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div class="h-10 w-10 rounded-full bg-stone-100 flex items-center justify-center">
+                                        <i data-lucide="leaf" class="h-5 w-5 text-stone-500"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-sm">WELL Accredited Professional</p>
+                                        <p class="text-xs text-stone-500"><a href="https://www.wellcertified.com/" target="_blank" rel="noopener noreferrer" class="text-link">International WELL Building Institute</a></p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div class="h-10 w-10 rounded-full bg-stone-100 flex items-center justify-center">
+                                        <i data-lucide="building" class="h-5 w-5 text-stone-500"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-sm">LCC X 2, LCEA (Level 5) & Member</p>
+                                        <p class="text-xs text-stone-500"><a href="https://www.cibse.org/" target="_blank" rel="noopener noreferrer" class="text-link">Chartered Institution of Building Services Engineers</a></p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div class="h-10 w-10 rounded-full bg-stone-100 flex items-center justify-center">
+                                        <i data-lucide="thermometer-sun" class="h-5 w-5 text-stone-500"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-sm">Full Member</p>
+                                        <p class="text-xs text-stone-500"><a href="https://www.ashrae.org/" target="_blank" rel="noopener noreferrer" class="text-link">American Society of Heating, Refrigerating and Air-Conditioning Engineers</a></p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div class="h-10 w-10 rounded-full bg-stone-100 flex items-center justify-center">
+                                        <i data-lucide="recycle" class="h-5 w-5 text-stone-500"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-sm">One Click LCA Certified</p>
+                                        <p class="text-xs text-stone-500"><a href="https://www.oneclicklca.com/" target="_blank" rel="noopener noreferrer" class="text-link">One Click LCA</a></p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div class="h-10 w-10 rounded-full bg-stone-100 flex items-center justify-center">
+                                        <i data-lucide="database" class="h-5 w-5 text-stone-500"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-sm">IBM Data Science Professional</p>
+                                        <p class="text-xs text-stone-500"><a href="https://www.ibm.com/" target="_blank" rel="noopener noreferrer" class="text-link">International Business Machines</a></p>
+                                    </div>
+                                </div>
+                                 <div class="flex items-center gap-4">
+                                    <div class="h-10 w-10 rounded-full bg-stone-100 flex items-center justify-center">
+                                        <i data-lucide="pen-tool" class="h-5 w-5 text-stone-500"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-sm">Licensed Architect</p>
+                                        <p class="text-xs text-stone-500"><a href="https://www.coa.gov.in/" target="_blank" rel="noopener noreferrer" class="text-link">Council of Architecture, India</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-  <!-- About (concise) -->
-  <section class="section row reveal" id="about">
-    <div>
-      <h2>About</h2>
-      <p>
-        Building-performance and sustainability specialist with a cross-disciplinary background in architecture and engineering.
-        I focus on the practical delivery of operational energy targets, comfort, and decarbonisation pathways for complex buildings.
-      </p>
-      <p>
-        Experienced in higher education, heritage, commercial offices and schools. I work closely with architects, façade and MEP teams,
-        contractors and clients to translate design intent into measurable performance outcomes.
-      </p>
-    </div>
-    <div>
-      <div class="card">
-        <h3>Competencies</h3>
-        <ul class="clean">
-          <li>Whole-building energy modelling (TM54/TM63, Part L)</li>
-          <li>Design-for-Performance-aligned sensitivity analysis</li>
-          <li>Comfort and IAQ (Hea04, BB101/TM52)</li>
-          <li>Decarbonisation roadmaps and lifecycle carbon</li>
-          <li>Data workflows and repeatable reporting</li>
-        </ul>
-      </div>
-    </div>
-  </section>
+        <section id="experience" class="py-20 md:py-32 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-2xl mx-auto mb-16 scroll-animate fade-up">
+                    <h2 class="section-title">My Journey</h2>
+                    <p class="section-subtitle">A timeline of my academic and professional experience at leading universities and consultancies.</p>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-container left scroll-animate slide-in-left">
+                        <div class="timeline-content">
+                            <div class="flex justify-between items-start mb-1">
+                                <div>
+                                    <h3>A-Levels Equivalent</h3>
+                                    <p class="text-sm text-accent-color font-bold"><a href="https://www.dpsgurgaon.org/" target="_blank" rel="noopener noreferrer" class="hover:text-accent-color transition">Delhi Public School</a></p>
+                                </div>
+                                <img src="https://placehold.co/80x25/e5e7eb/a1a1aa?text=DPS" alt="DPS Logo" class="h-6 opacity-60">
+                            </div>
+                            <p class="text-xs text-stone-500 mb-2">Completed 2013</p>
+                            <ul class="text-sm text-stone-600 list-disc">
+                                <li>Achieved grades AAAB, providing a strong academic foundation.</li>
+                                <li>Received the Sports Scholar award, being in the first batch of 18 students to be ever given the same.</li>
+                            </ul>
+                        </div>
+                    </div>
+                     <div class="timeline-container right scroll-animate slide-in-right">
+                        <div class="timeline-content">
+                            <div class="flex justify-between items-start mb-1">
+                                <div>
+                                    <h3>Bachelor of Architecture</h3>
+                                    <p class="text-sm text-accent-color font-bold"><a href="https://www.gdgoenkauniversity.com/" target="_blank" rel="noopener noreferrer" class="hover:text-accent-color transition">GD Goenka University</a></p>
+                                </div>
+                                <img src="https://placehold.co/80x25/e5e7eb/a1a1aa?text=GDG" alt="GD Goenka Logo" class="h-6 opacity-60">
+                            </div>
+                            <p class="text-xs text-stone-500 mb-2">2015 - 2020</p>
+                            <ul class="text-sm text-stone-600 list-disc">
+                                <li>Graduated top of class with Distinction and Gold Medal honours.</li>
+                                <li>Awarded merit scholarship for three consecutive years for academic excellence.</li>
+                                <li>Gained foundational industry experience through internships in architectural design, BIM, and MEP coordination.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="timeline-container left scroll-animate slide-in-left">
+                        <div class="timeline-content">
+                            <div class="flex justify-between items-start mb-1">
+                                <div>
+                                    <h3>MSc. Built Environment</h3>
+                                    <p class="text-sm text-accent-color font-bold"><a href="https://www.ucl.ac.uk/" target="_blank" rel="noopener noreferrer" class="hover:text-accent-color transition">University College London (UCL)</a></p>
+                                </div>
+                                <img src="https://placehold.co/80x25/e5e7eb/a1a1aa?text=UCL" alt="UCL Logo" class="h-6 opacity-60">
+                            </div>
+                            <p class="text-xs text-stone-500 mb-2">2020 - 2021</p>
+                            <ul class="text-sm text-stone-600 list-disc">
+                                <li>Graduated with Merit Honours.</li>
+                                <li>Completed an industry-led dissertation with architecture firm <a href="https://www.haworthtompkins.com/" target="_blank" rel="noopener noreferrer">Haworth Tompkins</a>.</li>
+                                <li>Balanced academic commitments during the pandemic with a consultant role at <a href="https://www.verteltd.com/" target="_blank" rel="noopener noreferrer">Verte Ltd.</a> and professional development.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="timeline-container right scroll-animate slide-in-right">
+                        <div class="timeline-content">
+                            <div class="flex justify-between items-start mb-1">
+                                <div>
+                                    <h3>Graduate Consultant</h3>
+                                    <p class="text-sm text-accent-color font-bold"><a href="https://www.verteltd.com/" target="_blank" rel="noopener noreferrer" class="hover:text-accent-color transition">Verte Ltd.</a></p>
+                                </div>
+                                <img src="https://placehold.co/80x25/e5e7eb/a1a1aa?text=Verte" alt="Verte Logo" class="h-6 opacity-60">
+                            </div>
+                            <p class="text-xs text-stone-500 mb-2">May 2021 - Sept 2021</p>
+                            <ul class="text-sm text-stone-600 list-disc">
+                                <li>Developed energy models for Part L compliance, experimenting with novel strategies to meet LETI benchmarks.</li>
+                                <li>Formulated sustainability due-diligence studies for commercial real estate assets.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="timeline-container left scroll-animate slide-in-left">
+                        <div class="timeline-content">
+                            <div class="flex justify-between items-start mb-1">
+                                <div>
+                                    <h3>Graduate Engineer</h3>
+                                    <p class="text-sm text-accent-color font-bold"><a href="https://www.cundall.com/" target="_blank" rel="noopener noreferrer" class="hover:text-accent-color transition">Cundall</a></p>
+                                </div>
+                                <img src="https://placehold.co/80x25/e5e7eb/a1a1aa?text=Cundall" alt="Cundall Logo" class="h-6 opacity-60">
+                            </div>
+                            <p class="text-xs text-stone-500 mb-2">Sept 2021 - Aug 2023</p>
+                            <ul class="text-sm text-stone-600 list-disc">
+                                <li>Delivered performance modelling for diverse commercial assets.</li>
+                                <li>Led sustainability consulting for WELL & BREEAM, directly enhancing asset value and marketability.</li>
+                                <li>Conducted comfort studies to de-risk designs and inform investment decisions.</li>
+                            </ul>
+                        </div>
+                    </div>
+                     <div class="timeline-container right scroll-animate slide-in-right">
+                        <div class="timeline-content">
+                             <div class="flex justify-between items-start mb-1">
+                                <div>
+                                    <h3>Building Performance Engineer</h3>
+                                    <p class="text-sm text-accent-color font-bold"><a href="https://harleyhaddow.com/" target="_blank" rel="noopener noreferrer" class="hover:text-accent-color transition">Harley Haddow Ltd.</a></p>
+                                </div>
+                                <img src="https://placehold.co/80x25/e5e7eb/a1a1aa?text=HH" alt="Harley Haddow Logo" class="h-6 opacity-60">
+                            </div>
+                            <p class="text-xs text-stone-500 mb-2">Aug 2023 - April 2024</p>
+                            <ul class="text-sm text-stone-600 list-disc">
+                                <li>Specialised in creating 'digital twins' to guide strategic decisions for complex projects.</li>
+                                <li>Undertook CIBSE TM54 assessments and R&D for UK NABERS to verify asset performance against financial targets.</li>
+                            </ul>
+                        </div>
+                    </div>
+                     <div class="timeline-container left scroll-animate slide-in-left">
+                        <div class="timeline-content">
+                            <div class="flex justify-between items-start mb-1">
+                                <div>
+                                    <h3>Senior Engineer</h3>
+                                    <p class="text-sm text-accent-color font-bold"><a href="https://harleyhaddow.com/" target="_blank" rel="noopener noreferrer" class="hover:text-accent-color transition">Harley Haddow Ltd.</a></p>
+                                </div>
+                                <img src="https://placehold.co/80x25/e5e7eb/a1a1aa?text=HH" alt="Harley Haddow Logo" class="h-6 opacity-60">
+                            </div>
+                            <p class="text-xs text-stone-500 mb-2">April 2024 - Present</p>
+                            <ul class="text-sm text-stone-600 list-disc">
+                                <li>Leading decarbonisation strategies to inform long-term investment and asset management.</li>
+                                <li>Performing detailed HVAC modelling to validate capital expenditure and operational costs.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="timeline-container right scroll-animate slide-in-right">
+                        <div class="timeline-content">
+                            <div class="flex justify-between items-start mb-1">
+                                <div>
+                                    <h3>Sustainable Real Estate Program</h3>
+                                    <p class="text-sm text-accent-color font-bold"><a href="https://www.cisl.cam.ac.uk/" target="_blank" rel="noopener noreferrer" class="hover:text-accent-color transition">University of Cambridge (CISL)</a></p>
+                                </div>
+                                <img src="https://placehold.co/80x25/e5e7eb/a1a1aa?text=Cambridge" alt="Cambridge Logo" class="h-6 opacity-60">
+                            </div>
+                            <p class="text-xs text-stone-500 mb-2">Oct - Nov 2025</p>
+                            <ul class="text-sm text-stone-600 list-disc">
+                                <li>Pursuing the executive program to delve further into the realm of wider real estate.</li>
+                                <li>Focusing on the business and financial case for sustainability in the built environment.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-  <!-- CV & Contact -->
-  <section class="section reveal" id="cv">
-    <h2>CV and Contact</h2>
-    <div class="grid cards">
-      <article class="card">
-        <h3>One-page CV (consulting)</h3>
-        <p>Concise profile tailored to consulting and ESG roles.</p>
-        <!-- Replace with your file -->
-        <a class="btn" href="cv/Gaurav_Kataria_1Page_RealEstateCV.pdf">Download</a>
-      </article>
-      <article class="card">
-        <h3>Two-page CV</h3>
-        <p>Expanded experience with selected projects and responsibilities.</p>
-        <a class="btn secondary" href="#">Add file</a>
-      </article>
-      <article class="card">
-        <h3>Technical portfolio (PDF)</h3>
-        <p>Detailed case studies, methods and data considerations.</p>
-        <a class="btn secondary" href="#">Add file</a>
-      </article>
-    </div>
-  </section>
-</main>
+        <section id="portfolio" class="py-20 md:py-32">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-2xl mx-auto mb-16 scroll-animate fade-up">
+                    <h2 class="section-title">Featured Projects</h2>
+                    <p class="section-subtitle">A curated selection of projects demonstrating my ability to deliver tangible, data-driven outcomes for high-value assets.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="card scroll-animate scale-in">
+                        <img src="https://i.ibb.co/6P6XG2w/keystone.png" alt="Keystone Building" class="card-image">
+                        <div class="p-6 star-desc">
+                            <h4 class="card-title">The Keystone Building</h4>
+                            <div class="space-y-2">
+                                <p><strong>S:</strong> A £300M new-build university facility with ambitious operational energy targets to achieve for hand-over.</p>
+                                <p><strong>T:</strong> To guide value engineering decisions and optimize complex MEP system integration for the overall project.</p>
+                                <p><strong>A:</strong> Led the detailed HVAC modelling, developing a unique 5-tier natural and mechanical ventilation strategy.</p>
+                                <p><strong>R:</strong> Successfully de-risked the design, enabling millions in CAPEX savings with data-backed certainty.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card scroll-animate scale-in" style="transition-delay: 0.1s;">
+                        <img src="https://i.ibb.co/rws9R5V/riba-hq.png" alt="RIBA HQ" class="card-image">
+                        <div class="p-6 star-desc">
+                            <h4 class="card-title">RIBA HQ, London</h4>
+                            <div class="space-y-2">
+                                <p><strong>S:</strong> A £20M landmark refurbishment project aiming for a significant, market-leading carbon emissions reduction.</p>
+                                <p><strong>T:</strong> To develop a robust, data-driven MEP strategy to inform the client's long-term investment plan.</p>
+                                <p><strong>A:</strong> Created a granular 'digital twin' model, simulating 31 distinct AHUs to test various upgrade scenarios.</p>
+                                <p><strong>R:</strong> Enabled a projected 60% operational energy reduction, future-proofing this important London asset.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card scroll-animate scale-in" style="transition-delay: 0.2s;">
+                         <img src="https://i.ibb.co/y4c0f8P/5-st-philips.png" alt="5 St Philips Place" class="card-image">
+                         <div class="p-6 star-desc">
+                             <h4 class="card-title">5 St Philips Place</h4>
+                             <div class="space-y-2">
+                                 <p><strong>S:</strong> Repositioning a prime commercial asset to attract premium tenants in a highly competitive local market.</p>
+                                 <p><strong>T:</strong> To secure both high-performance (NABERS) and occupant wellbeing (WELL) building certifications.</p>
+                                 <p><strong>A:</strong> Led integrated analysis, developing strategies that balanced the competing demands of energy and health.</p>
+                                 <p><strong>R:</strong> Secured UK NABERS 4 Stars & WELL Gold, maximising asset appeal and increasing rental value.</p>
+                             </div>
+                         </div>
+                    </div>
+                    <div class="card scroll-animate scale-in" style="transition-delay: 0s;">
+                       <img src="https://i.ibb.co/3k8Hn77/royal-institution.png" alt="The Royal Institution, London" class="card-image">
+                       <div class="p-6 star-desc">
+                           <h4 class="card-title">The Royal Institution</h4>
+                            <div class="space-y-2">
+                                <p><strong>S:</strong> A Grade I listed historic building requiring a sensitive but effective decarbonisation pathway strategy.</p>
+                                <p><strong>T:</strong> To provide a clear, data-driven business case for a major HVAC plant refurbishment capital project.</p>
+                                <p><strong>A:</strong> Developed a calibrated energy model and simulated various plant replacement options (ASHP vs VRF).</p>
+                                <p><strong>R:</strong> Enabled a confident, informed capital allocation decision that balanced heritage with performance.</p>
+                            </div>
+                       </div>
+                   </div>
+                   <div class="card scroll-animate scale-in" style="transition-delay: 0.1s;">
+                       <img src="https://i.ibb.co/bX163z7/holywell-yard.png" alt="Holywell Yard, London" class="card-image">
+                       <div class="p-6 star-desc">
+                           <h4 class="card-title">Holywell Yard, London</h4>
+                           <div class="space-y-2">
+                               <p><strong>S:</strong> A new-build commercial office aiming for market-leading ESG credentials in the Shoreditch area.</p>
+                               <p><strong>T:</strong> To significantly surpass mandatory building regulations for energy and carbon performance targets.</p>
+                               <p><strong>A:</strong> Guided the performance modelling from early design stages to integrate high-efficiency systems.</p>
+                               <p><strong>R:</strong> The final design is projected to surpass the stringent Part L2 2021 regulations by over 35%.</p>
+                           </div>
+                       </div>
+                   </div>
+                   <div class="card scroll-animate scale-in" style="transition-delay: 0.2s;">
+                       <img src="https://i.ibb.co/n7P3QY2/northumberland-college.png" alt="Northumberland College" class="card-image">
+                       <div class="p-6 star-desc">
+                           <h4 class="card-title">Northumberland College</h4>
+                            <div class="space-y-2">
+                                <p><strong>S:</strong> A new DfE-funded college with a mandate to be a sustainability exemplar for the UK education sector.</p>
+                                <p><strong>T:</strong> To achieve Net Zero Carbon in Operation (NZCIO) from the very first day of the building's official opening.</p>
+                                <p><strong>A:</strong> Drove the entire NZCIO technical strategy, leading the detailed performance modelling design efforts.</p>
+                                <p><strong>R:</strong> Delivered a final design fully compliant with the ambitious NZCIO target, setting a new benchmark.</p>
+                            </div>
+                       </div>
+                   </div>
+                </div>
+            </div>
+        </section>
 
-<footer class="footer">
-  <div class="container">
-    London, United Kingdom · <a href="mailto:gaurav.kataria.ucl@gmail.com">gaurav.kataria.ucl@gmail.com</a> · © 2025 Gaurav Kataria
-  </div>
-</footer>
+        <section id="toolkit" class="py-20 md:py-32 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-2xl mx-auto mb-16 scroll-animate fade-up">
+                    <h2 class="section-title">My Toolkit</h2>
+                    <p class="section-subtitle">A snapshot of the primary software and analytical tools I use to deliver high-quality analysis and insights.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="bg-white p-6 rounded-lg border border-stone-200 shadow-lg h-full flex flex-col scroll-animate fade-up toolkit-card">
+                        <div class="flex items-center mb-4">
+                            <i data-lucide="line-chart" class="h-8 w-8 text-accent-color"></i>
+                            <h4 class="font-bold text-lg ml-3">Analytical</h4>
+                        </div>
+                        <ul class="space-y-3 text-sm text-stone-600">
+                           <li><i data-lucide="app-window" class="h-5 w-5 text-stone-500 flex-shrink-0"></i><span>IESVE (Virtual Environment)</span></li>
+                           <li><i data-lucide="app-window" class="h-5 w-5 text-stone-500 flex-shrink-0"></i><span>One-Click LCA</span></li>
+                           <li><i data-lucide="app-window" class="h-5 w-5 text-stone-500 flex-shrink-0"></i><span>THERM</span></li>
+                           <li><i data-lucide="app-window" class="h-5 w-5 text-stone-500 flex-shrink-0"></i><span>Ladybug Tools</span></li>
+                           <li><i data-lucide="app-window" class="h-5 w-5 text-stone-500 flex-shrink-0"></i><span>Python (Pandas, etc.)</span></li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg border border-stone-200 shadow-lg h-full flex flex-col scroll-animate fade-up toolkit-card" style="transition-delay: 0.1s;">
+                        <div class="flex items-center mb-4">
+                            <i data-lucide="cuboid" class="h-8 w-8 text-accent-color"></i>
+                            <h4 class="font-bold text-lg ml-3">Modelling & BIM</h4>
+                        </div>
+                        <ul class="space-y-3 text-sm text-stone-600">
+                            <li><i data-lucide="app-window" class="h-5 w-5 text-stone-500 flex-shrink-0"></i><span>Revit & Dynamo</span></li>
+                            <li><i data-lucide="app-window" class="h-5 w-5 text-stone-500 flex-shrink-0"></i><span>AutoCAD</span></li>
+                            <li><i data-lucide="app-window" class="h-5 w-5 text-stone-500 flex-shrink-0"></i><span>SketchUp</span></li>
+                            <li><i data-lucide="app-window" class="h-5 w-5 text-stone-500 flex-shrink-0"></i><span>Rhinoceros</span></li>
+                            <li><i data-lucide="app-window" class="h-5 w-5 text-stone-500 flex-shrink-0"></i><span>Navisworks</span></li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg border border-stone-200 shadow-lg h-full flex flex-col scroll-animate fade-up toolkit-card" style="transition-delay: 0.2s;">
+                        <div class="flex items-center mb-4">
+                            <i data-lucide="clapperboard" class="h-8 w-8 text-accent-color"></i>
+                            <h4 class="font-bold text-lg ml-3">Presentation & Viz</h4>
+                        </div>
+                        <ul class="space-y-3 text-sm text-stone-600">
+                           <li><i data-lucide="app-window" class="h-5 w-5 text-stone-500 flex-shrink-0"></i><span>3Ds Max & Corona</span></li>
+                           <li><i data-lucide="app-window" class="h-5 w-5 text-stone-500 flex-shrink-0"></i><span>V-Ray</span></li>
+                           <li><i data-lucide="app-window" class="h-5 w-5 text-stone-500 flex-shrink-0"></i><span>Lumion</span></li>
+                           <li><i data-lucide="app-window" class="h-5 w-5 text-stone-500 flex-shrink-0"></i><span>Twinmotion (UE)</span></li>
+                           <li><i data-lucide="app-window" class="h-5 w-5 text-stone-500 flex-shrink-0"></i><span>Adobe Creative Suite</span></li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg border border-stone-200 shadow-lg h-full flex flex-col scroll-animate fade-up toolkit-card" style="transition-delay: 0.3s;">
+                        <div class="flex items-center mb-4">
+                            <i data-lucide="puzzle" class="h-8 w-8 text-accent-color"></i>
+                            <h4 class="font-bold text-lg ml-3">Specialist IESVE Modules</h4>
+                        </div>
+                        <ul class="space-y-3 text-sm text-stone-600">
+                           <li><i data-lucide="app-window" class="h-5 w-5 text-stone-500 flex-shrink-0"></i><span>ApHVAC</span></li>
+                           <li><i data-lucide="app-window" class="h-5 w-5 text-stone-500 flex-shrink-0"></i><span>MacroFlo</span></li>
+                           <li><i data-lucide="app-window" class="h-5 w-5 text-stone-500 flex-shrink-0"></i><span>RadianceIES</span></li>
+                           <li><i data-lucide="app-window" class="h-5 w-5 text-stone-500 flex-shrink-0"></i><span>SunCast</span></li>
+                           <li><i data-lucide="app-window" class="h-5 w-5 text-stone-500 flex-shrink-0"></i><span>VistaPro & MicroFlo</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="tools" class="py-20 md:py-32">
+             <div class="container mx-auto px-6">
+                 <div class="text-center max-w-3xl mx-auto mb-16 scroll-animate fade-up">
+                     <h2 class="section-title">Innovation Hub: Digital Tools</h2>
+                     <p class="section-subtitle">Beyond industry-standard software, I develop bespoke web applications using Python and Machine Learning to accelerate analysis, enhance efficiency, and enable smarter, faster decision-making.</p>
+                 </div>
+                 <div class="grid md:grid-cols-2 gap-12 items-center">
+                     <div class="scroll-animate slide-in-left">
+                         <div class="bg-white p-8 rounded-lg border border-stone-200 shadow-lg text-center">
+                             <i data-lucide="sun" class="h-20 w-20 text-accent-color mx-auto mb-4"></i>
+                             <h3 class="text-2xl mb-3">Daylight Analysis Web App</h3>
+                             <p class="text-stone-600 mb-6">An interactive tool for rapid, early-stage daylight analysis, allowing for faster, data-informed decisions on façade design and massing.</p>
+                             <a href="https://hollobilling.streamlit.app/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Launch Application</a>
+                         </div>
+                     </div>
+                     <div class="scroll-animate slide-in-right">
+                          <div class="bg-white p-8 rounded-lg border border-stone-200 shadow-lg text-center">
+                             <i data-lucide="brain-circuit" class="h-20 w-20 text-accent-color mx-auto mb-4"></i>
+                             <h3 class="text-2xl mb-3">Surrogate AI Model for ASHP Sizing</h3>
+                             <p class="text-stone-600 mb-6">An AI/ML model trained to provide near-instantaneous Air Source Heat Pump sizing recommendations, accelerating feasibility assessments.</p>
+                             <a href="https://snowleopards.streamlit.app/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Launch Application</a>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+        </section>
 
-<script>
-/* Reveal on scroll */
-const io = new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.classList.add('show');
-      io.unobserve(e.target);
-    }
-  });
-},{threshold:0.12});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+         <section id="contact" class="bg-sienna-800 text-white py-20 md:py-32">
+            <div class="container mx-auto px-6 text-center max-w-2xl mx-auto scroll-animate fade-up">
+                 <div class="w-24 h-24 rounded-full mx-auto mb-8 border-4 border-sienna-400 bg-stone-50 flex items-center justify-center">
+                    <svg viewBox="0 0 100 100" class="w-16 h-16" aria-label="GK Logo">
+                        <text x="50%" y="50%" dominant-baseline="central" text-anchor="middle" font-family="Roboto, sans-serif" font-weight="700" font-size="50" fill="var(--accent-color)">GK</text>
+                    </svg>
+                 </div>
+                <h2 class="text-3xl md-text-4xl mb-6 text-stone-50">Let's Connect</h2>
+                <p class="text-lg text-sienna-100 mb-10">
+                    I am actively seeking opportunities to apply my analytical and strategic skills within a top-tier consulting or real estate investment firm.
+                </p>
+                <a href="mailto:gaurav.kataria.ucl@gmail.com" class="btn btn-light text-base">
+                    gaurav.kataria.ucl@gmail.com
+                </a>
+            </div>
+        </section>
+    </main>
 
-/* Active nav state */
-const navLinks = document.querySelectorAll('.nav a');
-navLinks.forEach(a=>a.addEventListener('click',()=>{
-  navLinks.forEach(n=>n.classList.remove('active'));
-  a.classList.add('active');
-}));
+    <footer class="py-8 bg-stone-100 border-t border-stone-200">
+        <div class="container mx-auto px-6 text-center text-stone-500 text-sm">
+            <p>&copy; 2025 Gaurav Kataria. All Rights Reserved.</p>
+        </div>
+    </footer>
 
-/* Tuck-in header on scroll */
-const header = document.querySelector('.site-header');
-function onScroll(){
-  if (window.scrollY > 80) header.classList.add('compact');
-  else header.classList.remove('compact');
-}
-document.addEventListener('scroll', onScroll, {passive:true});
-onScroll();
-</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile Menu Toggle
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+            
+            // Smooth Scrolling for Nav Links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Lucide Icons
+            lucide.createIcons();
+
+            // Scroll-triggered Animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Stop observing after animation
+                    }
+                });
+            }, {
+                threshold: 0.1 // Animate when 10% of the element is in view
+            });
+
+            const elementsToAnimate = document.querySelectorAll('.scroll-animate');
+            elementsToAnimate.forEach((el) => observer.observe(el));
+        });
+    </script>
 </body>
 </html>
