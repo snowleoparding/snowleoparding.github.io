@@ -1,359 +1,417 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gaurav Kataria | Portfolio Dashboard</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=0.80" />
+  <title>Gaurav Kataria | Portfolio Dashboard</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
 
-    <style>
-        body { font-family: 'Roboto', sans-serif; }
-        h1, h2, h3, h4, h5, h6, .font-display { font-family: 'Plus Jakarta Sans', sans-serif; }
-        
-        @keyframes progress-circle {
-            from { stroke-dashoffset: 327; } /* Circumference for r=52 */
-            to { stroke-dashoffset: var(--stroke-offset); }
-        }
-        .progress-circle.animate {
-            animation: progress-circle 1.5s ease-out forwards;
-        }
+  <style>
+    /* ----------------- Fonts ----------------- */
+    body{ font-family:'Roboto',sans-serif; }
+    h1,h2,h3,h4,h5,h6,.font-display{ font-family:'Plus Jakarta Sans',sans-serif; }
 
-        /* Custom CSS for two-column mobile menu */
-        @media screen and (max-width: 767px) {
-            #sidebar-nav {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 0.25rem; /* small gap between menu items */
-            }
-        }
-    </style>
+    /* ----------------- Light theme tokens ----------------- */
+    :root{
+      --bg:#F7F7FC;
+      --text:#0f172a;
+      --subtle:#6b7280;
+      --card:#ffffff;
+      --border:#e5e7eb;
+      --accent:#f59e0b;
+
+      /* darker aurora colours */
+      --glow-1: 255, 179, 64;  /* amber */
+      --glow-2: 28, 78, 216;   /* royal blue */
+      --glow-3: 6, 182, 212;   /* cyan */
+      --aurora-opacity-1: .16; /* bump up to .22 for stronger */
+      --aurora-opacity-2: .14;
+      --aurora-blur: 46px;     /* 46–72px looks nice */
+    }
+    body{ background:var(--bg); color:var(--text); }
+
+    /* ----------------- Aurora (darker) ----------------- */
+    .aurora{
+      pointer-events:none; position:fixed; inset:-10vh -10vw -10vh -10vw; z-index:-1;
+      filter:blur(var(--aurora-blur)) saturate(120%);
+    }
+    .aurora::before,.aurora::after{
+      content:""; position:absolute; inset:0;
+      background:
+        radial-gradient(62rem 38rem at 12% 8%, rgba(var(--glow-1),var(--aurora-opacity-1)) 0%, rgba(var(--glow-1),0) 55%),
+        radial-gradient(60rem 36rem at 85% 18%, rgba(var(--glow-2),var(--aurora-opacity-2)) 0%, rgba(var(--glow-2),0) 60%),
+        radial-gradient(68rem 44rem at 22% 88%, rgba(var(--glow-3),var(--aurora-opacity-2)) 0%, rgba(var(--glow-3),0) 60%);
+      animation: drift 36s linear infinite;
+      mix-blend-mode: screen;
+    }
+    .aurora::after{ animation-duration: 48s; animation-direction: reverse; opacity:.9; }
+    @keyframes drift{
+      0%{ transform:translate3d(0,0,0) rotate(0deg) }
+      50%{ transform:translate3d(0,-2%,0) rotate(2deg) }
+      100%{ transform:translate3d(0,0,0) rotate(0deg) }
+    }
+
+    /* ----------------- Card polish ----------------- */
+    .card{
+      background:linear-gradient(180deg,var(--card) 0%,color-mix(in oklab,var(--card),transparent 2%) 100%);
+      border:1px solid var(--border) !important;
+      box-shadow:0 1px 0 rgba(0,0,0,.02), 0 12px 32px -18px rgba(2,8,23,.25);
+      transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    .card:hover{
+      transform:translateY(-3px);
+      border-color:color-mix(in oklab,var(--border),var(--text) 10%);
+      box-shadow:0 2px 0 rgba(0,0,0,.02), 0 24px 48px -22px rgba(2,8,23,.40);
+    }
+
+    /* ----------------- Sticky topbar + progress ----------------- */
+    #topbar{ position:sticky; top:1rem; }
+    #scroll-progress{
+      position:fixed; top:0; left:0; height:3px; width:0; z-index:50;
+      background:linear-gradient(90deg,#f59e0b,#7c3aed,#06b6d4);
+      box-shadow:0 0 14px rgba(245,158,11,.6);
+      transition:width .15s linear;
+    }
+
+    /* ----------------- Sidebar nav ----------------- */
+    /* two-column on mobile */
+    @media (max-width:767px){
+      #sidebar-nav{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.25rem; }
+    }
+    /* default link */
+    .nav-link{
+      color:#1f2937; /* readable grey-800 */
+    }
+    .nav-link:hover{ background:#f3f4f6; } /* stone-100 */
+    /* ACTIVE: high contrast, white text/icons on navy chip */
+    .nav-link.active{
+      background:#0f172a !important;  /* slate-900 */
+      color:#ffffff !important;
+    }
+
+    /* ----------------- Donut animation ----------------- */
+    @keyframes progress-circle{ from{stroke-dashoffset:327} to{stroke-dashoffset:var(--stroke-offset)} }
+    .progress-circle.animate{ animation: progress-circle 1.2s ease-out forwards; }
+  </style>
 </head>
-<body class="bg-stone-50 text-stone-900">
+<body>
+  <div class="aurora" aria-hidden="true"></div>
+  <div id="scroll-progress"></div>
 
-    <div class="mx-auto max-w-7xl p-3 sm:p-4 grid grid-cols-1 md:grid-cols-[320px_1fr] gap-4">
-        
-        <aside class="rounded-xl border border-stone-200 bg-white shadow-sm lg:sticky lg:top-4 lg:self-start p-2">
-            <div class="p-2 flex items-center gap-4">
-                <img src="./images/GK.jpg" alt="Gaurav Kataria" class="h-12 w-12 rounded-full object-cover border-2 border-amber-500">
-                <div>
-                    <p class="font-bold leading-tight font-display">Gaurav Kataria</p>
-                    <p class="text-xs text-stone-500">Strategic Real Estate & Building Performance Analysis</p>
-                </div>
-            </div>
-            <hr class="my-2 border-stone-200">
-            <nav class="p-2" id="sidebar-nav">
-            </nav>
-            <hr class="my-2 border-stone-200">
-            <div class="p-2 space-y-2">
-                <a href="./images/CV.pdf" download class="w-full bg-stone-800 hover:bg-stone-950 text-white text-sm font-medium py-2 px-4 rounded-lg flex items-center justify-center">
-                    <i data-lucide="download" class="mr-2 h-4 w-4"></i>Download CV
-                </a>
-                <a href="mailto:gaurav.kataria.ucl@gmail.com" class="w-full bg-white hover:bg-stone-100 border border-stone-200 text-stone-800 text-sm font-medium py-2 px-4 rounded-lg flex items-center justify-center">
-                    <i data-lucide="mail" class="mr-2 h-4 w-4"></i>Email Me
-                </a>
-            </div>
-        </aside>
+  <div class="mx-auto max-w-7xl p-3 sm:p-4 grid grid-cols-1 md:grid-cols-[320px_1fr] gap-4">
 
-        <main class="flex flex-col gap-4">
-            <header class="rounded-xl border border-stone-200 bg-white/80 backdrop-blur-sm shadow-sm px-4 py-3 flex items-center gap-3 sticky top-4 z-10">
-                <i data-lucide="layout-dashboard" class="h-5 w-5 text-amber-600 flex-none"></i>
-                <h1 class="text-base font-bold tracking-tight whitespace-nowrap font-display">Portfolio Dashboard</h1>
-            </header>
-
-            <div class="flex flex-col gap-4">
-                <section id="overview" class="scroll-mt-20">
-                    <div id="kpi-container" class="grid sm:grid-cols-2 xl:grid-cols-4 gap-4">
-                    </div>
-                </section>
-
-                <section id="about" class="scroll-mt-20">
-                    <div class="rounded-xl border border-stone-200 bg-white shadow-sm p-4 sm:p-6">
-                        <div class="flex items-center gap-2 mb-4">
-                            <i data-lucide="sun-medium" class="h-4 w-4 text-amber-600"></i>
-                            <h3 class="text-lg font-bold tracking-tight font-display">My Approach</h3>
-                        </div>
-                        <p class="text-sm text-stone-700 text-justify mb-6">My career sits at the intersection of design, sustainability, and financial performance. By integrating rigorous technical analysis at the earliest design phases, I develop holistic strategies that ensure architectural concepts are buildable, sustainable, and commercially viable; maximising asset value and minimising risk.</p>
-                        <div id="approach-container" class="grid sm:grid-cols-3 gap-4">
-                        </div>
-                    </div>
-                </section>
-
-                <section id="capabilities" class="scroll-mt-20">
-                    <div class="rounded-xl border border-stone-200 bg-white shadow-sm p-4 sm:p-6">
-                         <div class="flex items-center justify-between gap-4 mb-4">
-                            <div class="flex items-center gap-2">
-                                <i data-lucide="cpu" class="h-4 w-4 text-amber-600"></i>
-                                <h3 class="text-lg font-bold tracking-tight font-display">Capability Focus</h3>
-                            </div>
-                            <span class="text-xs text-stone-500 whitespace-nowrap">Self-assessment</span>
-                        </div>
-                        <div id="skills-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 text-center">
-                        </div>
-                    </div>
-                </section>
-
-                <section id="journey" class="scroll-mt-20">
-                    <div class="rounded-xl border border-stone-200 bg-white shadow-sm p-4 sm:p-6">
-                        <div class="flex items-center gap-2 mb-4">
-                            <i data-lucide="school" class="h-4 w-4 text-amber-600"></i>
-                            <h3 class="text-lg font-bold tracking-tight font-display">My Journey</h3>
-                        </div>
-                        <div class="w-full space-y-4" id="journey-container">
-                        </div>
-                    </div>
-                </section>
-                
-                <section id="projects" class="scroll-mt-20">
-                     <div class="rounded-xl border border-stone-200 bg-white shadow-sm p-4 sm:p-6">
-                         <div class="flex items-center gap-2 mb-4">
-                            <i data-lucide="briefcase" class="h-4 w-4 text-amber-600"></i>
-                            <h3 class="text-lg font-bold tracking-tight font-display">Featured Projects</h3>
-                         </div>
-                         <div id="projects-container" class="grid md:grid-cols-2 gap-4">
-                         </div>
-                    </div>
-                </section>
-
-                <section id="certs" class="scroll-mt-20">
-                    <div class="rounded-xl border border-stone-200 bg-white shadow-sm p-4 sm:p-6">
-                        <div class="flex items-center gap-2 mb-4">
-                           <i data-lucide="badge-check" class="h-4 w-4 text-amber-600"></i>
-                           <h3 class="text-lg font-bold tracking-tight font-display">Accreditations & Memberships</h3>
-                        </div>
-                        <div id="certs-container" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-3">
-                        </div>
-                    </div>
-                </section>
-
-                <div class="grid sm:grid-cols-2 gap-4">
-                    <section id="apps" class="scroll-mt-20">
-                         <div class="rounded-xl border border-stone-200 bg-white shadow-sm p-4 sm:p-6 h-full">
-                             <div class="flex items-center gap-2 mb-4">
-                                <i data-lucide="app-window" class="h-4 w-4 text-amber-600"></i>
-                                <h3 class="text-lg font-bold tracking-tight font-display">Innovation Hub: Digital Tools</h3>
-                             </div>
-                             <div class="space-y-4">
-                                 <div class="text-center p-4">
-                                     <i data-lucide="sun-medium" class="h-12 w-12 text-amber-600 mx-auto mb-3"></i>
-                                     <h4 class="font-bold text-sm font-display">External Lighting Analysis Web App</h4>
-                                     <p class="text-xs text-stone-600 mt-1">Rapid early-stage external lighting energy analysis.</p>
-                                     <a href="https://hollobilling.streamlit.app/" target="_blank" rel="noreferrer" class="mt-3 h-8 inline-flex items-center justify-center text-xs font-medium px-3 rounded-md border border-stone-200 hover:bg-stone-100">
-                                         <i data-lucide="external-link" class="mr-2 h-3 w-3"></i>Launch App
-                                     </a>
-                                 </div>
-                                 <hr class="border-stone-200">
-                                 <div class="text-center p-4">
-                                     <i data-lucide="cpu" class="h-12 w-12 text-amber-600 mx-auto mb-3"></i>
-                                     <h4 class="font-bold text-sm font-display">Surrogate ML Model for ASHP Sizing</h4>
-                                     <p class="text-xs text-stone-600 mt-1">AI model for instant Air Source Heat Pump & Thermal Store sizing.</p>
-                                     <a href="https://snowleopards.streamlit.app/" target="_blank" rel="noreferrer" class="mt-3 h-8 inline-flex items-center justify-center text-xs font-medium px-3 rounded-md border border-stone-200 hover:bg-stone-100">
-                                         <i data-lucide="external-link" class="mr-2 h-3 w-3"></i>Launch App
-                                     </a>
-                                 </div>
-                             </div>
-                          </div>
-                    </section>
-                    <section id="toolkit" class="scroll-mt-20">
-                         <div class="rounded-xl border border-stone-200 bg-white shadow-sm p-4 sm:p-6 h-full">
-                             <div class="flex items-center gap-2 mb-4">
-                                <i data-lucide="wrench" class="h-4 w-4 text-amber-600"></i>
-                                <h3 class="text-lg font-bold tracking-tight font-display">Core Toolkit</h3>
-                             </div>
-                             <div id="toolkit-container" class="space-y-4">
-                             </div>
-                         </div>
-                    </section>
-                </div>
-            </div>
-            <footer class="py-4 text-center text-xs text-stone-500">
-                © 2025 Gaurav Kataria. All Rights Reserved.
-            </footer>
-        </main>
-    </div>
-
-<script>
-/* -------------------------------------------------------------------------- */
-/* DATA (UPDATED)                                                             */
-/* -------------------------------------------------------------------------- */
-const navItems = [
-    { label: "Overview", icon: "layout-dashboard", href: "#overview" }, { label: "About", icon: "sun-medium", href: "#about" },
-    { label: "Capabilities", icon: "cpu", href: "#capabilities" }, { label: "Journey", icon: "school", href: "#journey" },
-    { label: "Projects", icon: "briefcase", href: "#projects" }, { label: "Accreditations", icon: "badge-check", href: "#certs" },
-    { label: "Toolkit & Apps", icon: "wrench", href: "#apps" },
-];
-const projects = [
-  { name: "The Keystone Building", image: "images/keystone.jpg", s: "A £300M new-build university facility with ambitious operational energy targets.", t: "Guide value engineering decisions and undertake the complex HVAC system integration.", a: "Led detailed HVAC modelling, developing a unique 5-tier natural and mechanical ventilation strategy.", r: "Modelling was pivotal in VE decisions, delivering multi-million CAPEX savings with simulation-backed data." },
-  { name: "House of Architecture", image: "images/riba.jpg", s: "A £20M landmark refurbishment aiming for a market-leading carbon emissions reduction.", t: "Develop a robust, data-driven MEP strategy to inform the client's long-term investment plan.", a: "Created a granular HVAC dynamic thermal model, simulating 31 distinct AHUs and MVHRs.", r: "My analysis enabled a projected 60% operational energy reduction, helping decarbonize this key asset." },
-  { name: "5 St Philips Place", image: "images/st-philips.jpg", s: "Repositioning a prime commercial asset to attract premium tenants in a competitive market.", t: "Secure both NABERS (performance) and WELL (wellbeing) certifications to drive asset value.", a: "Led integrated modelling analysis, developing strategies that balanced the competing demands of energy and health.", r: "Achieved UK NABERS 4 Stars (DfP) & WELL Gold, maximising asset appeal and increasing rental value." },
-  { name: "The Royal Institution", image: "images/royal-institution.jpg", s: "A Grade I listed historic building requiring a sensitive but effective decarbonisation pathway.", t: "Provide a clear, modelling-driven business case for a major HVAC plant refurbishment project.", a: "Developed a calibrated energy model and simulated various plant replacement options.", r: "Enabled a confident, simulation-informed capital allocation decision balancing heritage with performance." },
-  { name: "Holywell Yard", image: "images/holywell.jpg", s: "A new-build commercial office aiming for market-leading ESG credentials in Shoreditch.", t: "Significantly surpass mandatory building regulations for energy and carbon performance targets.", a: "Guided performance modelling from early design stages to integrate high-efficiency systems and flag risks.", r: "The final design is projected to surpass the stringent Part L2 2021 regulations by over 35%." },
-  { name: "Northumberland College", image: "images/northumberland.jpg", s: "A new DfE-funded college with a mandate to be a sustainability exemplar for the UK education sector.", t: "Achieve Net Zero Carbon in Operation (NZCiO) from the very first year of the building's opening.", a: "Drove the entire NZCiO modelling strategy, leading detailed performance modelling efforts.", r: "Simulation-tested design is expected to be fully compliant with the ambitious NZCiO target." },
-];
-const approachPillars = [
-    { icon: "badge-check", title: "Foundation", text: "A rigorous, gold-medal foundation in architecture, providing a core understanding of design, spatial reasoning, and buildability." },
-    { icon: "bar-chart-3", title: "Analytical Expertise", text: "Knowledge of high-performance building science and data-driven simulation from post-graduate studies at The Bartlett, UCL." },
-    { icon: "briefcase", title: "Commercial Acumen", text: "A sharp focus on translating complex technical data into tangible commercial outcomes that drive asset value." },
-];
-const kpi = [
-  { label: "Featured Projects", value: projects.length, delta: "Commercial & Institutional" }, { label: "Certifications", value: 12, delta: "Chartered Engineer & Architect" },
-  { label: "Key Specialisms", value: "Modelling", delta: "Integrated design" }, { label: "Experience", value: "5 Years", delta: "(across India and UK&I)" },
-];
-const skills = [
-  { subject: "HVAC Modelling", A: 95 }, { subject: "Energy Strategy", A: 90 }, { subject: "Commercial Acumen", A: 85 }, { subject: "Data Science", A: 70 },
-  { subject: "Life Cycle Analysis", A: 70 }, { subject: "Comfort & Health", A: 88 },
-];
-const journey = [
-  { title: "A-Levels Equivalent", org: "Delhi Public School", url: "https://www.dpsgurgaon.org/", logo: "images/logo-dps.png", dates: "2013", points: ["Achieved grades AAAB; providing a strong academic foundation.", "Received the Sports Scholar award, being in the first batch of 18 students to be ever given the same."] },
-  { title: "Bachelor of Architecture", org: "GD Goenka University", url: "https://www.gdgoenkauniversity.com/", logo: "images/logo-gdg.png", dates: "2015 – 2020", points: ["Graduated top of class with Distinction and Gold Medal honours.", "Awarded merit scholarship for three consecutive years for academic excellence.", "Gained foundational industry experience through internships in architectural design, BIM, and MEP coordination."] },
-  { title: "MSc. Built Environment: Environmental Design and Engineering", org: "University College London (UCL)", url: "https://www.ucl.ac.uk/", logo: "images/logo-ucl.png", dates: "2020 – 2021", points: ["Graduated with Merit Honours.", "Industry-led dissertation awardee with architecture firm Haworth Tompkins.", "Balanced academic commitments with a consultant role and extensive professional development."] },
-  { title: "Graduate Energy & Carbon Consultant", org: "Verte, London", url: "https://www.verteltd.com/", logo: "images/logo-verte.png", dates: "May 2021 – Sept 2021", points: ["Developed energy models for Part L compliance, experimenting with novel strategies to meet LETI benchmarks.", "Formulated sustainability due-diligence studies for commercial real estate assets."] },
-  { title: "Graduate Sustainability & Building Physics Engineer", org: "Cundall, Birmingham", url: "https://www.cundall.com/", logo: "images/logo-cundall.png", dates: "Sept 2021 – Aug 2023", points: ["Delivered performance modelling for diverse commercial assets.", "Led sustainability consulting for WELL & BREEAM, directly enhancing asset value and marketability.", "Conducted comfort studies to de-risk designs and inform investment decisions."] },
-  { title: "Building Performance Engineer", org: "Harley Haddow, London", url: "https://harleyhaddow.com/", logo: "images/logo-harleyhaddow.png", dates: "Aug 2023 – Apr 2024", points: ["Specialised in creating 'digital twins' to guide strategic decisions for complex projects.", "Undertook CIBSE TM54 assessments and R&D for UK NABERS to verify asset performance against financial targets."] },
-  { title: "Senior Engineer (Building Performance)", org: "Harley Haddow, London", url: "https://harleyhaddow.com/", logo: "images/logo-harleyhaddow.png", dates: "Apr 2024 – Present", points: ["Leading decarbonisation strategies to inform long-term investment and asset management.", "Performing detailed HVAC modelling to validate capital expenditure and operational costs."] },
-  { title: "Sustainable Real Estate Program", org: "University of Cambridge (CISL)", url: "https://www.cisl.cam.ac.uk/", logo: "images/logo-cambridge.png", dates: "Oct – Nov 2025", points: ["Pursuing the executive program to delve further into the realm of wider real estate.", "Focusing on the business and financial case for sustainability in the built environment."] },
-];
-const certs = [
-  { icon: "badge-check", name: "Chartered Engineer (CEng)", org: "Engineering Council UK", url: "https://www.engc.org.uk/" }, { icon: "badge-check", name: "European Engineer (EUR ING)", org: "Engineers Europe", url: "https://www.engineerseurope.com/" },
-  { icon: "badge-check", name: "WELL Accredited Professional", org: "IWBI", url: "https://www.wellcertified.com/" }, { icon: "building", name: "LCC - Building Design", org: "CIBSE Certification Ltd", url: "https://www.cibsecertification.co.uk/" },
-  { icon: "building", name: "LCC - Simulation", org: "CIBSE Certification Ltd", url: "https://www.cibsecertification.co.uk/" }, { icon: "building", name: "Low Carbon Energy Assessor", org: "CIBSE Certification Ltd", url: "https://www.cibsecertification.co.uk/" },
-  { icon: "user-check", name: "MCIBSE (Member)", org: "CIBSE", url: "https://www.cibse.org/" }, { icon: "user-check", name: "Full Member", org: "ASHRAE", url: "https://www.ashrae.org/" },
-  { icon: "recycle", name: "One Click LCA Certified", org: "One Click LCA Summer School; 2021", url: "https://www.oneclicklca.com/" }, { icon: "database", name: "Data Science Professional", org: "IBM", url: "https://www.ibm.com/" },
-  { icon: "pen-tool", name: "Licensed Architect", org: "Council of Architecture, India", url: "https://www.coa.gov.in/" }, { icon: "graduation-cap", name: "Linear Algebra & Data Structures", org: "IIT, Roorkee (IIT-R)", url: "https://www.iitr.ac.in/" },
-];
-const toolkitData = [
-  { group: "Analytical", items: ["IESVE (Virtual Environment)", "One-Click LCA", "THERM", "Ladybug Tools", "Python (Pandas, etc.)"] }, { group: "Modelling & BIM", items: ["Revit", "AutoCAD", "SketchUp", "Rhinoceros", "Navisworks"] },
-  { group: "Presentation & Viz", items: ["3Ds Max & Corona", "V-Ray", "Lumion", "Twinmotion (UE)", "Adobe Creative Suite"] }, { group: "Specialist IESVE", items: ["ApHVAC", "MacroFlo", "RadianceIES", "SunCast", "VistaPro & MicroFlo"] },
-];
-
-/* -------------------------------------------------------------------------- */
-/* DYNAMIC CONTENT RENDERING                                                  */
-/* -------------------------------------------------------------------------- */
-document.addEventListener('DOMContentLoaded', () => {
-    const navContainer = document.getElementById('sidebar-nav');
-    // CHANGE: Added logic to conditionally hide 'Overview' on mobile
-    navContainer.innerHTML = navItems.map(i => {
-        const responsiveClass = i.label === 'Overview' ? 'hidden md:flex' : 'flex';
-        return `
-        <a href="${i.href}" class="${responsiveClass} items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-stone-600 hover:bg-stone-100 transition-colors">
-            <i data-lucide="${i.icon}" class="h-4 w-4"></i><span>${i.label}</span>
-        </a>`;
-    }).join('');
-
-    const kpiContainer = document.getElementById('kpi-container');
-    kpiContainer.innerHTML = kpi.map(k => `
-        <div class="rounded-xl border border-stone-200 bg-white shadow-sm p-4">
-            <h4 class="text-sm font-medium text-stone-500 font-display">${k.label}</h4>
-            <div class="text-2xl font-bold mt-1">${k.value}</div>
-            <p class="text-xs text-stone-500 mt-1">${k.delta}</p>
-        </div>`).join('');
-    
-    const approachContainer = document.getElementById('approach-container');
-    approachContainer.innerHTML = approachPillars.map(p => `
-        <div class="rounded-lg bg-stone-100 p-4 border border-stone-200 hover:border-stone-300 hover:shadow-md transition-all">
-            <i data-lucide="${p.icon}" class="h-10 w-10 text-amber-600 mb-3"></i>
-            <h4 class="font-bold font-display">${p.title}</h4>
-            <p class="text-xs text-stone-600 mt-1 text-justify">${p.text}</p>
+    <!-- SIDEBAR -->
+    <aside class="rounded-xl card lg:sticky lg:top-4 lg:self-start p-2">
+      <div class="p-3 flex items-center gap-4">
+        <div class="relative">
+          <img src="./images/GK.jpg" alt="Gaurav Kataria" class="h-12 w-12 rounded-full object-cover ring-2 ring-amber-400/70">
+          <span class="absolute -bottom-1 -right-1 h-3 w-3 rounded-full bg-emerald-500 ring-2 ring-white"></span>
         </div>
-    `).join('');
-
-    const skillsContainer = document.getElementById('skills-container');
-    skillsContainer.innerHTML = skills.map(s => {
-        const circumference = 52 * 2 * Math.PI;
-        const offset = circumference - (s.A / 100) * circumference;
-        return `
         <div>
-            <svg class="w-full h-auto" viewBox="0 0 120 120">
-                <circle class="text-stone-200" stroke-width="8" stroke="currentColor" fill="transparent" r="52" cx="60" cy="60" />
-                <circle class="text-amber-600 progress-circle"
-                    style="--stroke-offset: ${offset};"
-                    stroke-width="8" stroke-dasharray="${circumference}" stroke-dashoffset="${circumference}"
-                    stroke-linecap="round" stroke="currentColor" fill="transparent" r="52" cx="60" cy="60"
-                    transform="rotate(-90 60 60)" />
-                <text x="60" y="60" class="font-bold text-xl font-display" text-anchor="middle" dy=".3em">${s.A}%</text>
-            </svg>
-            <p class="text-xs font-bold mt-2 text-center">${s.subject}</p>
+          <p class="font-bold leading-tight font-display">Gaurav Kataria</p>
+          <p class="text-[11px] text-stone-500">Strategic Real Estate & Building Performance Analysis</p>
         </div>
-        `
-    }).join('');
-    
-    const journeyContainer = document.getElementById('journey-container');
-    journeyContainer.innerHTML = journey.map(j => `
-        <div class="rounded-lg border border-stone-200 bg-stone-50 p-4">
-             <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                <div class="flex items-center gap-4">
-                    <img src="${j.logo}" alt="${j.org} logo" class="h-8 w-20 object-contain flex-shrink-0 grayscale opacity-70 transition-all duration-300 hover:grayscale-0 hover:opacity-100">
-                    <div>
-                        <h4 class="font-bold font-display">${j.title}</h4>
-                        <a href="${j.url}" target="_blank" rel="noreferrer" class="text-xs font-bold text-amber-700 hover:underline">${j.org}</a>
-                    </div>
-                </div>
-                <div class="text-xs font-semibold bg-stone-200 text-stone-700 px-2 py-1 rounded-md whitespace-nowrap self-start sm:self-center">${j.dates}</div>
+      </div>
+      <hr class="my-2 border-stone-200">
+      <nav class="p-2" id="sidebar-nav"></nav>
+      <hr class="my-2 border-stone-200">
+      <div class="p-2 space-y-2">
+        <a href="./images/CV.pdf" download class="w-full bg-stone-900 hover:bg-black text-white text-sm font-medium py-2 px-4 rounded-lg flex items-center justify-center">
+          <i data-lucide="download" class="mr-2 h-4 w-4"></i>Download CV
+        </a>
+        <a href="mailto:gaurav.kataria.ucl@gmail.com" class="w-full bg-white hover:bg-stone-100 border border-stone-200 text-stone-800 text-sm font-medium py-2 px-4 rounded-lg flex items-center justify-center">
+          <i data-lucide="mail" class="mr-2 h-4 w-4"></i>Email Me
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="flex flex-col gap-4">
+      <header id="topbar" class="rounded-xl card px-4 py-3 flex items-center gap-3 z-10">
+        <i data-lucide="layout-dashboard" class="h-5 w-5 text-amber-600 flex-none"></i>
+        <h1 class="text-base font-bold tracking-tight whitespace-nowrap font-display">Portfolio Dashboard</h1>
+      </header>
+
+      <div class="flex flex-col gap-4">
+        <section id="overview" class="scroll-mt-24">
+          <div id="kpi-container" class="grid sm:grid-cols-2 xl:grid-cols-4 gap-4"></div>
+        </section>
+
+        <section id="about" class="scroll-mt-24">
+          <div class="rounded-xl card p-4 sm:p-6">
+            <div class="flex items-center gap-2 mb-4">
+              <i data-lucide="sun-medium" class="h-4 w-4 text-amber-600"></i>
+              <h3 class="text-lg font-bold tracking-tight font-display">My Approach</h3>
             </div>
-            <ul class="mt-3 list-disc pl-5 text-sm text-stone-700 space-y-1 text-justify">
-                ${j.points.map(p => `<li>${p}</li>`).join('')}
-            </ul>
+            <p class="text-sm text-stone-700 text-justify">
+              My career sits at the intersection of design, sustainability, and financial performance. By integrating rigorous technical analysis at the earliest design phases, I develop holistic strategies that ensure architectural concepts are buildable, sustainable, and commercially viable; maximising asset value and minimising risk.
+            </p>
+            <div id="approach-container" class="grid sm:grid-cols-3 gap-4 mt-6"></div>
+          </div>
+        </section>
+
+        <section id="capabilities" class="scroll-mt-24">
+          <div class="rounded-xl card p-4 sm:p-6">
+            <div class="flex items-center justify-between gap-4 mb-4">
+              <div class="flex items-center gap-2">
+                <i data-lucide="cpu" class="h-4 w-4 text-amber-600"></i>
+                <h3 class="text-lg font-bold tracking-tight font-display">Capability Focus</h3>
+              </div>
+              <span class="text-xs text-stone-500 whitespace-nowrap">Self-assessment</span>
+            </div>
+            <div id="skills-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 text-center"></div>
+          </div>
+        </section>
+
+        <section id="journey" class="scroll-mt-24">
+          <div class="rounded-xl card p-4 sm:p-6">
+            <div class="flex items-center gap-2 mb-4">
+              <i data-lucide="school" class="h-4 w-4 text-amber-600"></i>
+              <h3 class="text-lg font-bold tracking-tight font-display">My Journey</h3>
+            </div>
+            <div class="w-full space-y-4" id="journey-container"></div>
+          </div>
+        </section>
+
+        <section id="projects" class="scroll-mt-24">
+          <div class="rounded-xl card p-4 sm:p-6">
+            <div class="flex items-center gap-2 mb-4">
+              <i data-lucide="briefcase" class="h-4 w-4 text-amber-600"></i>
+              <h3 class="text-lg font-bold tracking-tight font-display">Featured Projects</h3>
+            </div>
+            <div id="projects-container" class="grid md:grid-cols-2 gap-4"></div>
+          </div>
+        </section>
+
+        <section id="certs" class="scroll-mt-24">
+          <div class="rounded-xl card p-4 sm:p-6">
+            <div class="flex items-center gap-2 mb-4">
+              <i data-lucide="badge-check" class="h-4 w-4 text-amber-600"></i>
+              <h3 class="text-lg font-bold tracking-tight font-display">Accreditations & Memberships</h3>
+            </div>
+            <div id="certs-container" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-3"></div>
+          </div>
+        </section>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <section id="apps" class="scroll-mt-24">
+            <div class="rounded-xl card p-4 sm:p-6 h-full">
+              <div class="flex items-center gap-2 mb-4">
+                <i data-lucide="app-window" class="h-4 w-4 text-amber-600"></i>
+                <h3 class="text-lg font-bold tracking-tight font-display">Innovation Hub: Digital Tools</h3>
+              </div>
+              <div class="space-y-4">
+                <div class="text-center p-4">
+                  <i data-lucide="sun-medium" class="h-12 w-12 text-amber-600 mx-auto mb-3"></i>
+                  <h4 class="font-bold text-sm font-display">External Lighting Analysis Web App</h4>
+                  <p class="text-xs text-stone-600 mt-1">Rapid early-stage external lighting energy analysis.</p>
+                  <a href="https://hollobilling.streamlit.app/" target="_blank" rel="noreferrer"
+                     class="mt-3 h-8 inline-flex items-center justify-center text-xs font-medium px-3 rounded-md border border-stone-200 hover:bg-stone-100">
+                    <i data-lucide="external-link" class="mr-2 h-3 w-3"></i>Launch App
+                  </a>
+                </div>
+                <hr class="border-stone-200">
+                <div class="text-center p-4">
+                  <i data-lucide="cpu" class="h-12 w-12 text-amber-600 mx-auto mb-3"></i>
+                  <h4 class="font-bold text-sm font-display">Surrogate ML Model for ASHP Sizing</h4>
+                  <p class="text-xs text-stone-600 mt-1">AI model for instant ASHP & Thermal Store sizing.</p>
+                  <a href="https://snowleopards.streamlit.app/" target="_blank" rel="noreferrer"
+                     class="mt-3 h-8 inline-flex items-center justify-center text-xs font-medium px-3 rounded-md border border-stone-200 hover:bg-stone-100">
+                    <i data-lucide="external-link" class="mr-2 h-3 w-3"></i>Launch App
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="toolkit" class="scroll-mt-24">
+            <div class="rounded-xl card p-4 sm:p-6 h-full">
+              <div class="flex items-center gap-2 mb-4">
+                <i data-lucide="wrench" class="h-4 w-4 text-amber-600"></i>
+                <h3 class="text-lg font-bold tracking-tight font-display">Core Toolkit</h3>
+              </div>
+              <div id="toolkit-container" class="space-y-4"></div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <footer class="py-6 text-center text-xs text-stone-500">
+        © 2025 Gaurav Kataria. All Rights Reserved.
+      </footer>
+    </main>
+  </div>
+
+  <!-- Back-to-top FAB -->
+  <button id="toTop"
+    class="fixed bottom-5 right-5 hidden items-center gap-2 rounded-full bg-stone-900 text-white px-4 py-2 shadow-lg hover:shadow-xl transition
+           focus:outline-none focus:ring-2 focus:ring-amber-500 z-40">
+    <i data-lucide="arrow-up" class="h-4 w-4"></i>
+    <span class="text-xs font-medium">Top</span>
+  </button>
+
+  <script>
+    /* ------------------- DATA ------------------- */
+    const navItems = [
+      { label: "Overview", icon: "layout-dashboard", href: "#overview" },
+      { label: "About", icon: "sun-medium", href: "#about" },
+      { label: "Capabilities", icon: "cpu", href: "#capabilities" },
+      { label: "Journey", icon: "school", href: "#journey" },
+      { label: "Projects", icon: "briefcase", href: "#projects" },
+      { label: "Accreditations", icon: "badge-check", href: "#certs" },
+      { label: "Toolkit & Apps", icon: "wrench", href: "#apps" },
+    ];
+    const projects=[{name:"The Keystone Building",image:"images/keystone.jpg",s:"A £300M new-build university facility with ambitious operational energy targets.",t:"Guide value engineering decisions and undertake the complex HVAC system integration.",a:"Led detailed HVAC modelling, developing a unique 5-tier natural and mechanical ventilation strategy.",r:"Modelling was pivotal in VE decisions, delivering multi-million CAPEX savings with simulation-backed data."},{name:"House of Architecture",image:"images/riba.jpg",s:"A £20M landmark refurbishment aiming for a market-leading carbon emissions reduction.",t:"Develop a robust, data-driven MEP strategy to inform the client's long-term investment plan.",a:"Created a granular HVAC dynamic thermal model, simulating 31 distinct AHUs and MVHRs.",r:"My analysis enabled a projected 60% operational energy reduction, helping decarbonize this key asset."},{name:"5 St Philips Place",image:"images/st-philips.jpg",s:"Repositioning a prime commercial asset to attract premium tenants in a competitive market.",t:"Secure both NABERS (performance) and WELL (wellbeing) certifications to drive asset value.",a:"Led integrated modelling analysis, developing strategies that balanced the competing demands of energy and health.",r:"Achieved UK NABERS 4 Stars (DfP) & WELL Gold, maximising asset appeal and increasing rental value."},{name:"The Royal Institution",image:"images/royal-institution.jpg",s:"A Grade I listed historic building requiring a sensitive but effective decarbonisation pathway.",t:"Provide a clear, modelling-driven business case for a major HVAC plant refurbishment project.",a:"Developed a calibrated energy model and simulated various plant replacement options.",r:"Enabled a confident, simulation-informed capital allocation decision balancing heritage with performance."},{name:"Holywell Yard",image:"images/holywell.jpg",s:"A new-build commercial office aiming for market-leading ESG credentials in Shoreditch.",t:"Significantly surpass mandatory building regulations for energy and carbon performance targets.",a:"Guided performance modelling from early design stages to integrate high-efficiency systems and flag risks.",r:"The final design is projected to surpass the stringent Part L2 2021 regulations by over 35%."},{name:"Northumberland College",image:"images/northumberland.jpg",s:"A new DfE-funded college with a mandate to be a sustainability exemplar for the UK education sector.",t:"Achieve Net Zero Carbon in Operation (NZCiO) from the very first year of the building's opening.",a:"Drove the entire NZCiO modelling strategy, leading detailed performance modelling efforts.",r:"Simulation-tested design is expected to be fully compliant with the ambitious NZCiO target."}];
+    const approachPillars=[{icon:"badge-check",title:"Foundation",text:"A rigorous, gold-medal foundation in architecture, providing a core understanding of design, spatial reasoning, and buildability."},{icon:"bar-chart-3",title:"Analytical Expertise",text:"Knowledge of high-performance building science and data-driven simulation from post-graduate studies at The Bartlett, UCL."},{icon:"briefcase",title:"Commercial Acumen",text:"A sharp focus on translating complex technical data into tangible commercial outcomes that drive asset value."}];
+    const kpi=[{label:"Featured Projects",value:projects.length,delta:"Commercial & Institutional"},{label:"Certifications",value:12,delta:"Chartered Engineer & Architect"},{label:"Key Specialisms",value:"Modelling",delta:"Integrated design"},{label:"Experience",value:"5 Years",delta:"(India + UK&I)"}];
+    const skills=[{subject:"HVAC Modelling",A:95},{subject:"Energy Strategy",A:90},{subject:"Commercial Acumen",A:85},{subject:"Data Science",A:70},{subject:"Life Cycle Analysis",A:70},{subject:"Comfort & Health",A:88}];
+    const journey=[{title:"A-Levels Equivalent",org:"Delhi Public School",url:"https://www.dpsgurgaon.org/",logo:"images/logo-dps.png",dates:"2013",points:["Achieved grades AAAB; providing a strong academic foundation.","Received the Sports Scholar award, being in the first batch of 18 students to be ever given the same."]},{title:"Bachelor of Architecture",org:"GD Goenka University",url:"https://www.gdgoenkauniversity.com/",logo:"images/logo-gdg.png",dates:"2015 – 2020",points:["Graduated top of class with Distinction and Gold Medal honours.","Awarded merit scholarship for three consecutive years for academic excellence.","Gained foundational industry experience through internships in architectural design, BIM, and MEP coordination."]},{title:"MSc. Built Environment: Environmental Design and Engineering",org:"University College London (UCL)",url:"https://www.ucl.ac.uk/",logo:"images/logo-ucl.png",dates:"2020 – 2021",points:["Graduated with Merit Honours.","Industry-led dissertation awardee with architecture firm Haworth Tompkins.","Balanced academic commitments with a consultant role and extensive professional development."]},{title:"Graduate Energy & Carbon Consultant",org:"Verte, London",url:"https://www.verteltd.com/",logo:"images/logo-verte.png",dates:"May 2021 – Sept 2021",points:["Developed energy models for Part L compliance, experimenting with novel strategies to meet LETI benchmarks.","Formulated sustainability due-diligence studies for commercial real estate assets."]},{title:"Graduate Sustainability & Building Physics Engineer",org:"Cundall, Birmingham",url:"https://www.cundall.com/",logo:"images/logo-cundall.png",dates:"Sept 2021 – Aug 2023",points:["Delivered performance modelling for diverse commercial assets.","Led sustainability consulting for WELL & BREEAM, directly enhancing asset value and marketability.","Conducted comfort studies to de-risk designs and inform investment decisions."]},{title:"Building Performance Engineer",org:"Harley Haddow, London",url:"https://harleyhaddow.com/",logo:"images/logo-harleyhaddow.png",dates:"Aug 2023 – Apr 2024",points:["Specialised in creating 'digital twins' to guide strategic decisions for complex projects.","Undertook CIBSE TM54 assessments and R&D for UK NABERS to verify asset performance against financial targets."]},{title:"Senior Engineer (Building Performance)",org:"Harley Haddow, London",url:"https://harleyhaddow.com/",logo:"images/logo-harleyhaddow.png",dates:"Apr 2024 – Present",points:["Leading decarbonisation strategies to inform long-term investment and asset management.","Performing detailed HVAC modelling to validate capital expenditure and operational costs."]},{title:"Sustainable Real Estate Program",org:"University of Cambridge (CISL)",url:"https://www.cisl.cam.ac.uk/",logo:"images/logo-cambridge.png",dates:"Oct – Nov 2025",points:["Pursuing the executive program to delve further into the realm of wider real estate.","Focusing on the business and financial case for sustainability in the built environment."]}];
+    const certs=[{icon:"badge-check",name:"Chartered Engineer (CEng)",org:"Engineering Council UK",url:"https://www.engc.org.uk/"},{icon:"badge-check",name:"European Engineer (EUR ING)",org:"Engineers Europe",url:"https://www.engineerseurope.com/"},{icon:"badge-check",name:"WELL Accredited Professional",org:"IWBI",url:"https://www.wellcertified.com/"},{icon:"building",name:"LCC - Building Design",org:"CIBSE Certification Ltd",url:"https://www.cibsecertification.co.uk/"},{icon:"building",name:"LCC - Simulation",org:"CIBSE Certification Ltd",url:"https://www.cibsecertification.co.uk/"},{icon:"building",name:"Low Carbon Energy Assessor",org:"CIBSE Certification Ltd",url:"https://www.cibsecertification.co.uk/"},{icon:"user-check",name:"MCIBSE (Member)",org:"CIBSE",url:"https://www.cibse.org/"},{icon:"user-check",name:"Full Member",org:"ASHRAE",url:"https://www.ashrae.org/"},{icon:"recycle",name:"One Click LCA Certified",org:"One Click LCA Summer School; 2021",url:"https://www.oneclicklca.com/"},{icon:"database",name:"Data Science Professional",org:"IBM",url:"https://www.ibm.com/"},{icon:"pen-tool",name:"Licensed Architect",org:"Council of Architecture, India",url:"https://www.coa.gov.in/"},{icon:"graduation-cap",name:"Linear Algebra & Data Structures",org:"IIT, Roorkee (IIT-R)",url:"https://www.iitr.ac.in/"}];
+    const toolkitData=[{group:"Analytical",items:["IESVE (Virtual Environment)","One-Click LCA","THERM","Ladybug Tools","Python (Pandas, etc.)"]},{group:"Modelling & BIM",items:["Revit","AutoCAD","SketchUp","Rhinoceros","Navisworks"]},{group:"Presentation & Viz",items:["3Ds Max & Corona","V-Ray","Lumion","Twinmotion (UE)","Adobe Creative Suite"]},{group:"Specialist IESVE",items:["ApHVAC","MacroFlo","RadianceIES","SunCast","VistaPro & MicroFlo"]}];
+
+    /* ------------------- RENDER ------------------- */
+    document.addEventListener('DOMContentLoaded', () => {
+      // sidebar
+      const navContainer=document.getElementById('sidebar-nav');
+      navContainer.innerHTML=navItems.map(i=>{
+        const responsive=i.label==='Overview'?'hidden md:flex':'flex';
+        return `<a href="${i.href}" class="nav-link ${responsive} items-center gap-3 rounded-lg px-3 py-2 text-sm font-semibold">
+                  <i data-lucide="${i.icon}" class="h-4 w-4"></i><span>${i.label}</span>
+                </a>`;
+      }).join('');
+
+      // KPIs
+      const kpiIcon=lbl=>/project/i.test(lbl)?'folder-kanban':/cert/i.test(lbl)?'award':/special/i.test(lbl)?'sparkles':'clock';
+      document.getElementById('kpi-container').innerHTML=kpi.map(k=>`
+        <div class="rounded-xl card p-4">
+          <div class="flex items-center gap-2">
+            <i data-lucide="${kpiIcon(k.label)}" class="h-4 w-4 text-amber-600"></i>
+            <h4 class="text-sm font-medium font-display text-stone-600">${k.label}</h4>
+          </div>
+          <div class="text-2xl font-bold mt-1">${k.value}</div>
+          <p class="text-xs text-stone-500 mt-1">${k.delta}</p>
         </div>`).join('');
 
-    const projectsContainer = document.getElementById('projects-container');
-    projectsContainer.innerHTML = projects.map(p => `
-        <div class="rounded-lg border border-stone-200 bg-white overflow-hidden flex flex-col shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all">
-            <img src="${p.image}" alt="${p.name}" class="w-full h-60 object-cover">
-            <div class="p-4 flex flex-col flex-grow">
-                <h4 class="font-bold font-display">${p.name}</h4>
-                <div class="text-xs text-stone-700 space-y-2 mt-2 flex-grow text-justify">
-                    <div class="flex items-start gap-2"><i data-lucide="circle-dot" class="h-3 w-3 text-stone-500 mt-0.5 flex-none"></i><p><strong class="text-stone-900">Situation</strong>: ${p.s}</p></div>
-                    <div class="flex items-start gap-2"><i data-lucide="target" class="h-3 w-3 text-stone-500 mt-0.5 flex-none"></i><p><strong class="text-stone-900">Task</strong>: ${p.t}</p></div>
-                    <div class="flex items-start gap-2"><i data-lucide="bolt" class="h-3 w-3 text-stone-500 mt-0.5 flex-none"></i><p><strong class="text-stone-900">Action</strong>: ${p.a}</p></div>
-                    <div class="flex items-start gap-2"><i data-lucide="check-circle-2" class="h-3 w-3 text-stone-500 mt-0.5 flex-none"></i><p><strong class="text-stone-900">Result</strong>: ${p.r}</p></div>
-                </div>
-            </div>
+      // approach
+      document.getElementById('approach-container').innerHTML=approachPillars.map(p=>`
+        <div class="rounded-lg p-4 border transition-all hover:shadow-md"
+             style="background:#ffffffd9; border-color:var(--border)">
+          <i data-lucide="${p.icon}" class="h-10 w-10 text-amber-600 mb-3"></i>
+          <h4 class="font-bold font-display">${p.title}</h4>
+          <p class="text-xs text-stone-600 mt-1 text-justify">${p.text}</p>
         </div>`).join('');
-    
-    const certsContainer = document.getElementById('certs-container');
-    certsContainer.innerHTML = certs.map(c => `
+
+      // skills (donuts)
+      const sc=document.getElementById('skills-container');
+      sc.innerHTML=skills.map(s=>{
+        const C=Math.round(52*2*Math.PI), off=C-(s.A/100)*C;
+        return `<div>
+          <svg class="w-full h-auto" viewBox="0 0 120 120" aria-label="${s.subject} ${s.A}%">
+            <circle stroke-width="8" stroke="#e5e7eb" fill="transparent" r="52" cx="60" cy="60"/>
+            <circle class="progress-circle" style="--stroke-offset:${off};"
+              stroke-width="8" stroke-dasharray="${C}" stroke-dashoffset="${C}"
+              stroke-linecap="round" stroke="#f59e0b" fill="transparent" r="52" cx="60" cy="60"
+              transform="rotate(-90 60 60)"/>
+            <text x="60" y="60" text-anchor="middle" dy=".35em" class="font-display"
+                  style="font-size:18px;font-weight:700;fill:#0f172a">${s.A}%</text>
+          </svg>
+          <p class="text-[11px] font-bold mt-2 text-center">${s.subject}</p>
+        </div>`;
+      }).join('');
+
+      // journey
+      document.getElementById('journey-container').innerHTML=journey.map(j=>`
+        <div class="rounded-lg border p-4 bg-stone-50" style="border-color:var(--border)">
+          <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+            <div class="flex items-center gap-4">
+              <img loading="lazy" src="${j.logo}" alt="${j.org} logo" class="h-8 w-20 object-contain grayscale opacity-80 transition hover:grayscale-0 hover:opacity-100">
+              <div>
+                <h4 class="font-bold font-display">${j.title}</h4>
+                <a href="${j.url}" target="_blank" rel="noreferrer" class="text-[11px] font-bold text-amber-700 hover:underline">${j.org}</a>
+              </div>
+            </div>
+            <div class="text-[11px] font-semibold px-2 py-1 rounded-md whitespace-nowrap self-start sm:self-center bg-stone-200 text-stone-700">${j.dates}</div>
+          </div>
+          <ul class="mt-3 list-disc pl-5 text-sm text-stone-700 space-y-1 text-justify">
+            ${j.points.map(p=>`<li>${p}</li>`).join('')}
+          </ul>
+        </div>`).join('');
+
+      // projects
+      document.getElementById('projects-container').innerHTML=projects.map(p=>`
+        <div class="rounded-lg overflow-hidden card">
+          <img loading="lazy" src="${p.image}" alt="${p.name}" class="w-full h-60 object-cover">
+          <div class="p-4">
+            <h4 class="font-bold font-display">${p.name}</h4>
+            <div class="text-xs text-stone-700 space-y-2 mt-2 text-justify">
+              <div class="flex items-start gap-2"><i data-lucide="circle-dot" class="h-3 w-3 text-stone-500 mt-0.5"></i><p><strong class="text-stone-900">Situation</strong>: ${p.s}</p></div>
+              <div class="flex items-start gap-2"><i data-lucide="target" class="h-3 w-3 text-stone-500 mt-0.5"></i><p><strong class="text-stone-900">Task</strong>: ${p.t}</p></div>
+              <div class="flex items-start gap-2"><i data-lucide="bolt" class="h-3 w-3 text-stone-500 mt-0.5"></i><p><strong class="text-stone-900">Action</strong>: ${p.a}</p></div>
+              <div class="flex items-start gap-2"><i data-lucide="check-circle-2" class="h-3 w-3 text-stone-500 mt-0.5"></i><p><strong class="text-stone-900">Result</strong>: ${p.r}</p></div>
+            </div>
+          </div>
+        </div>`).join('');
+
+      // certs
+      document.getElementById('certs-container').innerHTML=certs.map(c=>`
         <a href="${c.url}" target="_blank" rel="noreferrer" class="group flex items-start gap-3 p-2 rounded-lg hover:bg-stone-50 transition-colors">
-            <div class="h-6 w-6 grid place-items-center text-amber-700 flex-none"><i data-lucide="${c.icon}" class="h-5 w-5"></i></div>
-            <div>
-                <div class="font-bold text-sm group-hover:text-amber-800 font-display">${c.name}</div>
-                <div class="text-xs text-stone-500">${c.org}</div>
-            </div>
+          <div class="h-6 w-6 grid place-items-center text-amber-700 flex-none"><i data-lucide="${c.icon}" class="h-5 w-5"></i></div>
+          <div>
+            <div class="font-bold text-sm group-hover:text-amber-800 font-display">${c.name}</div>
+            <div class="text-[11px] text-stone-500">${c.org}</div>
+          </div>
         </a>`).join('');
-    
-    const toolkitContainer = document.getElementById('toolkit-container');
-    toolkitContainer.innerHTML = toolkitData.map(t => `
+
+      // toolkit
+      document.getElementById('toolkit-container').innerHTML=toolkitData.map(t=>`
         <div>
-            <h4 class="font-bold text-sm mb-2 font-display">${t.group}</h4>
-            <div class="flex flex-wrap gap-1.5">
-                ${t.items.map(item => `<span class="text-xs font-medium bg-stone-100 text-stone-700 px-2 py-1 rounded-md">${item}</span>`).join('')}
-            </div>
+          <h4 class="font-bold text-sm mb-2 font-display">${t.group}</h4>
+          <div class="flex flex-wrap gap-1.5">
+            ${t.items.map(item=>`<span class="text-xs font-medium bg-stone-100 text-stone-700 px-2 py-1 rounded-md">${item}</span>`).join('')}
+          </div>
         </div>`).join('');
 
-    lucide.createIcons();
+      // icons
+      lucide.createIcons();
 
-    // Intersection Observer for Donut Animations
-    const capabilitiesSection = document.getElementById('capabilities');
-    const progressCircles = capabilitiesSection.querySelectorAll('.progress-circle');
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                progressCircles.forEach(circle => {
-                    circle.classList.add('animate');
-                });
-                observer.unobserve(entry.target); // Animate only once
-            }
+      /* --------- Interactivity --------- */
+      // donuts on first view
+      const capSec=document.getElementById('capabilities');
+      const donuts=capSec.querySelectorAll('.progress-circle');
+      const donutObs=new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{ if(e.isIntersecting){ donuts.forEach(d=>d.classList.add('animate')); donutObs.unobserve(e.target); }});
+      },{threshold:.5});
+      donutObs.observe(capSec);
+
+      // active nav & progress bar & toTop
+      const sections=document.querySelectorAll('section');
+      const navLinks=document.querySelectorAll('#sidebar-nav a');
+      const progressBar=document.getElementById('scroll-progress');
+      const toTop=document.getElementById('toTop');
+
+      const sectionObs=new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+          if(entry.isIntersecting){
+            navLinks.forEach(link=>link.classList.toggle('active', link.getAttribute('href')===`#${entry.target.id}`));
+          }
         });
-    }, { threshold: 0.5 }); // Trigger when 50% of the section is visible
+      },{ rootMargin:'-40% 0px -55% 0px' });
+      sections.forEach(sec=>sectionObs.observe(sec));
 
-    observer.observe(capabilitiesSection);
-});
-</script>
-
+      const onScroll=()=>{
+        const y=window.scrollY, h=document.documentElement.scrollHeight-window.innerHeight;
+        progressBar.style.width = Math.min(100, Math.max(0,(y/h)*100)) + '%';
+        toTop.classList.toggle('hidden', y<500);
+      };
+      window.addEventListener('scroll', onScroll, { passive:true }); onScroll();
+      toTop.addEventListener('click', ()=>window.scrollTo({ top:0, behavior:'smooth' }));
+    });
+  </script>
 </body>
 </html>
