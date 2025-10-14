@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#F7F7FC">
   <title>Gaurav Kataria | Portfolio Dashboard</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
@@ -10,7 +11,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
 
   <style>
     /* ----------------- Fonts ----------------- */
@@ -21,99 +22,94 @@
     :root{
       --bg:#F7F7FC;
       --text:#0f172a;
-      --subtle:#6b7280;
+      --subtle:#475569;
       --card:#ffffff;
       --border:#e5e7eb;
       --accent:#f59e0b;
 
-      /* darker aurora colours */
-      --glow-1: 255, 179, 64;   /* amber */
-      --glow-2: 20, 70, 200;    /* deep blue */
-      --glow-3: 6, 182, 212;    /* cyan */
-      --aurora-opacity-1:.20;
-      --aurora-opacity-2:.16;
-      --aurora-blur:54px;
+      /* aurora colours (pastel) */
+      --glow-1: 255,179,64;   /* amber */
+      --glow-2: 20,70,200;    /* deep blue */
+      --glow-3: 6,182,212;    /* cyan */
+      --aurora-opacity-1:.16;
+      --aurora-opacity-2:.12;
+      --aurora-blur:56px;
 
-      /* parallax (set via JS) */
       --aurora-shift: 0px;
     }
-    body{ background:var(--bg); color:var(--text); }
+    body{
+      background:
+        radial-gradient(1200px 700px at 70% -10%, rgba(124,58,237,.14), transparent 60%),
+        var(--bg);
+      color:var(--text);
+    }
 
-    /* ----------------- Aurora (faster + parallax) ----------------- */
+    /* ----------------- Aurora (soft, parallax) ----------------- */
     .aurora{
       pointer-events:none; position:fixed; inset:-12vh -12vw -12vh -12vw; z-index:-1;
       transform: translateY(var(--aurora-shift));
       will-change: transform;
-      filter: blur(var(--aurora-blur)) saturate(120%);
+      filter: blur(var(--aurora-blur)) saturate(110%);
     }
     .aurora::before,.aurora::after{
-      content:""; position:absolute; inset:0;
-      background:
-        radial-gradient(62rem 38rem at 12% 8%, rgba(var(--glow-1),var(--aurora-opacity-1)) 0%, rgba(var(--glow-1),0) 55%),
-        radial-gradient(60rem 36rem at 85% 18%, rgba(var(--glow-2),var(--aurora-opacity-2)) 0%, rgba(var(--glow-2),0) 60%),
-        radial-gradient(68rem 44rem at 22% 88%, rgba(var(--glow-3),var(--aurora-opacity-2)) 0%, rgba(var(--glow-3),0) 60%);
-      mix-blend-mode: screen;
+      content:""; position:absolute; inset:0; mix-blend-mode: screen;
     }
-    /* three layers for richer motion */
-    .aurora::before{ animation: driftA 16s linear infinite; }
-    .aurora::after{  animation: driftB 22s linear infinite reverse; opacity:.9; }
+    .aurora::before{
+      background:
+        radial-gradient(62rem 38rem at 12% 8%, rgba(var(--glow-1),var(--aurora-opacity-1)) 0%, rgba(var(--glow-1),0) 60%),
+        radial-gradient(60rem 36rem at 85% 18%, rgba(var(--glow-2),var(--aurora-opacity-2)) 0%, rgba(var(--glow-2),0) 62%),
+        radial-gradient(68rem 44rem at 22% 88%, rgba(var(--glow-3),var(--aurora-opacity-2)) 0%, rgba(var(--glow-3),0) 62%);
+      animation: driftA 10s linear infinite;
+    }
+    .aurora::after{
+      background:
+        radial-gradient(58rem 34rem at 78% 82%, rgba(var(--glow-2),.10), rgba(var(--glow-2),0) 60%),
+        radial-gradient(62rem 36rem at 20% 65%, rgba(var(--glow-3),.10), rgba(var(--glow-3),0) 60%);
+      animation: driftB 14s linear infinite reverse; opacity:.9;
+    }
     .aurora-layer{ position:absolute; inset:0; animation: driftC 28s linear infinite; }
 
-    @keyframes driftA{
-      0%{   transform: translate3d(0,0,0) rotate(0deg) scale(1) }
-      50%{  transform: translate3d(4%, -6%, 0) rotate(6deg) scale(1.03) }
-      100%{ transform: translate3d(0,0,0) rotate(0deg) scale(1) }
-    }
-    @keyframes driftB{
-      0%{   transform: translate3d(0,0,0) rotate(0deg) }
-      50%{  transform: translate3d(-5%, 4%, 0) rotate(-5deg) }
-      100%{ transform: translate3d(0,0,0) rotate(0deg) }
-    }
-    @keyframes driftC{
-      0%{   transform: translate3d(0,0,0) scale(1) }
-      50%{  transform: translate3d(0,-3%,0) scale(1.02) }
-      100%{ transform: translate3d(0,0,0) scale(1) }
-    }
+    @keyframes driftA{ 50%{ transform: translate3d(4%,-6%,0) rotate(6deg) scale(1.03) } }
+    @keyframes driftB{ 50%{ transform: translate3d(-5%,4%,0) rotate(-5deg) } }
+    @keyframes driftC{ 50%{ transform: translate3d(0,-3%,0) scale(1.02) } }
 
-    /* Respect reduced motion */
     @media (prefers-reduced-motion: reduce){
       .aurora::before,.aurora::after,.aurora-layer{ animation:none !important; }
     }
 
-    /* ----------------- Card polish ----------------- */
+    /* ----------------- Card ----------------- */
     .card{
       background:linear-gradient(180deg,var(--card) 0%,color-mix(in oklab,var(--card),transparent 2%) 100%);
       border:1px solid var(--border) !important;
-      box-shadow:0 1px 0 rgba(0,0,0,.02), 0 12px 32px -18px rgba(2,8,23,.25);
+      box-shadow:0 1px 0 rgba(0,0,0,.02), 0 12px 32px -18px rgba(2,8,23,.18);
       transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
     }
     .card:hover{
       transform:translateY(-3px);
       border-color:color-mix(in oklab,var(--border),var(--text) 10%);
-      box-shadow:0 2px 0 rgba(0,0,0,.02), 0 24px 48px -22px rgba(2,8,23,.40);
+      box-shadow:0 2px 0 rgba(0,0,0,.02), 0 24px 48px -22px rgba(2,8,23,.28);
     }
 
     /* ----------------- Sticky topbar + progress ----------------- */
-    #topbar{ position:sticky; top:0; z-index:20; backdrop-filter: blur(6px); }
+    #topbar{ position:sticky; top:0; z-index:20; backdrop-filter: blur(8px); background: rgba(255,255,255,.85); border:1px solid var(--border) }
     #scroll-progress{
       position:fixed; top:0; left:0; height:3px; width:0; z-index:50;
       background:linear-gradient(90deg,#f59e0b,#7c3aed,#06b6d4);
-      box-shadow:0 0 14px rgba(245,158,11,.6);
+      box-shadow:0 0 14px rgba(245,158,11,.45);
       transition:width .15s linear;
     }
 
     /* ----------------- Sidebar & Mobile Nav ----------------- */
-    /* mobile: grid links, large tap targets */
+    /* HIDE the sidebar nav on mobile completely */
     @media (max-width:767px){
-      #sidebar-nav{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.5rem; }
-      .nav-link{ justify-content:left; }
+      #sidebar-nav{ display:none; }
     }
     .nav-link{
-      color:#1f2937; 
+      color:#1f2937;
       padding:.65rem .75rem;
       border-radius:.75rem;
       display:flex; align-items:center; gap:.5rem;
-      font-weight:600; font-size:.925rem;
+      font-weight:700; font-size:.925rem;
     }
     .nav-link:hover{ background:#f3f4f6; }
     .nav-link.active{
@@ -121,20 +117,23 @@
       color:#ffffff !important;
     }
 
-    /* Mobile tab bar (sticky bottom) */
+    /* Mobile tab bar (light) */
     #mobile-tabbar{
       position:fixed; bottom:0; left:0; right:0; z-index:30;
       background:rgba(255,255,255,.96);
       border-top:1px solid var(--border);
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(10px);
     }
     #mobile-tabbar a{
-      flex:1; padding:.6rem .25rem; text-align:center; font-size:.75rem; font-weight:700; color:#334155;
+      flex:1; padding:.6rem .25rem; text-align:center; font-size:.75rem; font-weight:800; color:#334155;
       display:flex; flex-direction:column; align-items:center; gap:.15rem;
     }
     #mobile-tabbar a.active{ color:#0f172a; }
-    /* give content bottom padding so tabbar doesn't overlap */
     main{ padding-bottom:4.5rem; }
+
+    /* ----------------- Big intro heading ----------------- */
+    .stroke-title{ -webkit-text-stroke: 2px rgba(0,0,0,.3); color:transparent; }
+    .grad-text{ background:linear-gradient(90deg,#f59e0b 0%,#7c3aed 50%,#06b6d4 100%); -webkit-background-clip:text; background-clip:text; color:transparent }
 
     /* ----------------- Donut animation ----------------- */
     @keyframes progress-circle{ from{stroke-dashoffset:327} to{stroke-dashoffset:var(--stroke-offset)} }
@@ -149,24 +148,21 @@
   <nav id="mobile-tabbar" class="md:hidden">
     <div class="mx-auto max-w-7xl flex">
       <a href="#overview"  data-tab="overview"><i data-lucide="layout-dashboard" class="h-5 w-5"></i><span>Overview</span></a>
-      <a href="#capabilities" data-tab="capabilities"><i data-lucide="cpu" class="h-5 w-5"></i><span>Skills</span></a>
       <a href="#projects" data-tab="projects"><i data-lucide="briefcase" class="h-5 w-5"></i><span>Projects</span></a>
+      <a href="#capabilities" data-tab="capabilities"><i data-lucide="cpu" class="h-5 w-5"></i><span>Skills</span></a>
       <a href="#apps" data-tab="apps"><i data-lucide="wrench" class="h-5 w-5"></i><span>Toolkit</span></a>
     </div>
   </nav>
 
   <div class="mx-auto max-w-7xl px-3 sm:px-4 pt-3 grid grid-cols-1 md:grid-cols-[320px_1fr] gap-4">
 
-    <!-- SIDEBAR (desktop & tablet; also shows on mobile top as card links) -->
-    <aside class="rounded-xl card lg:sticky lg:top-0 lg:self-start p-3 md:p-2">
+    <!-- SIDEBAR -->
+    <aside class="hidden md:block order-last md:order-first rounded-xl card lg:sticky lg:top-0 lg:self-start p-3 md:p-2">
       <div class="p-3 flex items-center gap-4">
-        <div class="relative">
-          <img src="./images/GK.jpg" alt="Gaurav Kataria" class="h-14 w-14 rounded-full object-cover ring-2 ring-amber-400/70">
-          
-        </div>
+        <img src="./images/GK.jpg" alt="Gaurav Kataria" class="h-14 w-14 rounded-full object-cover ring-2 ring-amber-400/70">
         <div>
           <p class="font-bold text-[18px] sm:text-[18px] md:text-[20px] leading-tight font-display">Gaurav Kataria</p>
-          <p class="text-[13px] text-stone-500">Strategic Real Estate & Building Performance Analysis</p>
+          <p class="text-[13px] text-slate-600">Strategic Real Estate & Building Performance Analysis</p>
         </div>
       </div>
       <hr class="my-2 border-stone-200">
@@ -183,29 +179,51 @@
     </aside>
 
     <!-- MAIN -->
-    <main class="flex flex-col gap-4">
-      <header id="topbar" class="rounded-xl card px-4 py-3 flex items-center gap-3">
+    <main class="order-first md:order-last flex flex-col gap-4">
+      <header id="topbar" class="rounded-xl px-4 py-3 flex items-center gap-3">
         <i data-lucide="layout-dashboard" class="h-5 w-5 text-amber-600 flex-none"></i>
         <h1 class="text-base sm:text-lg font-bold tracking-tight whitespace-nowrap font-display">Portfolio Dashboard</h1>
       </header>
+
+      <!-- BIG INTRO -->
+      <section id="intro" class="scroll-mt-24">
+        <div class="rounded-xl card px-5 py-6 sm:px-8 sm:py-10">
+          <!-- Bigger on mobile: from text-4xl -> text-5xl -->
+          <h2 class="font-display font-extrabold text-5xl sm:text-6xl md:text-7xl leading-[0.95]">
+            <span class="stroke-title">Strategic</span> <span class="grad-text">Performance</span><br>
+            <span>for Real&nbsp;Estate</span>
+          </h2>
+          <p class="mt-3 text-sm sm:text-base text-slate-600 max-w-[80ch]">
+            I integrate building performance modelling, data, and commercial judgement to unlock asset value;<b> bridging architecture, engineering, and investment decisions</b>.
+          </p>
+          <div class="mt-5 flex flex-wrap gap-3">
+            <a href="#projects" class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 via-violet-600 to-cyan-500 text-white px-5 py-3 font-display font-semibold shadow-[0_16px_80px_-12px_rgba(124,58,237,.35)]">
+              <i data-lucide="rocket" class="h-5 w-5"></i> See featured work
+            </a>
+            <a href="#capabilities" class="inline-flex items-center gap-2 rounded-xl border border-stone-200 bg-white px-5 py-3 font-semibold hover:bg-stone-50">
+              <i data-lucide="cpu" class="h-5 w-5"></i> Skills & tools
+            </a>
+          </div>
+        </div>
+      </section>
 
       <div class="flex flex-col gap-4">
         <section id="overview" class="scroll-mt-24">
           <div id="kpi-container" class="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4"></div>
         </section>
 
-        <section id="about" class="scroll-mt-24">
+        <!-- MOVED: Featured Projects appears right after Overview -->
+        <section id="projects" class="scroll-mt-24">
           <div class="rounded-xl card p-4 sm:p-6">
             <div class="flex items-center gap-2 mb-4">
-              <i data-lucide="sun-medium" class="h-4 w-4 text-amber-600"></i>
-              <h3 class="text-lg font-bold tracking-tight font-display">My Approach</h3>
+              <i data-lucide="briefcase" class="h-4 w-4 text-amber-600"></i>
+              <h3 class="text-lg font-bold tracking-tight font-display">Featured Projects</h3>
             </div>
-            <p class="text-sm text-stone-700 text-justify">
-              My career sits at the intersection of design, sustainability, and financial performance. By integrating rigorous technical analysis at the earliest design phases, I develop holistic strategies that ensure architectural concepts are buildable, sustainable, and commercially viable; maximising asset value and minimising risk.
-            </p>
-            <div id="approach-container" class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mt-6"></div>
+            <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4"></div>
           </div>
         </section>
+
+        <!-- REMOVED: "My Approach" section -->
 
         <section id="capabilities" class="scroll-mt-24">
           <div class="rounded-xl card p-4 sm:p-6">
@@ -214,7 +232,7 @@
                 <i data-lucide="cpu" class="h-4 w-4 text-amber-600"></i>
                 <h3 class="text-lg font-bold tracking-tight font-display">Capability Focus</h3>
               </div>
-              <span class="text-xs text-stone-500 whitespace-nowrap">Self-assessment</span>
+              <span class="text-xs text-slate-500 whitespace-nowrap">Self-assessment</span>
             </div>
             <div id="skills-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 sm:gap-4 text-center"></div>
           </div>
@@ -227,16 +245,6 @@
               <h3 class="text-lg font-bold tracking-tight font-display">My Journey</h3>
             </div>
             <div class="w-full space-y-3 sm:space-y-4" id="journey-container"></div>
-          </div>
-        </section>
-
-        <section id="projects" class="scroll-mt-24">
-          <div class="rounded-xl card p-4 sm:p-6">
-            <div class="flex items-center gap-2 mb-4">
-              <i data-lucide="briefcase" class="h-4 w-4 text-amber-600"></i>
-              <h3 class="text-lg font-bold tracking-tight font-display">Featured Projects</h3>
-            </div>
-            <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4"></div>
           </div>
         </section>
 
@@ -261,7 +269,7 @@
                 <div class="text-center p-4">
                   <i data-lucide="sun-medium" class="h-12 w-12 text-amber-600 mx-auto mb-3"></i>
                   <h4 class="font-bold text-sm font-display">External Lighting Analysis Web App</h4>
-                  <p class="text-xs text-stone-600 mt-1">Rapid early-stage external lighting energy analysis.</p>
+                  <p class="text-xs text-slate-600 mt-1">Rapid early-stage external lighting energy analysis.</p>
                   <a href="https://hollobilling.streamlit.app/" target="_blank" rel="noreferrer"
                      class="mt-3 h-8 inline-flex items-center justify-center text-xs font-semibold px-3 rounded-md border border-stone-200 hover:bg-stone-100">
                     <i data-lucide="external-link" class="mr-2 h-3 w-3"></i>Launch App
@@ -271,7 +279,7 @@
                 <div class="text-center p-4">
                   <i data-lucide="cpu" class="h-12 w-12 text-amber-600 mx-auto mb-3"></i>
                   <h4 class="font-bold text-sm font-display">Surrogate ML Model for ASHP Sizing</h4>
-                  <p class="text-xs text-stone-600 mt-1">AI model for instant ASHP & Thermal Store sizing.</p>
+                  <p class="text-xs text-slate-600 mt-1">AI model for instant ASHP & Thermal Store sizing.</p>
                   <a href="https://snowleopards.streamlit.app/" target="_blank" rel="noreferrer"
                      class="mt-3 h-8 inline-flex items-center justify-center text-xs font-semibold px-3 rounded-md border border-stone-200 hover:bg-stone-100">
                     <i data-lucide="external-link" class="mr-2 h-3 w-3"></i>Launch App
@@ -293,15 +301,15 @@
         </div>
       </div>
 
-      <footer class="py-6 text-center text-xs text-stone-500">
-        © 2025 Gaurav Kataria. All Rights Reserved.
+      <footer class="py-6 text-center text-xs text-slate-500">
+        © 2025 Gaurav Kataria.
       </footer>
     </main>
   </div>
 
   <!-- Back-to-top FAB -->
   <button id="toTop"
-    class="fixed bottom-16 md:bottom-5 right-4 md:right-5 hidden items-center gap-2 rounded-full bg-stone-900 text-white px-4 py-2 shadow-lg hover:shadow-xl transition
+    class="fixed bottom-16 md:bottom-5 right-4 md:right-5 hidden items-center gap-2 rounded-full bg-slate-900 text-white px-4 py-2 shadow-lg hover:shadow-xl transition
            focus:outline-none focus:ring-2 focus:ring-amber-500 z-40">
     <i data-lucide="arrow-up" class="h-4 w-4"></i>
     <span class="text-xs font-medium">Top</span>
@@ -311,15 +319,13 @@
     /* ------------------- DATA ------------------- */
     const navItems = [
       { label: "Overview", icon: "layout-dashboard", href: "#overview" },
-      { label: "About", icon: "sun-medium", href: "#about" },
+      { label: "Projects", icon: "briefcase", href: "#projects" },
       { label: "Capabilities", icon: "cpu", href: "#capabilities" },
       { label: "Journey", icon: "school", href: "#journey" },
-      { label: "Projects", icon: "briefcase", href: "#projects" },
       { label: "Accreditations", icon: "badge-check", href: "#certs" },
       { label: "Toolkit & Apps", icon: "wrench", href: "#apps" },
     ];
     const projects=[{name:"The Keystone Building",image:"images/keystone.jpg",s:"A £300M new-build university facility with ambitious operational energy targets.",t:"Guide value engineering decisions and undertake the complex HVAC system integration.",a:"Led detailed HVAC modelling, developing a unique 5-tier natural and mechanical ventilation strategy.",r:"Modelling was pivotal in VE decisions, delivering multi-million CAPEX savings with simulation-backed data."},{name:"House of Architecture",image:"images/riba.jpg",s:"A £20M landmark refurbishment aiming for a market-leading carbon emissions reduction.",t:"Develop a robust, data-driven MEP strategy to inform the client's long-term investment plan.",a:"Created a granular HVAC dynamic thermal model, simulating 31 distinct AHUs and MVHRs.",r:"My analysis enabled a projected 60% operational energy reduction, helping decarbonize this key asset."},{name:"5 St Philips Place",image:"images/st-philips.jpg",s:"Repositioning a prime commercial asset to attract premium tenants in a competitive market.",t:"Secure both NABERS (performance) and WELL (wellbeing) certifications to drive asset value.",a:"Led integrated modelling analysis, developing strategies that balanced the competing demands of energy and health.",r:"Achieved UK NABERS 4 Stars (DfP) & WELL Gold, maximising asset appeal and increasing rental value."},{name:"The Royal Institution",image:"images/royal-institution.jpg",s:"A Grade I listed historic building requiring a sensitive but effective decarbonisation pathway.",t:"Provide a clear, modelling-driven business case for a major HVAC plant refurbishment project.",a:"Developed a calibrated energy model and simulated various plant replacement options.",r:"Enabled a confident, simulation-informed capital allocation decision balancing heritage with performance."},{name:"Holywell Yard",image:"images/holywell.jpg",s:"A new-build commercial office aiming for market-leading ESG credentials in Shoreditch.",t:"Significantly surpass mandatory building regulations for energy and carbon performance targets.",a:"Guided performance modelling from early design stages to integrate high-efficiency systems and flag risks.",r:"The final design is projected to surpass the stringent Part L2 2021 regulations by over 35%."},{name:"Northumberland College",image:"images/northumberland.jpg",s:"A new DfE-funded college with a mandate to be a sustainability exemplar for the UK education sector.",t:"Achieve Net Zero Carbon in Operation (NZCiO) from the very first year of the building's opening.",a:"Drove the entire NZCiO modelling strategy, leading detailed performance modelling efforts.",r:"Simulation-tested design is expected to be fully compliant with the ambitious NZCiO target."}];
-    const approachPillars=[{icon:"badge-check",title:"Foundation",text:"A rigorous, gold-medal foundation in architecture, providing a core understanding of design, spatial reasoning, and buildability."},{icon:"bar-chart-3",title:"Analytical Expertise",text:"Knowledge of high-performance building science and data-driven simulation from post-graduate studies at The Bartlett, UCL."},{icon:"briefcase",title:"Commercial Acumen",text:"A sharp focus on translating complex technical data into tangible commercial outcomes that drive asset value."}];
     const kpi=[{label:"Featured Projects",value:projects.length,delta:"Commercial & Institutional"},{label:"Certifications",value:12,delta:"Engineer & Architect"},{label:"Specialisms",value:"Modelling",delta:"Integrated design"},{label:"Experience",value:"5 Years",delta:"India & UK"}];
     const skills=[{subject:"HVAC Modelling",A:95},{subject:"Energy Strategy",A:90},{subject:"Commercial Acumen",A:85},{subject:"Data Science",A:70},{subject:"Life Cycle Analysis",A:70},{subject:"Comfort & Health",A:88}];
     const journey=[{title:"A-Levels Equivalent",org:"Delhi Public School",url:"https://www.dpsgurgaon.org/",logo:"images/logo-dps.png",dates:"2013",points:["Achieved grades AAAB; providing a strong academic foundation.","Received the Sports Scholar award, being in the first batch of 18 students to be ever given the same."]},{title:"Bachelor of Architecture",org:"GD Goenka University",url:"https://www.gdgoenkauniversity.com/",logo:"images/logo-gdg.png",dates:"2015 – 2020",points:["Graduated top of class with Distinction and Gold Medal honours.","Awarded merit scholarship for three consecutive years for academic excellence.","Gained foundational industry experience through internships in architectural design, BIM, and MEP coordination."]},{title:"MSc. Built Environment: Environmental Design and Engineering",org:"University College London (UCL)",url:"https://www.ucl.ac.uk/",logo:"images/logo-ucl.png",dates:"2020 – 2021",points:["Graduated with Merit Honours.","Industry-led dissertation awardee with architecture firm Haworth Tompkins.","Balanced academic commitments with a consultant role and extensive professional development."]},{title:"Graduate Energy & Carbon Consultant",org:"Verte, London",url:"https://www.verteltd.com/",logo:"images/logo-verte.png",dates:"May 2021 – Sept 2021",points:["Developed energy models for Part L compliance, experimenting with novel strategies to meet LETI benchmarks.","Formulated sustainability due-diligence studies for commercial real estate assets."]},{title:"Graduate Sustainability & Building Physics Engineer",org:"Cundall, Birmingham",url:"https://www.cundall.com/",logo:"images/logo-cundall.png",dates:"Sept 2021 – Aug 2023",points:["Delivered performance modelling for diverse commercial assets.","Led sustainability consulting for WELL & BREEAM, directly enhancing asset value and marketability.","Conducted comfort studies to de-risk designs and inform investment decisions."]},{title:"Building Performance Engineer",org:"Harley Haddow, London",url:"https://harleyhaddow.com/",logo:"images/logo-harleyhaddow.png",dates:"Aug 2023 – Apr 2024",points:["Specialised in creating 'digital twins' to guide strategic decisions for complex projects.","Undertook CIBSE TM54 assessments and R&D for UK NABERS to verify asset performance against financial targets."]},{title:"Senior Engineer (Building Performance)",org:"Harley Haddow, London",url:"https://harleyhaddow.com/",logo:"images/logo-harleyhaddow.png",dates:"Apr 2024 – Present",points:["Leading decarbonisation strategies to inform long-term investment and asset management.","Performing detailed HVAC modelling to validate capital expenditure and operational costs."]},{title:"Sustainable Real Estate Program",org:"University of Cambridge (CISL)",url:"https://www.cisl.cam.ac.uk/",logo:"images/logo-cambridge.png",dates:"Oct – Nov 2025",points:["Pursuing the executive program to delve further into the realm of wider real estate.","Focusing on the business and financial case for sustainability in the built environment."]}];
@@ -328,7 +334,7 @@
 
     /* ------------------- RENDER ------------------- */
     document.addEventListener('DOMContentLoaded', () => {
-      // sidebar nav
+      // sidebar nav (hidden on mobile by CSS)
       const navContainer=document.getElementById('sidebar-nav');
       navContainer.innerHTML=navItems.map(i=>{
         const responsive=i.label==='Overview'?'hidden md:flex':'flex';
@@ -337,26 +343,20 @@
                 </a>`;
       }).join('');
 
-      // KPI
+      // KPI (with count-up for numeric values)
       const kpiIcon=lbl=>/project/i.test(lbl)?'folder-kanban':/cert/i.test(lbl)?'award':/special/i.test(lbl)?'sparkles':'clock';
-      document.getElementById('kpi-container').innerHTML=kpi.map(k=>`
+      document.getElementById('kpi-container').innerHTML=kpi.map(k=>{
+        const isNum = typeof k.value === 'number';
+        return `
         <div class="rounded-xl card p-4">
           <div class="flex items-center gap-2">
             <i data-lucide="${kpiIcon(k.label)}" class="h-4 w-4 text-amber-600"></i>
-            <h4 class="text-sm font-medium font-display text-stone-600">${k.label}</h4>
+            <h4 class="text-sm font-medium font-display text-slate-600">${k.label}</h4>
           </div>
-          <div class="text-2xl font-bold mt-1">${k.value}</div>
-          <p class="text-xs text-stone-500 mt-1">${k.delta}</p>
-        </div>`).join('');
-
-      // approach
-      document.getElementById('approach-container').innerHTML=approachPillars.map(p=>`
-        <div class="rounded-lg p-4 border transition-all hover:shadow-md"
-             style="background:#ffffffd9; border-color:var(--border)">
-          <i data-lucide="${p.icon}" class="h-10 w-10 text-amber-600 mb-3"></i>
-          <h4 class="font-bold font-display">${p.title}</h4>
-          <p class="text-xs text-stone-600 mt-1 text-justify">${p.text}</p>
-        </div>`).join('');
+          <div class="text-2xl font-bold mt-1 ${isNum?'kpi-num':''}" ${isNum?`data-target="${k.value}"`:''}>${isNum?0:k.value}</div>
+          <p class="text-xs text-slate-500 mt-1">${k.delta}</p>
+        </div>`;
+      }).join('');
 
       // skills (donuts)
       const sc=document.getElementById('skills-container');
@@ -376,7 +376,7 @@
         </div>`;
       }).join('');
 
-      // journey
+      // journey (light cards + greyed logos)
       document.getElementById('journey-container').innerHTML=journey.map(j=>`
         <div class="rounded-lg border p-4 bg-stone-50" style="border-color:var(--border)">
           <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
@@ -394,17 +394,17 @@
           </ul>
         </div>`).join('');
 
-      // projects
+      // projects (bigger, consistent image)
       document.getElementById('projects-container').innerHTML=projects.map(p=>`
         <div class="rounded-lg overflow-hidden card">
-          <img loading="lazy" src="${p.image}" alt="${p.name}" class="w-full h-60 object-cover">
+          <img loading="lazy" src="${p.image}" alt="${p.name}" class="w-full h-80 object-cover">
           <div class="p-4">
             <h4 class="font-bold font-display">${p.name}</h4>
-            <div class="text-xs text-stone-700 space-y-2 mt-2 text-justify">
-              <div class="flex items-start gap-2"><i data-lucide="circle-dot" class="h-3 w-3 text-stone-500 mt-0.5"></i><p><strong class="text-stone-900">Situation</strong>: ${p.s}</p></div>
-              <div class="flex items-start gap-2"><i data-lucide="target" class="h-3 w-3 text-stone-500 mt-0.5"></i><p><strong class="text-stone-900">Task</strong>: ${p.t}</p></div>
-              <div class="flex items-start gap-2"><i data-lucide="bolt" class="h-3 w-3 text-stone-500 mt-0.5"></i><p><strong class="text-stone-900">Action</strong>: ${p.a}</p></div>
-              <div class="flex items-start gap-2"><i data-lucide="check-circle-2" class="h-3 w-3 text-stone-500 mt-0.5"></i><p><strong class="text-stone-900">Result</strong>: ${p.r}</p></div>
+            <div class="text-xs text-slate-700 space-y-2 mt-2 text-justify">
+              <div class="flex items-start gap-2"><i data-lucide="circle-dot" class="h-3 w-3 text-slate-500 mt-0.5"></i><p><strong class="text-slate-900">Situation</strong>: ${p.s}</p></div>
+              <div class="flex items-start gap-2"><i data-lucide="target" class="h-3 w-3 text-slate-500 mt-0.5"></i><p><strong class="text-slate-900">Task</strong>: ${p.t}</p></div>
+              <div class="flex items-start gap-2"><i data-lucide="bolt" class="h-3 w-3 text-slate-500 mt-0.5"></i><p><strong class="text-slate-900">Action</strong>: ${p.a}</p></div>
+              <div class="flex items-start gap-2"><i data-lucide="check-circle-2" class="h-3 w-3 text-slate-500 mt-0.5"></i><p><strong class="text-slate-900">Result</strong>: ${p.r}</p></div>
             </div>
           </div>
         </div>`).join('');
@@ -432,15 +432,43 @@
       lucide.createIcons();
 
       /* --------- Interactivity --------- */
-      // donuts on first view
+      // donut trigger
       const capSec=document.getElementById('capabilities');
       const donuts=capSec.querySelectorAll('.progress-circle');
       const donutObs=new IntersectionObserver((entries)=>{
-        entries.forEach(e=>{ if(e.isIntersecting){ donuts.forEach(d=>d.classList.add('animate')); donutObs.unobserve(e.target); }});
-      },{threshold:.45});
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            donuts.forEach(d=>d.classList.add('animate'));
+            donutObs.unobserve(e.target);
+          }
+        });
+      },{threshold:.35, rootMargin:'0px 0px -10% 0px'});
       donutObs.observe(capSec);
+      // if already in view on load
+      requestAnimationFrame(()=>{
+        const r=capSec.getBoundingClientRect();
+        if(r.top>=0 && r.bottom<=window.innerHeight){ donuts.forEach(d=>d.classList.add('animate')); }
+      });
 
-      // active nav & progress bar & toTop & mobile tabs
+      // KPI count-up
+      const animateCount = (el)=>{
+        const target = +el.dataset.target;
+        let cur = 0;
+        const step = Math.max(1, Math.ceil(target/40));
+        const int = setInterval(()=>{
+          cur += step;
+          if(cur >= target){ cur = target; clearInterval(int); }
+          el.textContent = cur;
+        }, 18);
+      };
+      document.querySelectorAll('.kpi-num[data-target]').forEach(el=>{
+        const obs = new IntersectionObserver((ents,o)=>{
+          ents.forEach(en=>{ if(en.isIntersecting){ animateCount(el); o.disconnect(); }});
+        },{threshold:.3, rootMargin:'0px 0px -20% 0px'});
+        obs.observe(el);
+      });
+
+      // active nav & progress bar & toTop + aurora parallax
       const sections=document.querySelectorAll('section');
       const sideLinks=[...document.querySelectorAll('#sidebar-nav a')];
       const tabLinks=[...document.querySelectorAll('#mobile-tabbar a')];
@@ -463,18 +491,18 @@
         const y=window.scrollY, h=document.documentElement.scrollHeight-window.innerHeight;
         progressBar.style.width = Math.min(100, Math.max(0,(y/h)*100)) + '%';
         toTop.classList.toggle('hidden', y<500);
-        // parallax aurora
         document.documentElement.style.setProperty('--aurora-shift', (y * -0.03) + 'px');
       };
       window.addEventListener('scroll', onScroll, { passive:true }); onScroll();
-      toTop.addEventListener('click', ()=>window.scrollTo({ top:0, behavior:'smooth' }));
 
-      // tap/click on mobile tabs should smooth scroll
-      tabLinks.forEach(a=>{
+      // smooth scroll for tabs + sidebar
+      [...tabLinks, ...sideLinks].forEach(a=>{
         a.addEventListener('click', (e)=>{
-          e.preventDefault();
-          const id=a.getAttribute('href').slice(1);
-          document.getElementById(id)?.scrollIntoView({ behavior:'smooth', block:'start' });
+          const href=a.getAttribute('href');
+          if(href?.startsWith('#')){
+            e.preventDefault();
+            document.querySelector(href)?.scrollIntoView({ behavior:'smooth', block:'start' });
+          }
         });
       });
     });
