@@ -138,6 +138,14 @@
     /* ----------------- Donut animation ----------------- */
     @keyframes progress-circle{ from{stroke-dashoffset:327} to{stroke-dashoffset:var(--stroke-offset)} }
     .progress-circle.animate{ animation: progress-circle 1.1s ease-out forwards; }
+     html, body, * {
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* IE/Edge */
+    user-select: none;         /* Standard */
+    -webkit-touch-callout: none; /* iOS long-press menu */
+  }
+
   </style>
 </head>
 <body>
