@@ -7,7 +7,8 @@
   <title>Gaurav Kataria | Portfolio Dashboard</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Lucide: use UMD build + ensure it's ready before our code runs -->
+  <script defer src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -435,8 +436,10 @@
           </div>
         </div>`).join('');
 
-      // icons
-      lucide.createIcons();
+      // icons (guarded so a CDN hiccup doesn't kill the script)
+      if (window.lucide && typeof lucide.createIcons === 'function') {
+        lucide.createIcons();
+      }
 
       /* --------- Interactivity --------- */
       // donut trigger
@@ -473,6 +476,13 @@
           ents.forEach(en=>{ if(en.isIntersecting){ animateCount(el); o.disconnect(); }});
         },{threshold:.3, rootMargin:'0px 0px -20% 0px'});
         obs.observe(el);
+
+        // ensure animation if card is already in view on load
+        const r = el.getBoundingClientRect();
+        if (r.top >= 0 && r.bottom <= window.innerHeight) {
+          animateCount(el);
+          obs.disconnect();
+        }
       });
 
       // active nav & progress bar & toTop + aurora parallax
@@ -480,7 +490,7 @@
       const sideLinks=[...document.querySelectorAll('#sidebar-nav a')];
       const tabLinks=[...document.querySelectorAll('#mobile-tabbar a')];
       const progressBar=document.getElementById('scroll-progress');
-      const toTop=document.getElementById('toTop');
+      const toTop=document.getElementById('toTop'); // may be null (safe-guarded below)
 
       const syncActive=(id)=>{
         sideLinks.forEach(l=>l.classList.toggle('active', l.getAttribute('href')===`#${id}`));
@@ -497,7 +507,9 @@
       const onScroll=()=>{
         const y=window.scrollY, h=document.documentElement.scrollHeight-window.innerHeight;
         progressBar.style.width = Math.min(100, Math.max(0,(y/h)*100)) + '%';
-        toTop.classList.toggle('hidden', y<500);
+        if (toTop) {
+          toTop.classList.toggle('hidden', y<500);
+        }
         document.documentElement.style.setProperty('--aurora-shift', (y * -0.03) + 'px');
       };
       window.addEventListener('scroll', onScroll, { passive:true }); onScroll();
