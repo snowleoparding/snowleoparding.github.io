@@ -7,7 +7,7 @@
   <title>Gaurav Kataria | Portfolio Dashboard</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Lucide: use UMD build + ensure it's ready before our code runs -->
+  <!-- Lucide UMD (reliable with defer) -->
   <script defer src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,11 +15,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
 
   <style>
-    /* ----------------- Fonts ----------------- */
     body{ font-family:'Roboto',sans-serif; }
     h1,h2,h3,h4,h5,h6,.font-display{ font-family:'Plus Jakarta Sans',sans-serif; }
 
-    /* ----------------- Light theme tokens ----------------- */
     :root{
       --bg:#F7F7FC;
       --text:#0f172a;
@@ -28,16 +26,16 @@
       --border:#e5e7eb;
       --accent:#f59e0b;
 
-      /* aurora colours (pastel) */
-      --glow-1: 255,179,64;   /* amber */
-      --glow-2: 20,70,200;    /* deep blue */
-      --glow-3: 6,182,212;    /* cyan */
+      --glow-1: 255,179,64;
+      --glow-2: 20,70,200;
+      --glow-3: 6,182,212;
       --aurora-opacity-1:.16;
       --aurora-opacity-2:.12;
       --aurora-blur:56px;
 
       --aurora-shift: 0px;
     }
+
     body{
       background:
         radial-gradient(1200px 700px at 70% -10%, rgba(124,58,237,.14), transparent 60%),
@@ -45,16 +43,13 @@
       color:var(--text);
     }
 
-    /* ----------------- Aurora (soft, parallax) ----------------- */
     .aurora{
       pointer-events:none; position:fixed; inset:-12vh -12vw -12vh -12vw; z-index:-1;
       transform: translateY(var(--aurora-shift));
       will-change: transform;
       filter: blur(var(--aurora-blur)) saturate(110%);
     }
-    .aurora::before,.aurora::after{
-      content:""; position:absolute; inset:0; mix-blend-mode: screen;
-    }
+    .aurora::before,.aurora::after{ content:""; position:absolute; inset:0; mix-blend-mode: screen; }
     .aurora::before{
       background:
         radial-gradient(62rem 38rem at 12% 8%, rgba(var(--glow-1),var(--aurora-opacity-1)) 0%, rgba(var(--glow-1),0) 60%),
@@ -66,10 +61,10 @@
       background:
         radial-gradient(58rem 34rem at 78% 82%, rgba(var(--glow-2),.10), rgba(var(--glow-2),0) 60%),
         radial-gradient(62rem 36rem at 20% 65%, rgba(var(--glow-3),.10), rgba(var(--glow-3),0) 60%);
-      animation: driftB 14s linear infinite reverse; opacity:.9;
+      animation: driftB 14s linear infinite reverse;
+      opacity:.9;
     }
     .aurora-layer{ position:absolute; inset:0; animation: driftC 28s linear infinite; }
-
     @keyframes driftA{ 50%{ transform: translate3d(4%,-6%,0) rotate(6deg) scale(1.03) } }
     @keyframes driftB{ 50%{ transform: translate3d(-5%,4%,0) rotate(-5deg) } }
     @keyframes driftC{ 50%{ transform: translate3d(0,-3%,0) scale(1.02) } }
@@ -78,7 +73,6 @@
       .aurora::before,.aurora::after,.aurora-layer{ animation:none !important; }
     }
 
-    /* ----------------- Card ----------------- */
     .card{
       background:linear-gradient(180deg,var(--card) 0%,color-mix(in oklab,var(--card),transparent 2%) 100%);
       border:1px solid var(--border) !important;
@@ -91,7 +85,6 @@
       box-shadow:0 2px 0 rgba(0,0,0,.02), 0 24px 48px -22px rgba(2,8,23,.28);
     }
 
-    /* ----------------- Sticky topbar + progress ----------------- */
     #topbar{ position:sticky; top:0; z-index:20; backdrop-filter: blur(8px); background: rgba(255,255,255,.85); border:1px solid var(--border) }
     #scroll-progress{
       position:fixed; top:0; left:0; height:3px; width:0; z-index:50;
@@ -100,8 +93,6 @@
       transition:width .15s linear;
     }
 
-    /* ----------------- Sidebar & Mobile Nav ----------------- */
-    /* HIDE the sidebar nav on mobile completely */
     @media (max-width:767px){
       #sidebar-nav{ display:none; }
     }
@@ -113,12 +104,8 @@
       font-weight:700; font-size:.925rem;
     }
     .nav-link:hover{ background:#f3f4f6; }
-    .nav-link.active{
-      background:#0f172a !important;
-      color:#ffffff !important;
-    }
+    .nav-link.active{ background:#0f172a !important; color:#ffffff !important; }
 
-    /* Mobile tab bar (light) */
     #mobile-tabbar{
       position:fixed; bottom:0; left:0; right:0; z-index:30;
       background:rgba(255,255,255,.96);
@@ -132,23 +119,22 @@
     #mobile-tabbar a.active{ color:#0f172a; }
     main{ padding-bottom:4.5rem; }
 
-    /* ----------------- Big intro heading ----------------- */
     .stroke-title{ -webkit-text-stroke: 2px rgba(0,0,0,.3); color:transparent; }
     .grad-text{ background:linear-gradient(90deg,#f59e0b 0%,#7c3aed 50%,#06b6d4 100%); -webkit-background-clip:text; background-clip:text; color:transparent }
 
-    /* ----------------- Donut animation ----------------- */
     @keyframes progress-circle{ from{stroke-dashoffset:327} to{stroke-dashoffset:var(--stroke-offset)} }
     .progress-circle.animate{ animation: progress-circle 1.1s ease-out forwards; }
-     html, body, * {
-    -webkit-user-select: none; /* Safari */
-    -moz-user-select: none;    /* Firefox */
-    -ms-user-select: none;     /* IE/Edge */
-    user-select: none;         /* Standard */
-    -webkit-touch-callout: none; /* iOS long-press menu */
-  }
 
+    html, body, * {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+    }
   </style>
 </head>
+
 <body>
   <div class="aurora" aria-hidden="true"><div class="aurora-layer"></div></div>
   <div id="scroll-progress"></div>
@@ -177,9 +163,7 @@
       <nav class="p-2" id="sidebar-nav"></nav>
       <hr class="my-2 border-stone-200">
       <div class="p-2 space-y-2">
-        <a href="./images/CV.pdf" download class="w-full bg-slate-900 hover:bg-slate-950 text-white text-[13px] font-semibold py-2 px-4 rounded-lg flex items-center justify-center">
-          <i data-lucide="download" class="mr-2 h-4 w-4"></i>Download CV
-        </a>
+        <!-- Removed: Download CV button -->
         <a href="mailto:gaurav.kataria.ucl@gmail.com" class="w-full bg-white hover:bg-stone-100 border border-stone-200 text-stone-800 text-[13px] font-semibold py-2 px-4 rounded-lg flex items-center justify-center">
           <i data-lucide="mail" class="mr-2 h-4 w-4"></i>Email Me
         </a>
@@ -196,7 +180,6 @@
       <!-- BIG INTRO -->
       <section id="intro" class="scroll-mt-24">
         <div class="rounded-xl card px-5 py-6 sm:px-8 sm:py-10">
-          <!-- Bigger on mobile: from text-4xl -> text-5xl -->
           <h2 class="font-display font-extrabold text-5xl sm:text-6xl md:text-7xl leading-[0.95]">
             <span class="stroke-title">Strategic</span> <span class="grad-text">Performance</span><br>
             <span>for Real&nbsp;Estate</span>
@@ -220,7 +203,6 @@
           <div id="kpi-container" class="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4"></div>
         </section>
 
-        <!-- MOVED: Featured Projects appears right after Overview -->
         <section id="projects" class="scroll-mt-24">
           <div class="rounded-xl card p-4 sm:p-6">
             <div class="flex items-center gap-2 mb-4">
@@ -230,8 +212,6 @@
             <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4"></div>
           </div>
         </section>
-
-        <!-- REMOVED: "My Approach" section -->
 
         <section id="capabilities" class="scroll-mt-24">
           <div class="rounded-xl card p-4 sm:p-6">
@@ -315,8 +295,6 @@
     </main>
   </div>
 
- 
-
   <script>
     /* ------------------- DATA ------------------- */
     const navItems = [
@@ -327,33 +305,78 @@
       { label: "Accreditations", icon: "badge-check", href: "#certs" },
       { label: "Toolkit & Apps", icon: "wrench", href: "#apps" },
     ];
-    const projects=[{name:"The Keystone Building",image:"images/keystone.jpg",s:"A £300M new-build university facility with ambitious operational energy targets.",t:"Guide value engineering decisions and undertake the complex HVAC system integration.",a:"Led detailed HVAC modelling, developing a unique 5-tier natural and mechanical ventilation strategy.",r:"Modelling was pivotal in VE decisions, delivering multi-million CAPEX savings with simulation-backed data."},{name:"House of Architecture",image:"images/riba.jpg",s:"A £20M landmark refurbishment aiming for a market-leading carbon emissions reduction.",t:"Develop a robust, data-driven MEP strategy to inform the client's long-term investment plan.",a:"Created a granular HVAC dynamic thermal model, simulating 31 distinct AHUs and MVHRs.",r:"My analysis enabled a projected 60% operational energy reduction, helping decarbonize this key asset."},{name:"5 St Philips Place",image:"images/st-philips.jpg",s:"Repositioning a prime commercial asset to attract premium tenants in a competitive market.",t:"Secure both NABERS (performance) and WELL (wellbeing) certifications to drive asset value.",a:"Led integrated modelling analysis, developing strategies that balanced the competing demands of energy and health.",r:"Achieved UK NABERS 4 Stars (DfP) & WELL Gold, maximising asset appeal and increasing rental value."},{name:"The Royal Institution",image:"images/royal-institution.jpg",s:"A Grade I listed historic building requiring a sensitive but effective decarbonisation pathway.",t:"Provide a clear, modelling-driven business case for a major HVAC plant refurbishment project.",a:"Developed a calibrated energy model and simulated various plant replacement options.",r:"Enabled a confident, simulation-informed capital allocation decision balancing heritage with performance."},{name:"Holywell Yard",image:"images/holywell.jpg",s:"A new-build commercial office aiming for market-leading ESG credentials in Shoreditch.",t:"Significantly surpass mandatory building regulations for energy and carbon performance targets.",a:"Guided performance modelling from early design stages to integrate high-efficiency systems and flag risks.",r:"The final design is projected to surpass the stringent Part L2 2021 regulations by over 35%."},{name:"Northumberland College",image:"images/northumberland.jpg",s:"A new DfE-funded college with a mandate to be a sustainability exemplar for the UK education sector.",t:"Achieve Net Zero Carbon in Operation (NZCiO) from the very first year of the building's opening.",a:"Drove the entire NZCiO modelling strategy, leading detailed performance modelling efforts.",r:"Simulation-tested design is expected to be fully compliant with the ambitious NZCiO target."}];
-    const kpi=[{label:"Featured Projects",value:projects.length,delta:"Commercial & Institutional"},{label:"Certifications",value:12,delta:"Engineer & Architect"},{label:"Specialisms",value:"Modelling",delta:"Integrated design"},{label:"Experience",value:"5 Years",delta:"India & UK"}];
-    const skills=[{subject:"HVAC Modelling",A:95},{subject:"Energy Strategy",A:90},{subject:"Commercial Acumen",A:85},{subject:"Data Science",A:70},{subject:"Life Cycle Analysis",A:70},{subject:"Comfort & Health",A:88}];
-    const journey=[{title:"A-Levels Equivalent",org:"Delhi Public School",url:"https://www.dpsgurgaon.org/",logo:"images/logo-dps.png",dates:"2013",points:["Achieved grades AAAB; providing a strong academic foundation.","Received the Sports Scholar award, being in the first batch of 18 students to be ever given the same."]},{title:"Bachelor of Architecture",org:"GD Goenka University",url:"https://www.gdgoenkauniversity.com/",logo:"images/logo-gdg.png",dates:"2015 – 2020",points:["Graduated top of class with Distinction and Gold Medal honours.","Awarded merit scholarship for three consecutive years for academic excellence.","Gained foundational industry experience through internships in architectural design, BIM, and MEP coordination."]},{title:"MSc. Built Environment: Environmental Design and Engineering",org:"University College London (UCL)",url:"https://www.ucl.ac.uk/",logo:"images/logo-ucl.png",dates:"2020 – 2021",points:["Graduated with Merit Honours.","Industry-led dissertation awardee with architecture firm Haworth Tompkins.","Balanced academic commitments with a consultant role and extensive professional development."]},{title:"Graduate Energy & Carbon Consultant",org:"Verte, London",url:"https://www.verteltd.com/",logo:"images/logo-verte.png",dates:"May 2021 – Sept 2021",points:["Developed energy models for Part L compliance, experimenting with novel strategies to meet LETI benchmarks.","Formulated sustainability due-diligence studies for commercial real estate assets."]},{title:"Graduate Sustainability & Building Physics Engineer",org:"Cundall, Birmingham",url:"https://www.cundall.com/",logo:"images/logo-cundall.png",dates:"Sept 2021 – Aug 2023",points:["Delivered performance modelling for diverse commercial assets.","Led sustainability consulting for WELL & BREEAM, directly enhancing asset value and marketability.","Conducted comfort studies to de-risk designs and inform investment decisions."]},{title:"Building Performance Engineer",org:"Harley Haddow, London",url:"https://harleyhaddow.com/",logo:"images/logo-harleyhaddow.png",dates:"Aug 2023 – Apr 2024",points:["Specialised in creating 'digital twins' to guide strategic decisions for complex projects.","Undertook CIBSE TM54 assessments and R&D for UK NABERS to verify asset performance against financial targets."]},{title:"Senior Engineer (Building Performance)",org:"Harley Haddow, London",url:"https://harleyhaddow.com/",logo:"images/logo-harleyhaddow.png",dates:"Apr 2024 – Present",points:["Leading decarbonisation strategies to inform long-term investment and asset management.","Performing detailed HVAC modelling to validate capital expenditure and operational costs."]},{title:"Sustainable Real Estate Program",org:"University of Cambridge (CISL)",url:"https://www.cisl.cam.ac.uk/",logo:"images/logo-cambridge.png",dates:"Oct – Nov 2025",points:["Pursued the executive program to delve further into the realm of wider real estate.","Focused on the business and financial case for sustainability in the built environment."]},
-    /* NEW: AMPI (ISB) — 2026–2027, placed directly below Cambridge */
-    {title:"Advanced Management Programme in Infrastructure (AMPI)",org:"Indian School of Business (ISB)",url:"https://www.isb.edu/programmes/advanced-management-programmes/ampi",logo:"images/logo-isb.png",dates:"2026 – 2027",points:[
-      "2026–2027 cohort (with senior leaders in real estate).",
-      "Advanced modules in strategy, corporate & project finance, infrastructure investments, and ESG.",
-      "Capstone investment case: valuation, financing structure, and board-level investment memos."
-    ]}];
-    const certs=[{icon:"badge-check",name:"Chartered Engineer (CEng)",org:"Engineering Council UK",url:"https://www.engc.org.uk/"},{icon:"badge-check",name:"European Engineer (EUR ING)",org:"Engineers Europe",url:"https://www.engineerseurope.com/"},{icon:"badge-check",name:"WELL Accredited Professional",org:"IWBI",url:"https://www.wellcertified.com/"},{icon:"building",name:"LCC - Simulation",org:"CIBSE Certification Ltd",url:"https://www.cibsecertification.co.uk/"},{icon:"award",name:"Full Fellow (FRSA)",org:"The Royal Society of Arts",url:"https://www.thersa.org/"},{icon:"building",name:"Low Carbon Energy Assessor",org:"CIBSE Certification Ltd",url:"https://www.cibsecertification.co.uk/"},{icon:"user-check",name:"MCIBSE (Member)",org:"CIBSE",url:"https://www.cibse.org/"},{icon:"user-check",name:"Full Member",org:"ASHRAE",url:"https://www.ashrae.org/"},{icon:"recycle",name:"One Click LCA Certified",org:"One Click LCA Summer School; 2021",url:"https://www.oneclicklca.com/"},{icon:"database",name:"Data Science Professional",org:"IBM",url:"https://www.ibm.com/"},{icon:"pen-tool",name:"Licensed Architect",org:"Council of Architecture, India",url:"https://www.coa.gov.in/"},{icon:"graduation-cap",name:"Linear Algebra & Data Structures",org:"IIT, Roorkee (IIT-R)",url:"https://www.iitr.ac.in/"}];
-    const toolkitData=[{group:"Analytical",items:["IESVE (Virtual Environment)","One-Click LCA","THERM","Ladybug Tools","Python (Pandas, etc.)"]},{group:"Modelling & BIM",items:["Revit","AutoCAD","SketchUp","Rhinoceros","Navisworks"]},{group:"Presentation & Viz",items:["3Ds Max & Corona","V-Ray","Lumion","Twinmotion (UE)","Adobe Creative Suite"]},{group:"Specialist IESVE",items:["ApHVAC","MacroFlo","RadianceIES","SunCast","VistaPro & MicroFlo"]}];
+
+    const projects = [
+      {name:"The Keystone Building",image:"images/keystone.jpg",s:"A £300M new-build university facility with ambitious operational energy targets.",t:"Guide value engineering decisions and undertake the complex HVAC system integration.",a:"Led detailed HVAC modelling, developing a unique 5-tier natural and mechanical ventilation strategy.",r:"Modelling was pivotal in VE decisions, delivering multi-million CAPEX savings with simulation-backed data."},
+      {name:"House of Architecture",image:"images/riba.jpg",s:"A £20M landmark refurbishment aiming for a market-leading carbon emissions reduction.",t:"Develop a robust, data-driven MEP strategy to inform the client's long-term investment plan.",a:"Created a granular HVAC dynamic thermal model, simulating 31 distinct AHUs and MVHRs.",r:"My analysis enabled a projected 60% operational energy reduction, helping decarbonize this key asset."},
+      {name:"5 St Philips Place",image:"images/st-philips.jpg",s:"Repositioning a prime commercial asset to attract premium tenants in a competitive market.",t:"Secure both NABERS (performance) and WELL (wellbeing) certifications to drive asset value.",a:"Led integrated modelling analysis, developing strategies that balanced the competing demands of energy and health.",r:"Achieved UK NABERS 4 Stars (DfP) & WELL Gold, maximising asset appeal and increasing rental value."},
+      {name:"The Royal Institution",image:"images/royal-institution.jpg",s:"A Grade I listed historic building requiring a sensitive but effective decarbonisation pathway.",t:"Provide a clear, modelling-driven business case for a major HVAC plant refurbishment project.",a:"Developed a calibrated energy model and simulated various plant replacement options.",r:"Enabled a confident, simulation-informed capital allocation decision balancing heritage with performance."},
+      {name:"Holywell Yard",image:"images/holywell.jpg",s:"A new-build commercial office aiming for market-leading ESG credentials in Shoreditch.",t:"Significantly surpass mandatory building regulations for energy and carbon performance targets.",a:"Guided performance modelling from early design stages to integrate high-efficiency systems and flag risks.",r:"The final design is projected to surpass the stringent Part L2 2021 regulations by over 35%."},
+      {name:"Northumberland College",image:"images/northumberland.jpg",s:"A new DfE-funded college with a mandate to be a sustainability exemplar for the UK education sector.",t:"Achieve Net Zero Carbon in Operation (NZCiO) from the very first year of the building's opening.",a:"Drove the entire NZCiO modelling strategy, leading detailed performance modelling efforts.",r:"Simulation-tested design is expected to be fully compliant with the ambitious NZCiO target."}
+    ];
+
+    const kpi = [
+      {label:"Featured Projects",value:projects.length,delta:"Commercial & Institutional"},
+      {label:"Certifications",value:12,delta:"Engineer & Architect"},
+      {label:"Specialisms",value:"Modelling",delta:"Integrated design"},
+      {label:"Experience",value:"5 Years",delta:"India & UK"}
+    ];
+
+    const skills = [
+      {subject:"HVAC Modelling",A:95},
+      {subject:"Energy Strategy",A:90},
+      {subject:"Commercial Acumen",A:85},
+      {subject:"Data Science",A:70},
+      {subject:"Life Cycle Analysis",A:70},
+      {subject:"Comfort & Health",A:88}
+    ];
+
+    // Removed: DPS + Removed: AMPI
+    const journey = [
+      {title:"Bachelor of Architecture",org:"GD Goenka University",url:"https://www.gdgoenkauniversity.com/",logo:"images/logo-gdg.png",dates:"2015 – 2020",points:["Graduated top of class with Distinction and Gold Medal honours.","Awarded merit scholarship for three consecutive years for academic excellence.","Gained foundational industry experience through internships in architectural design, BIM, and MEP coordination."]},
+      {title:"MSc. Built Environment: Environmental Design and Engineering",org:"University College London (UCL)",url:"https://www.ucl.ac.uk/",logo:"images/logo-ucl.png",dates:"2020 – 2021",points:["Graduated with Merit Honours.","Industry-led dissertation awardee with architecture firm Haworth Tompkins.","Balanced academic commitments with a consultant role and extensive professional development."]},
+      {title:"Graduate Energy & Carbon Consultant",org:"Verte, London",url:"https://www.verteltd.com/",logo:"images/logo-verte.png",dates:"May 2021 – Sept 2021",points:["Developed energy models for Part L compliance, experimenting with novel strategies to meet LETI benchmarks.","Formulated sustainability due-diligence studies for commercial real estate assets."]},
+      {title:"Graduate Sustainability & Building Physics Engineer",org:"Cundall, Birmingham",url:"https://www.cundall.com/",logo:"images/logo-cundall.png",dates:"Sept 2021 – Aug 2023",points:["Delivered performance modelling for diverse commercial assets.","Led sustainability consulting for WELL & BREEAM, directly enhancing asset value and marketability.","Conducted comfort studies to de-risk designs and inform investment decisions."]},
+      {title:"Building Performance Engineer",org:"Harley Haddow, London",url:"https://harleyhaddow.com/",logo:"images/logo-harleyhaddow.png",dates:"Aug 2023 – Apr 2024",points:["Specialised in creating 'digital twins' to guide strategic decisions for complex projects.","Undertook CIBSE TM54 assessments and R&D for UK NABERS to verify asset performance against financial targets."]},
+      {title:"Senior Engineer (Building Performance)",org:"Harley Haddow, London",url:"https://harleyhaddow.com/",logo:"images/logo-harleyhaddow.png",dates:"Apr 2024 – Present",points:["Leading decarbonisation strategies to inform long-term investment and asset management.","Performing detailed HVAC modelling to validate capital expenditure and operational costs."]},
+      {title:"Sustainable Real Estate Program",org:"University of Cambridge (CISL)",url:"https://www.cisl.cam.ac.uk/",logo:"images/logo-cambridge.png",dates:"Oct – Nov 2025",points:["Pursued the executive program to delve further into the realm of wider real estate.","Focused on the business and financial case for sustainability in the built environment."]}
+    ];
+
+    // Removed: LCC Simulation + Removed: LCEA + Removed: FRSA
+    const certs = [
+      {icon:"badge-check",name:"Chartered Engineer (CEng)",org:"Engineering Council UK",url:"https://www.engc.org.uk/"},
+      {icon:"badge-check",name:"European Engineer (EUR ING)",org:"Engineers Europe",url:"https://www.engineerseurope.com/"},
+      {icon:"badge-check",name:"WELL Accredited Professional",org:"IWBI",url:"https://www.wellcertified.com/"},
+      {icon:"user-check",name:"MCIBSE (Member)",org:"CIBSE",url:"https://www.cibse.org/"},
+      {icon:"user-check",name:"Full Member",org:"ASHRAE",url:"https://www.ashrae.org/"},
+      {icon:"recycle",name:"One Click LCA Certified",org:"One Click LCA Summer School; 2021",url:"https://www.oneclicklca.com/"},
+      {icon:"database",name:"Data Science Professional",org:"IBM",url:"https://www.ibm.com/"},
+      {icon:"pen-tool",name:"Licensed Architect",org:"Council of Architecture, India",url:"https://www.coa.gov.in/"},
+      {icon:"graduation-cap",name:"Linear Algebra & Data Structures",org:"IIT, Roorkee (IIT-R)",url:"https://www.iitr.ac.in/"}
+    ];
+
+    const toolkitData=[
+      {group:"Analytical",items:["IESVE (Virtual Environment)","One-Click LCA","THERM","Ladybug Tools","Python (Pandas, etc.)"]},
+      {group:"Modelling & BIM",items:["Revit","AutoCAD","SketchUp","Rhinoceros","Navisworks"]},
+      {group:"Presentation & Viz",items:["3Ds Max & Corona","V-Ray","Lumion","Twinmotion (UE)","Adobe Creative Suite"]},
+      {group:"Specialist IESVE",items:["ApHVAC","MacroFlo","RadianceIES","SunCast","VistaPro & MicroFlo"]}
+    ];
 
     /* ------------------- RENDER ------------------- */
-    document.addEventListener('DOMContentLoaded', () => {
-      // sidebar nav (hidden on mobile by CSS)
-      const navContainer=document.getElementById('sidebar-nav');
-      navContainer.innerHTML=navItems.map(i=>{
-        const responsive=i.label==='Overview'?'hidden md:flex':'flex';
+    window.addEventListener('load', () => {
+      // Sidebar nav
+      const navContainer = document.getElementById('sidebar-nav');
+      navContainer.innerHTML = navItems.map(i=>{
+        const responsive = i.label==='Overview' ? 'hidden md:flex' : 'flex';
         return `<a href="${i.href}" class="nav-link ${responsive}">
                   <i data-lucide="${i.icon}" class="h-4 w-4"></i><span>${i.label}</span>
                 </a>`;
       }).join('');
 
-      // KPI (with count-up for numeric values)
-      const kpiIcon=lbl=>/project/i.test(lbl)?'folder-kanban':/cert/i.test(lbl)?'award':/special/i.test(lbl)?'sparkles':'clock';
-      document.getElementById('kpi-container').innerHTML=kpi.map(k=>{
+      // KPI cards
+      const kpiIcon = lbl => /project/i.test(lbl)?'folder-kanban':/cert/i.test(lbl)?'award':/special/i.test(lbl)?'sparkles':'clock';
+      const kpiEl = document.getElementById('kpi-container');
+      kpiEl.innerHTML = kpi.map(k=>{
         const isNum = typeof k.value === 'number';
         return `
         <div class="rounded-xl card p-4">
@@ -366,9 +389,9 @@
         </div>`;
       }).join('');
 
-      // skills (donuts)
-      const sc=document.getElementById('skills-container');
-      sc.innerHTML=skills.map(s=>{
+      // Skills donuts
+      const sc = document.getElementById('skills-container');
+      sc.innerHTML = skills.map(s=>{
         const C=Math.round(52*2*Math.PI), off=C-(s.A/100)*C;
         return `<div>
           <svg class="w-full h-auto" viewBox="0 0 120 120" aria-label="${s.subject} ${s.A}%">
@@ -384,8 +407,8 @@
         </div>`;
       }).join('');
 
-      // journey (light cards + greyed logos)
-      document.getElementById('journey-container').innerHTML=journey.map(j=>`
+      // Journey
+      document.getElementById('journey-container').innerHTML = journey.map(j=>`
         <div class="rounded-lg border p-4 bg-stone-50" style="border-color:var(--border)">
           <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
             <div class="flex items-center gap-4">
@@ -402,8 +425,8 @@
           </ul>
         </div>`).join('');
 
-      // projects (bigger, consistent image)
-      document.getElementById('projects-container').innerHTML=projects.map(p=>`
+      // Projects
+      document.getElementById('projects-container').innerHTML = projects.map(p=>`
         <div class="rounded-lg overflow-hidden card">
           <img loading="lazy" src="${p.image}" alt="${p.name}" class="w-full h-80 object-cover">
           <div class="p-4">
@@ -417,8 +440,8 @@
           </div>
         </div>`).join('');
 
-      // certs
-      document.getElementById('certs-container').innerHTML=certs.map(c=>`
+      // Certs
+      document.getElementById('certs-container').innerHTML = certs.map(c=>`
         <a href="${c.url}" target="_blank" rel="noreferrer" class="group flex items-start gap-3 p-2 rounded-lg hover:bg-stone-50 transition-colors">
           <div class="h-6 w-6 grid place-items-center text-amber-700 flex-none"><i data-lucide="${c.icon}" class="h-5 w-5"></i></div>
           <div>
@@ -427,8 +450,8 @@
           </div>
         </a>`).join('');
 
-      // toolkit
-      document.getElementById('toolkit-container').innerHTML=toolkitData.map(t=>`
+      // Toolkit
+      document.getElementById('toolkit-container').innerHTML = toolkitData.map(t=>`
         <div>
           <h4 class="font-bold text-sm mb-2 font-display">${t.group}</h4>
           <div class="flex flex-wrap gap-1.5">
@@ -436,16 +459,16 @@
           </div>
         </div>`).join('');
 
-      // icons (guarded so a CDN hiccup doesn't kill the script)
+      // Icons
       if (window.lucide && typeof lucide.createIcons === 'function') {
         lucide.createIcons();
       }
 
-      /* --------- Interactivity --------- */
-      // donut trigger
-      const capSec=document.getElementById('capabilities');
-      const donuts=capSec.querySelectorAll('.progress-circle');
-      const donutObs=new IntersectionObserver((entries)=>{
+      /* Interactivity */
+      // Donut trigger
+      const capSec = document.getElementById('capabilities');
+      const donuts = capSec.querySelectorAll('.progress-circle');
+      const donutObs = new IntersectionObserver((entries)=>{
         entries.forEach(e=>{
           if(e.isIntersecting){
             donuts.forEach(d=>d.classList.add('animate'));
@@ -454,11 +477,6 @@
         });
       },{threshold:.35, rootMargin:'0px 0px -10% 0px'});
       donutObs.observe(capSec);
-      // if already in view on load
-      requestAnimationFrame(()=>{
-        const r=capSec.getBoundingClientRect();
-        if(r.top>=0 && r.bottom<=window.innerHeight){ donuts.forEach(d=>d.classList.add('animate')); }
-      });
 
       // KPI count-up
       const animateCount = (el)=>{
@@ -476,45 +494,35 @@
           ents.forEach(en=>{ if(en.isIntersecting){ animateCount(el); o.disconnect(); }});
         },{threshold:.3, rootMargin:'0px 0px -20% 0px'});
         obs.observe(el);
-
-        // ensure animation if card is already in view on load
-        const r = el.getBoundingClientRect();
-        if (r.top >= 0 && r.bottom <= window.innerHeight) {
-          animateCount(el);
-          obs.disconnect();
-        }
       });
 
-      // active nav & progress bar & toTop + aurora parallax
-      const sections=document.querySelectorAll('section');
-      const sideLinks=[...document.querySelectorAll('#sidebar-nav a')];
-      const tabLinks=[...document.querySelectorAll('#mobile-tabbar a')];
-      const progressBar=document.getElementById('scroll-progress');
-      const toTop=document.getElementById('toTop'); // may be null (safe-guarded below)
+      // Active nav + progress + aurora parallax
+      const sections = document.querySelectorAll('section');
+      const sideLinks = [...document.querySelectorAll('#sidebar-nav a')];
+      const tabLinks  = [...document.querySelectorAll('#mobile-tabbar a')];
+      const progressBar = document.getElementById('scroll-progress');
 
-      const syncActive=(id)=>{
+      const syncActive = (id)=>{
         sideLinks.forEach(l=>l.classList.toggle('active', l.getAttribute('href')===`#${id}`));
         tabLinks.forEach(l=>l.classList.toggle('active', l.getAttribute('href')===`#${id}`));
       };
 
-      const sectionObs=new IntersectionObserver((entries)=>{
+      const sectionObs = new IntersectionObserver((entries)=>{
         entries.forEach(entry=>{
           if(entry.isIntersecting){ syncActive(entry.target.id); }
         });
       },{ rootMargin:'-45% 0px -50% 0px' });
       sections.forEach(sec=>sectionObs.observe(sec));
 
-      const onScroll=()=>{
+      const onScroll = ()=>{
         const y=window.scrollY, h=document.documentElement.scrollHeight-window.innerHeight;
         progressBar.style.width = Math.min(100, Math.max(0,(y/h)*100)) + '%';
-        if (toTop) {
-          toTop.classList.toggle('hidden', y<500);
-        }
         document.documentElement.style.setProperty('--aurora-shift', (y * -0.03) + 'px');
       };
-      window.addEventListener('scroll', onScroll, { passive:true }); onScroll();
+      window.addEventListener('scroll', onScroll, { passive:true });
+      onScroll();
 
-      // smooth scroll for tabs + sidebar
+      // Smooth scroll
       [...tabLinks, ...sideLinks].forEach(a=>{
         a.addEventListener('click', (e)=>{
           const href=a.getAttribute('href');
