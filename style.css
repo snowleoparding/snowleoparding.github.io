@@ -192,3 +192,14 @@
 @media(max-width:700px){
  .hero-art>img{object-position:100% center}
 }
+
+/* Compact award lines and stronger headline contrast on phones. */
+@media(max-width:700px){
+ .recognition>a{padding:18px 14px;gap:10px}
+ .recognition>a>div{min-width:0;flex:1}
+ .recognition .award-year{font-size:clamp(1.5rem,7.5vw,2rem);flex:none}
+ .recognition .eyebrow{font-size:clamp(.5625rem,2.6vw,.625rem);letter-spacing:0;line-height:1.4;white-space:nowrap}
+ .recognition h2{font-size:clamp(.875rem,4.1vw,1rem);line-height:1.25;white-space:nowrap}
+ .recognition .award-arrow{font-size:18px;flex:none}
+ .hero-shade{background:linear-gradient(180deg,transparent 30%,rgba(8,9,11,.18) 52%,rgba(8,9,11,.82) 74%,rgba(8,9,11,.97) 90%,#08090b 100%)}
+}
